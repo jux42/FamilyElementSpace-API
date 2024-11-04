@@ -4,19 +4,17 @@ import com.jux.familyspace.Interface.FamilyElementServiceInterface;
 import com.jux.familyspace.Model.Haiku;
 import com.jux.familyspace.Service.HaikuProxyService;
 import com.jux.familyspace.Service.HaikuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class HaikuController {
 
     private final FamilyElementServiceInterface<Haiku> haikuService;
     private final HaikuProxyService haikuProxyService;
 
-    public HaikuController(HaikuService haikuService, HaikuProxyService haikuProxyService) {
-        this.haikuService = haikuService;
-        this.haikuProxyService = haikuProxyService;
-    }
 
     @GetMapping("haikus")
     public ResponseEntity<Iterable<Haiku>> getHaikus() {
