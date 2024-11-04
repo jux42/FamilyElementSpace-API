@@ -3,7 +3,6 @@ package com.jux.familyspace.Controller;
 import com.jux.familyspace.Interface.FamilyElementServiceInterface;
 import com.jux.familyspace.Model.Haiku;
 import com.jux.familyspace.Service.HaikuProxyService;
-import com.jux.familyspace.Service.HaikuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
