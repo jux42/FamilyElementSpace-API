@@ -40,4 +40,17 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
         }
 
     }
+
+    @Override
+    public String removeElement(Long id) {
+
+        try{
+            assert haikuRepository.existsById(id);
+            haikuRepository.deleteById(id);
+            return "element removed";
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return ("error : " + e.getMessage());
+        }
+    }
 }

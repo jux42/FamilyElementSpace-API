@@ -11,5 +11,7 @@ public interface FamilyElementServiceInterface<T extends FamilyMemberElement> {
 
     String addElement(T element);
 
+    String removeElement(Long id);
+
 
 }
