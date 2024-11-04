@@ -35,4 +35,9 @@ public class HaikuController {
 
         return ResponseEntity.ok(haikuProxyService.addHaiku(line1, line2, line3));
     }
+
+    @DeleteMapping("haiku/{id}")
+    public ResponseEntity<String> deleteHaiku(@PathVariable Long id) {
+        return ResponseEntity.ok(haikuService.removeElement(id));
+    }
 }
