@@ -1,4 +1,4 @@
-package com.jux.familyspace.Model;
+package com.jux.familyspace.model;
 
 import jakarta.persistence.Entity;
 import lombok.Data;

@@ -1,15 +1,13 @@
-package com.jux.familyspace.Service;
+package com.jux.familyspace.facade;
 
-import com.jux.familyspace.Interface.FamilyElementServiceInterface;
-import com.jux.familyspace.Model.FamilyElementType;
-import com.jux.familyspace.Model.Haiku;
+import com.jux.familyspace.api.FamilyElementServiceInterface;
+import com.jux.familyspace.model.Haiku;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
-public class HaikuProxyService {
+public class HaikuFacade {
     private final FamilyElementServiceInterface<Haiku> haikuService;
 
 
@@ -18,7 +16,6 @@ public class HaikuProxyService {
                             String line2,
                             String line3) {
         Haiku haiku = Haiku.builder()
-                .familyElementType(FamilyElementType.HAIKU)
                 .line1(line1)
                 .line2(line2)
                 .line3(line3)

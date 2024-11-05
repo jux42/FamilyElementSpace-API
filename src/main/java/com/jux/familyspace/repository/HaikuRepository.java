@@ -1,6 +1,6 @@
-package com.jux.familyspace.Repository;
+package com.jux.familyspace.repository;
 
-import com.jux.familyspace.Model.Haiku;
+import com.jux.familyspace.model.Haiku;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

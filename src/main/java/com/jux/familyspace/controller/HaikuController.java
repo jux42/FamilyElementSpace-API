@@ -1,22 +1,19 @@
-package com.jux.familyspace.Controller;
+package com.jux.familyspace.controller;
 
-import com.jux.familyspace.Interface.FamilyElementServiceInterface;
-import com.jux.familyspace.Model.Haiku;
-import com.jux.familyspace.Service.HaikuProxyService;
-import com.jux.familyspace.Service.HaikuService;
+import com.jux.familyspace.api.FamilyElementServiceInterface;
+import com.jux.familyspace.model.Haiku;
+import com.jux.familyspace.facade.HaikuFacade;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class HaikuController {
 
     private final FamilyElementServiceInterface<Haiku> haikuService;
-    private final HaikuProxyService haikuProxyService;
+    private final HaikuFacade haikuFacade;
 
-    public HaikuController(HaikuService haikuService, HaikuProxyService haikuProxyService) {
-        this.haikuService = haikuService;
-        this.haikuProxyService = haikuProxyService;
-    }
 
     @GetMapping("haikus")
     public ResponseEntity<Iterable<Haiku>> getHaikus() {
@@ -33,6 +30,11 @@ public class HaikuController {
                                            @RequestParam String line2,
                                            @RequestParam String line3) {
 
-        return ResponseEntity.ok(haikuProxyService.addHaiku(line1, line2, line3));
+        return ResponseEntity.ok(haikuFacade.addHaiku(line1, line2, line3));
+    }
+
+    @DeleteMapping("haiku/{id}")
+    public ResponseEntity<String> deleteHaiku(@PathVariable Long id) {
+        return ResponseEntity.ok(haikuService.removeElement(id));
     }
 }

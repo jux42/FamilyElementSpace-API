@@ -1,9 +1,8 @@
-package com.jux.familyspace.Service;
+package com.jux.familyspace.service;
 
-import com.jux.familyspace.Interface.FamilyElementServiceInterface;
-import com.jux.familyspace.Model.FamilyElementType;
-import com.jux.familyspace.Model.Haiku;
-import com.jux.familyspace.Repository.HaikuRepository;
+import com.jux.familyspace.api.FamilyElementServiceInterface;
+import com.jux.familyspace.model.Haiku;
+import com.jux.familyspace.repository.HaikuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
