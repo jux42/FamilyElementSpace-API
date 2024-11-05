@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -15,12 +16,13 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 public class FamilyMemoryPicture extends FamilyMemberElement{
 
-    FamilyElementType familyElementType;
-
     @Lob
     private byte[] picture;
 
+    @Builder.Default
+    private FamilyElementType familyElementType = FamilyElementType.MEMORY_PIC;
+
     public FamilyMemoryPicture(){
-        this.familyElementType = FamilyElementType.MEMORY_PIC;
+        this.setFamilyElementType(FamilyElementType.MEMORY_PIC);
     }
 }
