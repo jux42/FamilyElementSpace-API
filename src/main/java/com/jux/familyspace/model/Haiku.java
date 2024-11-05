@@ -16,10 +16,10 @@ public class Haiku extends FamilyMemberElement {
     private String line2;
     private String line3;
 
-    @Enumerated
-    private FamilyElementType familyElementType;
+    @Builder.Default
+    private FamilyElementType familyElementType = FamilyElementType.HAIKU;
 
     public Haiku() {
-        this.familyElementType = FamilyElementType.HAIKU;
+        this.setFamilyElementType(FamilyElementType.HAIKU);
     }
 }
