@@ -2,5 +2,6 @@ package com.jux.familyspace.model;
 
 public enum FamilyElementType {
 
-    HAIKU
+    HAIKU,
+    MEMORY_PIC
 }
