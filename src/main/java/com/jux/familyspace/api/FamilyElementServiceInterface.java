@@ -1,7 +1,6 @@
-package com.jux.familyspace.Interface;
+package com.jux.familyspace.api;
 
-import com.jux.familyspace.Model.FamilyElementType;
-import com.jux.familyspace.Model.FamilyMemberElement;
+import com.jux.familyspace.model.FamilyMemberElement;
 
 public interface FamilyElementServiceInterface<T extends FamilyMemberElement> {
 

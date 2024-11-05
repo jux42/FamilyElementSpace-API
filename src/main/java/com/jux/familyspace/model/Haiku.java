@@ -1,4 +1,4 @@
-package com.jux.familyspace.Model;
+package com.jux.familyspace.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -8,7 +8,6 @@ import lombok.*;
 @Entity
 @Builder
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 @AllArgsConstructor
 
 public class Haiku extends FamilyMemberElement {
@@ -18,5 +17,9 @@ public class Haiku extends FamilyMemberElement {
     private String line3;
 
     @Enumerated
-    private FamilyElementType familyElementType = FamilyElementType.HAIKU;
+    private FamilyElementType familyElementType;
+
+    public Haiku() {
+        this.familyElementType = FamilyElementType.HAIKU;
+    }
 }
