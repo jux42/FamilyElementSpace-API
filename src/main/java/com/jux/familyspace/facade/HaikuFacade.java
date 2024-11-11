@@ -11,10 +11,9 @@ public class HaikuFacade {
     private final FamilyElementServiceInterface<Haiku> haikuService;
 
 
-
-    public String addHaiku( String line1,
-                            String line2,
-                            String line3) {
+    public String addHaiku(String line1,
+                           String line2,
+                           String line3) {
         Haiku haiku = Haiku.builder()
                 .line1(line1)
                 .line2(line2)

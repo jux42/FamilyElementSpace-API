@@ -16,18 +16,17 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 
-public class Haiku extends FamilyMemberElement {
+public class DailyThought extends FamilyMemberElement {
 
-    private String line1;
-    private String line2;
-    private String line3;
+    private String textbody;
+    private String title;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private FamilyElementType familyElementType = FamilyElementType.HAIKU;
+    private FamilyElementType familyElementType = FamilyElementType.DAILY_THOUGHT;
 
-    public Haiku() {
+    public DailyThought() {
         super.setCreationDate(new Date());
-
     }
+
 }

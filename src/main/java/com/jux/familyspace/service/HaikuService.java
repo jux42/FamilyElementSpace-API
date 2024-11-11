@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -20,20 +22,25 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     }
 
     @Override
+    public Iterable<Haiku> getAllElementsByDate(Date date) {
+        return null;
+    }
+
+    @Override
     public Haiku getElement(Long id) {
         return haikuRepository.findById(id).orElse(null);
     }
 
     @Override
     public String addElement(Haiku haiku) {
-        try{
+        try {
             assert haiku != null;
             assert haiku.getLine1() != null;
             assert haiku.getLine2() != null;
             assert haiku.getLine3() != null;
             haikuRepository.save(haiku);
             return "element saved";
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             return ("error : " + e.getMessage());
         }
@@ -43,11 +50,11 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     @Override
     public String removeElement(Long id) {
 
-        try{
+        try {
             assert haikuRepository.existsById(id);
             haikuRepository.deleteById(id);
             return "element removed";
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             return ("error : " + e.getMessage());
         }
