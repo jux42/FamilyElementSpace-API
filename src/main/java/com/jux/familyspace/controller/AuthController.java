@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/memberregister")
-    public void memberRegister(@RequestParam String username, @RequestParam String password) {
-        authService.register(username, password);
+    public void memberRegister(@RequestParam String username, @RequestParam String password) throws IOException {
+        authService.register(username, password, true);
     }
 }

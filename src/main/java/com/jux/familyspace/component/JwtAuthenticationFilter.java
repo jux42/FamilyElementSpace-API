@@ -9,11 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Value("${jwtKey}")
@@ -34,14 +36,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .getBody();
                 String username = claims.getSubject();
 
-                SecurityContextHolder.getContext().setAuthentication(
-                        new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>()));
+                if (username != null) {
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
             } catch (Exception e) {
+                // Log d'erreur
             }
         }
 
         chain.doFilter(request, response);
     }
-
-
 }
