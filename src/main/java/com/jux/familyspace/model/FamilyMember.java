@@ -7,6 +7,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-public class Member extends User {
+public class FamilyMember extends User {
 
 }
