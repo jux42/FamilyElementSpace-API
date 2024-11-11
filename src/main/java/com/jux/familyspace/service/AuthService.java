@@ -1,4 +1,5 @@
 package com.jux.familyspace.service;
+
 import com.jux.familyspace.component.JwtUtil;
 import com.jux.familyspace.model.FamilyMember;
 import com.jux.familyspace.model.FamilyUser;
@@ -6,12 +7,15 @@ import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyUserRepository;
 import jakarta.persistence.PrePersist;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @RequiredArgsConstructor
@@ -20,16 +24,13 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final FamilyUserRepository familyUserRepository;
     private final FamilyMemberRepository familyMemberRepository;
-
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     public String authenticate(String username, String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-        FamilyUser user = familyUserRepository.getByUsername(username)
+        FamilyMember user = familyMemberRepository.getByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            // Génération du token JWT
             return jwtUtil.generateToken(username);
         } else {
             throw new RuntimeException("Invalid credentials");
@@ -37,7 +38,6 @@ public class AuthService {
     }
 
     public void register(String username, String password) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         FamilyUser familyUser = new FamilyUser();
         familyUser.setUsername(username);
@@ -49,8 +49,8 @@ public class AuthService {
     public void register(String username, String password, Boolean isFamily) throws IOException {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = bCryptPasswordEncoder.encode(password);
-        File file = new File("src/main/resources/defaultpic/default_avatar.webp");
-        byte[] image = file.getPath().getBytes();
+        Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
+        byte[] image = Files.readAllBytes(imagePath); // Lire les octets de l'image
         FamilyMember familyMember = FamilyMember.builder()
                 .tagline("i am new here")
                 .avatar(image)
@@ -58,10 +58,5 @@ public class AuthService {
         familyMember.setUsername(username);
         familyMember.setPassword(hashedPassword);
         familyMemberRepository.save(familyMember);
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
