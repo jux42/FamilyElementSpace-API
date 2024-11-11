@@ -2,13 +2,13 @@ package com.jux.familyspace.facade;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.model.FamilyMemoryPicture;
-import com.jux.familyspace.service.FamilyMemoryPictureService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,13 +18,16 @@ public class FamilyMemoryPictureFacade {
 
     private final FamilyElementServiceInterface<FamilyMemoryPicture> familyMemoryPictureService;
 
-    public String addPicture(MultipartFile file) {
-        try{
+    public String addPicture(MultipartFile file, Date date) {
+        try {
             FamilyMemoryPicture familyMemoryPicture = FamilyMemoryPicture.builder()
                     .picture(file.getBytes())
                     .build();
+            if (date != null) {
+                familyMemoryPicture.setDate(date);
+            }
             return familyMemoryPictureService.addElement(familyMemoryPicture);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             return "error while creating object : " + e.getMessage();
         }
