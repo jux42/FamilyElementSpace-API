@@ -23,7 +23,7 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
 
     @Override
     public Iterable<FamilyMemoryPicture> getAllElementsByDate(Date date) {
-        return null;
+        return familyMemoryPictureRepository.getFamilyMemoryPicturesByDate(date);
     }
 
     @Override

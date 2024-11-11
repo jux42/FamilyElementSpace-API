@@ -23,7 +23,7 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
     @Override
     public Iterable<Haiku> getAllElementsByDate(Date date) {
-        return null;
+        return haikuRepository.getHaikusByDate(date);
     }
 
     @Override
