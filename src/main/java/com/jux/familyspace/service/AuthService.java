@@ -37,13 +37,6 @@ public class AuthService {
         }
     }
 
-    public void register(String username, String password) {
-        String hashedPassword = bCryptPasswordEncoder.encode(password);
-        FamilyUser familyUser = new FamilyUser();
-        familyUser.setUsername(username);
-        familyUser.setPassword(hashedPassword);
-        familyUserRepository.save(familyUser);
-    }
 
     @PrePersist
     public void register(String username, String password, Boolean isFamily) throws IOException {
@@ -55,6 +48,7 @@ public class AuthService {
                 .tagline("i am new here")
                 .avatar(image)
                 .build();
+        familyMember.setRole("MEMBER");
         familyMember.setUsername(username);
         familyMember.setPassword(hashedPassword);
         familyMemberRepository.save(familyMember);
