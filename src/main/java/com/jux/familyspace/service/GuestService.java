@@ -1,5 +1,6 @@
 package com.jux.familyspace.service;
 
+import com.jux.familyspace.model.FamilyGuest;
 import com.jux.familyspace.model.FamilyUser;
 import com.jux.familyspace.repository.FamilyUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class GuestService {
 
 
     public String loginAsGuest(String username) {
-        FamilyUser guestUser = new FamilyUser();
+        FamilyUser guestUser = new FamilyGuest();
         guestUser.setUsername(username);
         familyUserRepository.save(guestUser);
 

@@ -8,7 +8,7 @@ import lombok.Data;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 
-public class FamilyUser {
+public abstract class FamilyUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,8 @@ public class FamilyUser {
 
     private String username;
     private String password;
+
+    private String role;
 
 
 }

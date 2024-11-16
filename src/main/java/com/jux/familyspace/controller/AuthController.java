@@ -23,11 +23,6 @@ public class AuthController {
         return authService.authenticate(username, password);
     }
 
-    @PostMapping("/userregister")
-    public void userRegister(@RequestParam String username, @RequestParam String password) {
-        authService.register(username, password);
-    }
-
     @PostMapping("/memberregister")
     public void memberRegister(@RequestParam String username, @RequestParam String password) throws IOException {
         authService.register(username, password, true);
@@ -41,6 +36,11 @@ public class AuthController {
     @GetMapping("/guestname")
     public ResponseEntity<String> getGuestName(@RequestHeader("Authorization") String authorizationHeader) {
         return ResponseEntity.ok(guestService.getGuestName(authorizationHeader));
+    }
+
+    @GetMapping("/whoami")
+    public ResponseEntity<String> getPrincipal(Principal principal) {
+        return ResponseEntity.ok(principal.toString());
     }
 
 
