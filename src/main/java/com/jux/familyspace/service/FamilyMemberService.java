@@ -6,7 +6,6 @@ import com.jux.familyspace.component.MemberElementsSizeTracker;
 import com.jux.familyspace.model.*;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -20,7 +19,6 @@ public class FamilyMemberService {
     private final FamilyMemberElementProxyInterface<Haiku> haikuProxy;
     private final FamilyMemberElementProxyInterface<DailyThought> dailyProxy;
     private final FamilyMemberElementProxyInterface<FamilyMemoryPicture> memoryPicsProxy;
-    private final MemberElementsSizeTracker sizeTracker;
 
 
     public FamilyMember getCurrentUserByName(String username) {

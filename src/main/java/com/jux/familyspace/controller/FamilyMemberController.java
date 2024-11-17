@@ -1,10 +1,7 @@
 package com.jux.familyspace.controller;
 
-import com.jux.familyspace.api.FamilyMemberElementProxyInterface;
 import com.jux.familyspace.model.FamilyMember;
 import com.jux.familyspace.model.FamilyMemberOneTypeDto;
-import com.jux.familyspace.model.Haiku;
-import com.jux.familyspace.proxy.HaikuElementProxy;
 import com.jux.familyspace.service.FamilyMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
