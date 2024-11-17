@@ -10,11 +10,13 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "element_type", discriminatorType = DiscriminatorType.STRING)
 @Data
-public class FamilyMemberElement {
+public abstract class FamilyMemberElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String owner;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -43,7 +43,7 @@ public class AuthService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
-        byte[] image = Files.readAllBytes(imagePath); // Lire les octets de l'image
+        byte[] image = Files.readAllBytes(imagePath);
         FamilyMember familyMember = FamilyMember.builder()
                 .tagline("i am new here")
                 .avatar(image)

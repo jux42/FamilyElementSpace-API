@@ -16,12 +16,14 @@ public class DailyThoughtFacade {
 
     public String addThought(String title,
                              String thought,
-                             @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+                             @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                             String owner) {
         DailyThought dailyThought = DailyThought.builder()
                 .title(title)
                 .textbody(thought)
                 .build();
         dailyThought.setDate(date);
+        dailyThought.setOwner(owner);
 
         return dailyThoughtService.addElement(dailyThought);
 

@@ -1,12 +1,17 @@
 package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
+import com.jux.familyspace.component.ElementAdder;
+import com.jux.familyspace.model.FamilyMember;
+import com.jux.familyspace.model.FamilyMemberElement;
 import com.jux.familyspace.model.Haiku;
+import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.HaikuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Date;
 
 @Service
@@ -15,6 +20,9 @@ import java.util.Date;
 public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
     private final HaikuRepository haikuRepository;
+    private final FamilyMemberService familyMemberService;
+    private final FamilyMemberRepository familyMemberRepository;
+    private final ElementAdder elementAdder;
 
     @Override
     public Iterable<Haiku> getAllElements() {
@@ -32,18 +40,8 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     }
 
     @Override
-    public String addElement(Haiku haiku) {
-        try {
-            assert haiku != null;
-            assert haiku.getLine1() != null;
-            assert haiku.getLine2() != null;
-            assert haiku.getLine3() != null;
-            haikuRepository.save(haiku);
-            return "element saved";
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ("error : " + e.getMessage());
-        }
+    public String addElement(Haiku element) {
+        return elementAdder.addElement(element);
 
     }
 

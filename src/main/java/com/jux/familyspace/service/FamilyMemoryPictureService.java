@@ -1,8 +1,12 @@
 package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
+import com.jux.familyspace.component.ElementAdder;
+import com.jux.familyspace.model.FamilyMember;
 import com.jux.familyspace.model.FamilyMemoryPicture;
+import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyMemoryPictureRepository;
+import com.jux.familyspace.repository.FamilyUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,10 @@ import java.util.Date;
 public class FamilyMemoryPictureService implements FamilyElementServiceInterface<FamilyMemoryPicture> {
 
     private final FamilyMemoryPictureRepository familyMemoryPictureRepository;
+    private final FamilyUserRepository familyUserRepository;
+    private final FamilyMemberService familyMemberService;
+    private final FamilyMemberRepository familyMemberRepository;
+    private final ElementAdder elementAdder;
 
     @Override
     public Iterable<FamilyMemoryPicture> getAllElements() {
@@ -33,14 +41,7 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
 
     @Override
     public String addElement(FamilyMemoryPicture element) {
-        try {
-            familyMemoryPictureRepository.save(element);
-            return "memoryPic element saved";
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return "error while saving element : " + e.getMessage();
-        }
-
+        return elementAdder.addElement(element);
     }
 
     @Override

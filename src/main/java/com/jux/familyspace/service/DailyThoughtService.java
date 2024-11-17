@@ -1,19 +1,27 @@
 package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
+import com.jux.familyspace.component.ElementAdder;
 import com.jux.familyspace.model.DailyThought;
+import com.jux.familyspace.model.FamilyMember;
 import com.jux.familyspace.repository.DailyThoughtRepository;
+import com.jux.familyspace.repository.FamilyMemberRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class DailyThoughtService implements FamilyElementServiceInterface<DailyThought> {
     private final DailyThoughtRepository dailyThoughtRepository;
+    private final FamilyMemberService familyMemberService;
+    private final FamilyMemberRepository familyMemberRepository;
+    private final ElementAdder elementAdder;
 
-    public DailyThoughtService(DailyThoughtRepository dailyThoughtRepository) {
-        this.dailyThoughtRepository = dailyThoughtRepository;
-    }
+
 
     @Override
     public Iterable<DailyThought> getAllElements() {
@@ -32,8 +40,7 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
 
     @Override
     public String addElement(DailyThought element) {
-        dailyThoughtRepository.save(element);
-        return "thought saved";
+        return elementAdder.addElement(element);
     }
 
     @Override

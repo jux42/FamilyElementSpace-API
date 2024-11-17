@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Date;
 
 @RestController
@@ -37,9 +38,10 @@ public class DailyThoughtController {
     @PostMapping("thought")
     public ResponseEntity<String> addThought(@RequestParam String title,
                                              @RequestParam String thought,
-                                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+                                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                             Principal principal) {
 
-        return ResponseEntity.ok(dailyThoughtFacade.addThought(title, thought, date));
+        return ResponseEntity.ok(dailyThoughtFacade.addThought(title, thought, date, principal.getName()));
     }
 
     @DeleteMapping("thought/{id}")

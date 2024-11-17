@@ -33,9 +33,9 @@ public class AuthController {
         return ResponseEntity.ok(guestService.loginAsGuest(username));
     }
 
-    @GetMapping("/guestname")
-    public ResponseEntity<String> getGuestName(@RequestHeader("Authorization") String authorizationHeader) {
-        return ResponseEntity.ok(guestService.getGuestName(authorizationHeader));
+    @GetMapping("/getname")
+    public ResponseEntity<String> getGuestName(Principal principal) {
+        return ResponseEntity.ok(principal.getName());
     }
 
     @GetMapping("/whoami")

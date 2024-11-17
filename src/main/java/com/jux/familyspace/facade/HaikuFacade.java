@@ -13,12 +13,14 @@ public class HaikuFacade {
 
     public String addHaiku(String line1,
                            String line2,
-                           String line3) {
+                           String line3,
+                           String owner) {
         Haiku haiku = Haiku.builder()
                 .line1(line1)
                 .line2(line2)
                 .line3(line3)
                 .build();
+        haiku.setOwner(owner);
 
         return haikuService.addElement(haiku);
 
