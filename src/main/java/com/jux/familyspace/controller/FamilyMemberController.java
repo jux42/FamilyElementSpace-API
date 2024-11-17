@@ -27,7 +27,7 @@ public class FamilyMemberController {
         try {
             return ResponseEntity.ok(familyMemberService.getCurrentUserByName(principal.getName()));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.noContent().build();
         }

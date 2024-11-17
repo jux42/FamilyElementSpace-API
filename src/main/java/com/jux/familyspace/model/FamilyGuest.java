@@ -2,7 +2,8 @@ package com.jux.familyspace.model;
 
 
 import jakarta.persistence.Entity;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity

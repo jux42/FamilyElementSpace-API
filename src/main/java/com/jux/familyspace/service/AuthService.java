@@ -2,7 +2,6 @@ package com.jux.familyspace.service;
 
 import com.jux.familyspace.component.JwtUtil;
 import com.jux.familyspace.model.FamilyMember;
-import com.jux.familyspace.model.FamilyUser;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyUserRepository;
 import jakarta.persistence.PrePersist;
@@ -11,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface FamilyMemberRepository extends JpaRepository<FamilyMember, Long> {
-   Optional<FamilyMember> getByUsername(String username);
+    Optional<FamilyMember> getByUsername(String username);
 }

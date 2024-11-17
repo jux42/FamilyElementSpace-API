@@ -15,7 +15,7 @@ public class FamilyMemberService {
     private final FamilyMemberRepository familyMemberRepository;
 
     public FamilyMember getCurrentUserByName(String username) {
-        Optional<FamilyMember> familyMember =  familyMemberRepository.getByUsername(username);
+        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
         return familyMember.orElse(null);
     }
 }

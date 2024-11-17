@@ -1,7 +1,6 @@
 package com.jux.familyspace.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
 @Data

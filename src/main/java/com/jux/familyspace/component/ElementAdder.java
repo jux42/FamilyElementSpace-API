@@ -20,7 +20,7 @@ public class ElementAdder {
     private final FamilyMemberRepository familyMemberRepository;
     private final HaikuRepository haikuRepository;
     private final FamilyMemoryPictureRepository familyMemoryPictureRepository;
-    private final StringBuilder outputBuilder =  new StringBuilder();
+    private final StringBuilder outputBuilder = new StringBuilder();
 
 
     public <T extends FamilyMemberElement> String addElement(T element) {
@@ -49,7 +49,7 @@ public class ElementAdder {
         FamilyMember familyMember = familyMemberService.getCurrentUserByName(element.getOwner());
         familyMember.getElements().add(element);
         familyMemberRepository.save(familyMember);
-        outputBuilder.append(" memoryPic added to user's list");
+        outputBuilder.append(" DailyThought added to user's elements list");
         return outputBuilder.toString();
     }
 
@@ -60,11 +60,11 @@ public class ElementAdder {
             assert element.getLine2() != null;
             assert element.getLine3() != null;
             haikuRepository.save(element);
-            outputBuilder.append("haiku saved -");
+            outputBuilder.append("Haiku saved -");
             FamilyMember familyMember = familyMemberService.getCurrentUserByName(element.getOwner());
             familyMember.getElements().add(element);
             familyMemberRepository.save(familyMember);
-            outputBuilder.append(" haiku added to user's elements list");
+            outputBuilder.append(" Haiku added to user's elements list");
             return outputBuilder.toString();
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -75,15 +75,15 @@ public class ElementAdder {
     private String addElement(FamilyMemoryPicture element) {
         try {
             familyMemoryPictureRepository.save(element);
-            outputBuilder.append("memoryPic element saved -");
+            outputBuilder.append("MemoryPic element saved -");
         } catch (Exception e) {
             log.error(e.getMessage());
             return "error while saving element : " + e.getMessage();
         }
-        FamilyMember familyMember =  familyMemberService.getCurrentUserByName(element.getOwner());
+        FamilyMember familyMember = familyMemberService.getCurrentUserByName(element.getOwner());
         familyMember.getElements().add(element);
         familyMemberRepository.save(familyMember);
-        outputBuilder.append(" memoryPic added to user's list");
+        outputBuilder.append(" MemoryPic added to user's elements list");
         return outputBuilder.toString();
     }
 
