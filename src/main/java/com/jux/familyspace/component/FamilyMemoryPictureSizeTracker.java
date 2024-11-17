@@ -9,26 +9,26 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class FamilyMemoryPictureSizeTracker implements ElementSizeTrackerInterface<FamilyMemoryPicture> {
 
-    private final AtomicInteger totalSize = new AtomicInteger();
+    private final AtomicInteger totalMemoryPicsSize = new AtomicInteger();
 
     @Override
     public int getTotalSize() {
-        return totalSize.get();
+        return totalMemoryPicsSize.get();
     }
 
     @Override
     public void setTotalSize(int size) {
-        totalSize.set(size);
+        totalMemoryPicsSize.set(size);
     }
 
     @Override
     public void incrementSize(int delta) {
-        totalSize.addAndGet(delta);
+        totalMemoryPicsSize.addAndGet(delta);
     }
 
     @Override
     public void decrementSize(int delta) {
-        totalSize.addAndGet(-delta);
+        totalMemoryPicsSize.addAndGet(-delta);
     }
 }
 

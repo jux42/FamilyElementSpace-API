@@ -3,7 +3,6 @@ package com.jux.familyspace.proxy;
 import com.jux.familyspace.api.FamilyMemberElementProxyInterface;
 import com.jux.familyspace.model.Haiku;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 
 @Component

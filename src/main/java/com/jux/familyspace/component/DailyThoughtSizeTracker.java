@@ -9,25 +9,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class DailyThoughtSizeTracker implements ElementSizeTrackerInterface<DailyThought> {
 
-    private final AtomicInteger totalSize = new AtomicInteger();
+    private final AtomicInteger totalDailyThoughtsSize = new AtomicInteger();
 
     @Override
     public int getTotalSize() {
-        return totalSize.get();
+        return totalDailyThoughtsSize.get();
     }
 
     @Override
     public void setTotalSize(int size) {
-        totalSize.set(size);
+        totalDailyThoughtsSize.set(size);
     }
 
     @Override
     public void incrementSize(int delta) {
-        totalSize.addAndGet(delta);
+        totalDailyThoughtsSize.addAndGet(delta);
     }
 
     @Override
     public void decrementSize(int delta) {
-        totalSize.addAndGet(-delta);
+        totalDailyThoughtsSize.addAndGet(-delta);
     }
 }
