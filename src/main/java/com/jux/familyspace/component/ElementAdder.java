@@ -53,16 +53,16 @@ public class ElementAdder {
         return outputBuilder.toString();
     }
 
-    private String addElement(Haiku haiku) {
+    private String addElement(Haiku element) {
         try {
-            assert haiku != null;
-            assert haiku.getLine1() != null;
-            assert haiku.getLine2() != null;
-            assert haiku.getLine3() != null;
-            haikuRepository.save(haiku);
+            assert element != null;
+            assert element.getLine1() != null;
+            assert element.getLine2() != null;
+            assert element.getLine3() != null;
+            haikuRepository.save(element);
             outputBuilder.append("haiku saved -");
-            FamilyMember familyMember = familyMemberService.getCurrentUserByName(haiku.getOwner());
-            familyMember.getElements().add(haiku);
+            FamilyMember familyMember = familyMemberService.getCurrentUserByName(element.getOwner());
+            familyMember.getElements().add(element);
             familyMemberRepository.save(familyMember);
             outputBuilder.append(" haiku added to user's elements list");
             return outputBuilder.toString();
