@@ -2,7 +2,7 @@ package com.jux.familyspace.api;
 
 import com.jux.familyspace.model.FamilyMemberElement;
 
-public interface ElementSizeTrackerInterface<T extends FamilyMemberElement> {
+public interface ElementSizeTrackerInterface<T> {
 
 
     int getTotalSize();
