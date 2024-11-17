@@ -1,13 +1,17 @@
 package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
+import com.jux.familyspace.component.ElementAdder;
+import com.jux.familyspace.component.HaikuSizeTracker;
 import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,15 +19,33 @@ import java.util.Date;
 public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
     private final HaikuRepository haikuRepository;
+    private final HaikuSizeTracker sizeTracker;
+    private final ElementAdder elementAdder;
+    private Iterable<Haiku> haikus;
+
 
     @Override
     public Iterable<Haiku> getAllElements() {
-        return haikuRepository.findAll();
+        if (haikus == null || haikus.spliterator().getExactSizeIfKnown() != sizeTracker.getTotalSize()) {
+            haikus = haikuRepository.findAll();
+            return haikus;
+        }
+        return haikus;
     }
 
     @Override
     public Iterable<Haiku> getAllElementsByDate(Date date) {
-        return haikuRepository.getHaikusByDate(date);
+        if (haikus == null || haikus.spliterator().getExactSizeIfKnown() != sizeTracker.getTotalSize()) {
+            sizeTracker.setTotalSize(haikuRepository.findAll().size());
+            haikus = haikuRepository.findAll();
+        }
+        List<Haiku> haikuList = new ArrayList<>();
+        this.haikus.iterator().forEachRemaining(haiku -> {
+            if (haiku.getDate().equals(date)) {
+                haikuList.add(haiku);
+            }
+        });
+        return haikus;
     }
 
     @Override
@@ -32,19 +54,15 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     }
 
     @Override
-    public String addElement(Haiku haiku) {
+    public String addElement(Haiku element) {
         try {
-            assert haiku != null;
-            assert haiku.getLine1() != null;
-            assert haiku.getLine2() != null;
-            assert haiku.getLine3() != null;
-            haikuRepository.save(haiku);
-            return "element saved";
+            String output = elementAdder.addElement(element);
+            sizeTracker.incrementSize(1);
+            return output;
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ("error : " + e.getMessage());
+            return e.getMessage();
         }
-
     }
 
     @Override

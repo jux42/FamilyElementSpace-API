@@ -2,7 +2,6 @@ package com.jux.familyspace.service;
 
 import com.jux.familyspace.component.JwtUtil;
 import com.jux.familyspace.model.FamilyMember;
-import com.jux.familyspace.model.FamilyUser;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyUserRepository;
 import jakarta.persistence.PrePersist;
@@ -11,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,7 +41,7 @@ public class AuthService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
-        byte[] image = Files.readAllBytes(imagePath); // Lire les octets de l'image
+        byte[] image = Files.readAllBytes(imagePath);
         FamilyMember familyMember = FamilyMember.builder()
                 .tagline("i am new here")
                 .avatar(image)

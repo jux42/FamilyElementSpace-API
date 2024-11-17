@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.Date;
 
 @RestController
@@ -45,9 +46,10 @@ public class FamilyMemoryPictureController {
 
     @PostMapping("memorypic")
     public ResponseEntity<String> addMemoryPicture(@RequestBody MultipartFile file,
-                                                   @RequestParam @Nullable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+                                                   @RequestParam @Nullable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
+                                                   Principal principal) {
 
-        return ResponseEntity.ok(familyMemoryPictureFacade.addPicture(file, date));
+        return ResponseEntity.ok(familyMemoryPictureFacade.addPicture(file, date, principal.getName()));
     }
 
     @DeleteMapping("memorypic/{id}")

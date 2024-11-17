@@ -1,6 +1,10 @@
 package com.jux.familyspace.controller;
 
+import com.jux.familyspace.api.FamilyMemberElementProxyInterface;
 import com.jux.familyspace.model.FamilyMember;
+import com.jux.familyspace.model.FamilyMemberOneTypeDto;
+import com.jux.familyspace.model.Haiku;
+import com.jux.familyspace.proxy.HaikuElementProxy;
 import com.jux.familyspace.service.FamilyMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +31,25 @@ public class FamilyMemberController {
         try {
             return ResponseEntity.ok(familyMemberService.getCurrentUserByName(principal.getName()));
 
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.noContent().build();
         }
     }
+
+    @GetMapping("haikus")
+    public ResponseEntity<FamilyMemberOneTypeDto> getMemberHaikuDto(Principal principal) {
+        return ResponseEntity.ok(familyMemberService.getMemberHaikuDto(principal));
+    }
+
+    @GetMapping("dailys")
+    public ResponseEntity<FamilyMemberOneTypeDto> getMemberDailyThoughtDto(Principal principal) {
+        return ResponseEntity.ok(familyMemberService.getMemberDailyThoughtsDto(principal));
+    }
+
+    @GetMapping("memorypics")
+    public ResponseEntity<FamilyMemberOneTypeDto> getMemberMemoryPicsDto(Principal principal) {
+        return ResponseEntity.ok(familyMemberService.getMemberMemoryPicsDto(principal));
+    }
+
 }

@@ -1,0 +1,19 @@
+logging:
+    level:
+        org:
+            springframework:
+                security: DEBUG
+server:
+    address: 0.0.0.0
+spring:
+    application:
+        name: FamilySpace
+    config:
+        import: optional:classpath:/application-familyspace-configuration.yml
+    datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:mariadb://localhost:3306/familyspace?createDatabaseIfNotExist=true
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+
