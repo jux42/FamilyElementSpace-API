@@ -16,5 +16,6 @@ public interface FamilyElementServiceInterface<T extends FamilyMemberElement> {
 
     String removeElement(Long id);
 
+    void synchronizeSizeTracker();
 
 }

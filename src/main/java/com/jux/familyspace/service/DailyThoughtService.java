@@ -2,7 +2,6 @@ package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.DailyThoughtSizeTracker;
-import com.jux.familyspace.component.ElementAdder;
 import com.jux.familyspace.model.DailyThought;
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,25 +18,19 @@ import java.util.List;
 public class DailyThoughtService implements FamilyElementServiceInterface<DailyThought> {
     private final DailyThoughtRepository dailyThoughtRepository;
     private final DailyThoughtSizeTracker sizeTracker;
-    private final ElementAdder elementAdder;
+    private final DailyThoughtAdder dailyThoughtAdder;
     private Iterable<DailyThought> dailyThoughts;
 
 
     @Override
     public Iterable<DailyThought> getAllElements() {
-        if (dailyThoughts == null || dailyThoughts.spliterator().getExactSizeIfKnown() != sizeTracker.getTotalSize()) {
-            dailyThoughts = dailyThoughtRepository.findAll();
-            return dailyThoughts;
-        }
+        synchronizeSizeTracker();
         return dailyThoughts;
     }
 
     @Override
     public Iterable<DailyThought> getAllElementsByDate(Date date) {
-        if (dailyThoughts == null || dailyThoughts.spliterator().getExactSizeIfKnown() != sizeTracker.getTotalSize()) {
-            sizeTracker.setTotalSize(dailyThoughtRepository.findAll().size());
-            dailyThoughts = dailyThoughtRepository.findAll();
-        }
+        synchronizeSizeTracker();
         List<DailyThought> dailyThoughtList = new ArrayList<>();
         dailyThoughts.iterator().forEachRemaining(dailyThought -> {
             if (dailyThought.getDate().equals(date)) {
@@ -55,7 +48,7 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
     @Override
     public String addElement(DailyThought element) {
         try {
-            String output = elementAdder.addElement(element);
+            String output = dailyThoughtAdder.addElement(element);
             sizeTracker.incrementSize(1);
             return output;
         } catch (Exception e) {
@@ -73,6 +66,14 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
         } catch (Exception e) {
             log.error(e.getMessage());
             return e.getMessage();
+        }
+    }
+
+    public void synchronizeSizeTracker() {
+        int actualSize = (int) dailyThoughtRepository.count();
+        if (actualSize != sizeTracker.getTotalSize()) {
+            sizeTracker.setTotalSize(actualSize);
+            dailyThoughts = dailyThoughtRepository.findAll();
         }
     }
 }
