@@ -1,5 +1,6 @@
 package com.jux.familyspace.repository;
 
+import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.Haiku;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,4 +14,8 @@ public interface HaikuRepository extends JpaRepository<Haiku, Long> {
     void deleteByIdAndOwner(Long id, String owner);
 
     Iterable<Haiku> getByOwner(String owner);
+
+    Iterable<Haiku> getByVisibility(ElementVisibility elementVisibility);
+
+    Iterable<Haiku> getByOwnerAndVisibility(String owner, ElementVisibility elementVisibility);
 }

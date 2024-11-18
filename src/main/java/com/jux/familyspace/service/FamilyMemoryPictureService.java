@@ -4,7 +4,6 @@ import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.FamilyMemoryPictureSizeTracker;
 import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.FamilyMemoryPicture;
-import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.FamilyMemoryPictureRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,25 +32,13 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
     @Override
     public Iterable<FamilyMemoryPicture> getPublicElements() {
         synchronizeSizeTracker();
-        List<FamilyMemoryPicture> publicPicList = new ArrayList<>();
-        this.pictures.iterator().forEachRemaining(picture -> {
-            if (picture.getVisibility() == ElementVisibility.PUBLIC) {
-                publicPicList.add(picture);
-            }
-        });
-        return publicPicList;
+       return familyMemoryPictureRepository.getByVisibility(ElementVisibility.PUBLIC);
     }
 
     @Override
     public Iterable<FamilyMemoryPicture> getSharedElements(String owner) {
         synchronizeSizeTracker();
-        List<FamilyMemoryPicture> sharedPicList = new ArrayList<>();
-        this.pictures.iterator().forEachRemaining(picture -> {
-            if (picture.getVisibility() == ElementVisibility.PUBLIC) {
-                sharedPicList.add(picture);
-            }
-        });
-        return sharedPicList;
+       return familyMemoryPictureRepository.getByOwnerAndVisibility(owner, ElementVisibility.SHARED);
     }
 
     @Override

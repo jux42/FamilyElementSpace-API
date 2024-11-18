@@ -7,7 +7,6 @@ import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aot.generate.AccessControl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,26 +31,14 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
     @Override
     public Iterable<Haiku> getPublicElements() {
-        synchronizeSizeTracker();
-        List<Haiku> publicHaikuList = new ArrayList<>();
-        this.haikus.iterator().forEachRemaining(haiku -> {
-            if (haiku.getVisibility() == ElementVisibility.PUBLIC) {
-                publicHaikuList.add(haiku);
-            }
-        });
-        return publicHaikuList;
+       return haikuRepository.getByVisibility(ElementVisibility.PUBLIC);
     }
 
     @Override
     public Iterable<Haiku> getSharedElements(String owner) {
         synchronizeSizeTracker();
-        List<Haiku> sharedHaikuList = new ArrayList<>();
-        this.haikus.iterator().forEachRemaining(haiku -> {
-            if (haiku.getVisibility() == ElementVisibility.SHARED) {
-                sharedHaikuList.add(haiku);
-            }
-        });
-        return sharedHaikuList;    }
+        return haikuRepository.getByOwnerAndVisibility(owner,ElementVisibility.SHARED);
+    }
 
     @Override
     public Iterable<Haiku> getAllElementsByDate(Date date) {
