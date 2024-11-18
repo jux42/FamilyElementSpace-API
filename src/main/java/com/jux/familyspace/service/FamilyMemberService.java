@@ -2,7 +2,6 @@ package com.jux.familyspace.service;
 
 
 import com.jux.familyspace.api.FamilyMemberDtoMapperInterface;
-import com.jux.familyspace.dtomappers.HaikuElementDtoMapper;
 import com.jux.familyspace.model.*;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import lombok.RequiredArgsConstructor;
