@@ -1,7 +1,6 @@
 package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
-import com.jux.familyspace.component.ElementAdder;
 import com.jux.familyspace.component.HaikuSizeTracker;
 import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
@@ -20,32 +19,27 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
     private final HaikuRepository haikuRepository;
     private final HaikuSizeTracker sizeTracker;
-    private final ElementAdder elementAdder;
+    private final HaikuAdder haikuAdder;
     private Iterable<Haiku> haikus;
 
 
     @Override
     public Iterable<Haiku> getAllElements() {
-        if (haikus == null || haikus.spliterator().getExactSizeIfKnown() != sizeTracker.getTotalSize()) {
-            haikus = haikuRepository.findAll();
-            return haikus;
-        }
+        synchronizeSizeTracker();
+
         return haikus;
     }
 
     @Override
     public Iterable<Haiku> getAllElementsByDate(Date date) {
-        if (haikus == null || haikus.spliterator().getExactSizeIfKnown() != sizeTracker.getTotalSize()) {
-            sizeTracker.setTotalSize(haikuRepository.findAll().size());
-            haikus = haikuRepository.findAll();
-        }
+    synchronizeSizeTracker();
         List<Haiku> haikuList = new ArrayList<>();
         this.haikus.iterator().forEachRemaining(haiku -> {
             if (haiku.getDate().equals(date)) {
                 haikuList.add(haiku);
             }
         });
-        return haikus;
+        return haikuList;
     }
 
     @Override
@@ -56,7 +50,7 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     @Override
     public String addElement(Haiku element) {
         try {
-            String output = elementAdder.addElement(element);
+            String output = haikuAdder.addElement(element);
             sizeTracker.incrementSize(1);
             return output;
         } catch (Exception e) {
@@ -75,6 +69,15 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
         } catch (Exception e) {
             log.error(e.getMessage());
             return ("error : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void synchronizeSizeTracker() {
+        int actualSize = (int) haikuRepository.count();
+        if (actualSize != sizeTracker.getTotalSize()) {
+            sizeTracker.setTotalSize(actualSize);
+            haikus = haikuRepository.findAll();
         }
     }
 }
