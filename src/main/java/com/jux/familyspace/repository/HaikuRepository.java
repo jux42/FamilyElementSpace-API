@@ -10,4 +10,7 @@ import java.util.Date;
 @Repository
 public interface HaikuRepository extends JpaRepository<Haiku, Long> {
     Iterable<Haiku> getHaikusByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") Date date);
+    void deleteByIdAndOwner(Long id, String owner);
+
+    Iterable<Haiku> getByOwner(String owner);
 }

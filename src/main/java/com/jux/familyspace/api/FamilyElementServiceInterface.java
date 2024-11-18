@@ -6,7 +6,11 @@ import java.util.Date;
 
 public interface FamilyElementServiceInterface<T extends FamilyMemberElement> {
 
-    Iterable<T> getAllElements();
+    Iterable<T> getAllElements(String owner);
+
+    Iterable<T> getPublicElements();
+
+    Iterable<T> getSharedElements(String owner);
 
     Iterable<T> getAllElementsByDate(Date date);
 
@@ -14,7 +18,7 @@ public interface FamilyElementServiceInterface<T extends FamilyMemberElement> {
 
     String addElement(T element);
 
-    String removeElement(Long id);
+    String removeElement(Long id, String owner);
 
     void synchronizeSizeTracker();
 

@@ -23,13 +23,13 @@ public class FamilyMemoryPictureController {
 
 
     @GetMapping("memorypics")
-    public ResponseEntity<Iterable<FamilyMemoryPicture>> getMemoryPictures() {
-        return ResponseEntity.ok(familyMemoryPictureService.getAllElements());
+    public ResponseEntity<Iterable<FamilyMemoryPicture>> getMemoryPictures(Principal principal) {
+        return ResponseEntity.ok(familyMemoryPictureService.getAllElements(principal.getName()));
     }
 
     @GetMapping("memorypicsonly")
-    public ResponseEntity<Iterable<byte[]>> getMemoryPicturesOnly() {
-        return ResponseEntity.ok(familyMemoryPictureFacade.getPicturesOnly());
+    public ResponseEntity<Iterable<byte[]>> getMemoryPicturesOnly(Principal principal) {
+        return ResponseEntity.ok(familyMemoryPictureFacade.getPicturesOnly(principal.getName()));
     }
 
     @GetMapping("memorypic/{id}")
@@ -53,7 +53,7 @@ public class FamilyMemoryPictureController {
     }
 
     @DeleteMapping("memorypic/{id}")
-    public ResponseEntity<String> deleteMemoryPicture(@PathVariable Long id) {
-        return ResponseEntity.ok(familyMemoryPictureService.removeElement(id));
+    public ResponseEntity<String> deleteMemoryPicture(@PathVariable Long id, Principal principal) {
+        return ResponseEntity.ok(familyMemoryPictureService.removeElement(id, principal.getName()));
     }
 }

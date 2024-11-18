@@ -18,8 +18,8 @@ public class HaikuController {
 
 
     @GetMapping("haikus")
-    public ResponseEntity<Iterable<Haiku>> getHaikus() {
-        return ResponseEntity.ok(haikuService.getAllElements());
+    public ResponseEntity<Iterable<Haiku>> getHaikus(Principal principal) {
+        return ResponseEntity.ok(haikuService.getAllElements(principal.getName()));
     }
 
     @GetMapping("haiku/{id}")
@@ -37,8 +37,8 @@ public class HaikuController {
     }
 
     @DeleteMapping("haiku/{id}")
-    public ResponseEntity<String> deleteHaiku(@PathVariable Long id) {
-        return ResponseEntity.ok(haikuService.removeElement(id));
+    public ResponseEntity<String> deleteHaiku(@PathVariable Long id, Principal principal) {
+        return ResponseEntity.ok(haikuService.removeElement(id, principal.getName()));
     }
 
 

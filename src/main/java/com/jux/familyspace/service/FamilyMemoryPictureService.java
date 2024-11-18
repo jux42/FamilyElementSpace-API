@@ -2,7 +2,9 @@ package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.FamilyMemoryPictureSizeTracker;
+import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.FamilyMemoryPicture;
+import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.FamilyMemoryPictureRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +26,32 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
     private List<FamilyMemoryPicture> pictures;
 
     @Override
-    public Iterable<FamilyMemoryPicture> getAllElements() {
+    public Iterable<FamilyMemoryPicture> getAllElements(String owner) {
+        return familyMemoryPictureRepository.getByOwner(owner);
+    }
+
+    @Override
+    public Iterable<FamilyMemoryPicture> getPublicElements() {
         synchronizeSizeTracker();
-        return pictures;
+        List<FamilyMemoryPicture> publicPicList = new ArrayList<>();
+        this.pictures.iterator().forEachRemaining(picture -> {
+            if (picture.getVisibility() == ElementVisibility.PUBLIC) {
+                publicPicList.add(picture);
+            }
+        });
+        return publicPicList;
+    }
+
+    @Override
+    public Iterable<FamilyMemoryPicture> getSharedElements(String owner) {
+        synchronizeSizeTracker();
+        List<FamilyMemoryPicture> sharedPicList = new ArrayList<>();
+        this.pictures.iterator().forEachRemaining(picture -> {
+            if (picture.getVisibility() == ElementVisibility.PUBLIC) {
+                sharedPicList.add(picture);
+            }
+        });
+        return sharedPicList;
     }
 
     @Override
@@ -59,8 +84,15 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
     }
 
     @Override
-    public String removeElement(Long id) {
-        return "";
+    public String removeElement(Long id, String owner) {
+        try {
+            familyMemoryPictureRepository.deleteByIdAndOwner(id, owner);
+            sizeTracker.decrementSize(1);
+            return "Picture Deleted";
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return e.getMessage();
+        }
     }
 
     public void synchronizeSizeTracker() {
