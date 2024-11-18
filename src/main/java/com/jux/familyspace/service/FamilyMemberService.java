@@ -19,7 +19,6 @@ public class FamilyMemberService {
     private final FamilyMemberDtoMapperInterface<Haiku> haikuDtoMapper;
     private final FamilyMemberDtoMapperInterface<DailyThought> dailyDtoMapper;
     private final FamilyMemberDtoMapperInterface<FamilyMemoryPicture> memoryPicsDtoMapper;
-    private final HaikuElementDtoMapper haikuElementDtoMapper;
 
 
     public FamilyMember getCurrentUserByName(String username) {
