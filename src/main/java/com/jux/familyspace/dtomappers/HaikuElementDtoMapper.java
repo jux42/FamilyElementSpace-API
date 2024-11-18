@@ -1,6 +1,6 @@
 package com.jux.familyspace.dtomappers;
 
-import com.jux.familyspace.api.FamilyMemberElementDtoMapperInterface;
+import com.jux.familyspace.api.FamilyMemberDtoMapperInterface;
 import com.jux.familyspace.model.Haiku;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class HaikuElementDtoMapper implements FamilyMemberElementDtoMapperInterface<Haiku> {
+public class HaikuElementDtoMapper implements FamilyMemberDtoMapperInterface<Haiku> {
     @Override
     public Class<Haiku> getElementType() {
         return Haiku.class;

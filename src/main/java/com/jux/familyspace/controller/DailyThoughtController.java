@@ -19,22 +19,22 @@ public class DailyThoughtController {
     private final DailyThoughtFacade dailyThoughtFacade;
     private final FamilyElementServiceInterface<DailyThought> dailyThoughtService;
 
-    @GetMapping("thoughts")
-    public ResponseEntity<Iterable<DailyThought>> getThoughts() {
-        return ResponseEntity.ok(dailyThoughtService.getAllElements());
+    @GetMapping("/thoughts")
+    public ResponseEntity<Iterable<DailyThought>> getThoughts(Principal principal) {
+        return ResponseEntity.ok(dailyThoughtService.getAllElements(principal.getName()));
     }
 
-    @GetMapping("thoughts/date")
+    @GetMapping("/thoughts/date")
     public ResponseEntity<Iterable<DailyThought>> getThoughtByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return ResponseEntity.ok(dailyThoughtService.getAllElementsByDate(date));
     }
 
-    @GetMapping("thought/{id}")
+    @GetMapping("/thought/{id}")
     public ResponseEntity<DailyThought> getThought(@PathVariable Long id) {
         return ResponseEntity.ok(dailyThoughtService.getElement(id));
     }
 
-    @PostMapping("thought")
+    @PostMapping("/thought")
     public ResponseEntity<String> addThought(@RequestParam String title,
                                              @RequestParam String thought,
                                              @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date date,
@@ -43,9 +43,9 @@ public class DailyThoughtController {
         return ResponseEntity.ok(dailyThoughtFacade.addThought(title, thought, date, principal.getName()));
     }
 
-    @DeleteMapping("thought/{id}")
-    public ResponseEntity<String> deleteThought(@PathVariable Long id) {
-        return ResponseEntity.ok(dailyThoughtService.removeElement(id));
+    @DeleteMapping("/thought/{id}")
+    public ResponseEntity<String> deleteThought(@PathVariable Long id, Principal principal) {
+        return ResponseEntity.ok(dailyThoughtService.removeElement(id, principal.getName()));
     }
 
 }

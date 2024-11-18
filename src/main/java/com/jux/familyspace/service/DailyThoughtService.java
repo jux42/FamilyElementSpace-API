@@ -3,6 +3,7 @@ package com.jux.familyspace.service;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.DailyThoughtSizeTracker;
 import com.jux.familyspace.model.DailyThought;
+import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +24,8 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
 
 
     @Override
-    public Iterable<DailyThought> getAllElements() {
-        synchronizeSizeTracker();
-        return dailyThoughts;
+    public Iterable<DailyThought> getAllElements(String owner) {
+        return dailyThoughtRepository.getByOwner(owner);
     }
 
     @Override
@@ -46,6 +46,36 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
     }
 
     @Override
+    public Iterable<DailyThought> getPublicElements() {
+        synchronizeSizeTracker();
+        return dailyThoughtRepository.getByVisibility(ElementVisibility.PUBLIC);
+
+//        List<DailyThought> publicDailyList = new ArrayList<>();
+//        this.dailyThoughts.iterator().forEachRemaining(dailyThought -> {
+//            if (dailyThought.getVisibility() == ElementVisibility.PUBLIC) {
+//                publicDailyList.add(dailyThought);
+//            }
+//        });
+//        return publicDailyList;
+    }
+
+    @Override
+    public Iterable<DailyThought> getSharedElements(String owner) {
+        synchronizeSizeTracker();
+
+        return dailyThoughtRepository.getByOwnerAndVisibility(owner, ElementVisibility.SHARED);
+//        synchronizeSizeTracker();
+//        List<DailyThought> sharedDailyList = new ArrayList<>();
+//        this.dailyThoughts.iterator().forEachRemaining(dailyThought -> {
+//            if (dailyThought.getVisibility() == ElementVisibility.SHARED &&
+//                    dailyThought.getOwner().equals(owner)) {
+//                sharedDailyList.add(dailyThought);
+//            }
+//        });
+//        return sharedDailyList;
+    }
+
+    @Override
     public String addElement(DailyThought element) {
         try {
             String output = dailyThoughtAdder.addElement(element);
@@ -58,9 +88,10 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
     }
 
     @Override
-    public String removeElement(Long id) {
+    public String removeElement(Long id, String owner) {
+
         try {
-            dailyThoughtRepository.deleteById(id);
+            dailyThoughtRepository.deleteByIdAndOwner(id, owner);
             sizeTracker.decrementSize(1);
             return "Daily Thought Deleted";
         } catch (Exception e) {

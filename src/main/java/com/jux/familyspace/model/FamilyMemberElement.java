@@ -8,7 +8,6 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "element_type", discriminatorType = DiscriminatorType.STRING)
 @Data
 public abstract class FamilyMemberElement {
 
@@ -17,6 +16,9 @@ public abstract class FamilyMemberElement {
     private Long id;
 
     private String owner;
+
+    @Enumerated(EnumType.STRING)
+    private ElementVisibility visibility = ElementVisibility.PRIVATE;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

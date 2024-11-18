@@ -2,6 +2,7 @@ package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.HaikuSizeTracker;
+import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,19 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
 
     @Override
-    public Iterable<Haiku> getAllElements() {
-        synchronizeSizeTracker();
+    public Iterable<Haiku> getAllElements(String owner) {
+        return haikuRepository.getByOwner(owner);
+    }
 
-        return haikus;
+    @Override
+    public Iterable<Haiku> getPublicElements() {
+       return haikuRepository.getByVisibility(ElementVisibility.PUBLIC);
+    }
+
+    @Override
+    public Iterable<Haiku> getSharedElements(String owner) {
+        synchronizeSizeTracker();
+        return haikuRepository.getByOwnerAndVisibility(owner,ElementVisibility.SHARED);
     }
 
     @Override
@@ -60,15 +70,15 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     }
 
     @Override
-    public String removeElement(Long id) {
+    public String removeElement(Long id, String owner) {
 
         try {
-            assert haikuRepository.existsById(id);
-            haikuRepository.deleteById(id);
-            return "element removed";
+            haikuRepository.deleteByIdAndOwner(id, owner);
+            sizeTracker.decrementSize(1);
+            return "Haiku Deleted";
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ("error : " + e.getMessage());
+            return e.getMessage();
         }
     }
 

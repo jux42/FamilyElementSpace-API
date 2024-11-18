@@ -34,9 +34,9 @@ public class FamilyMemoryPictureFacade {
         }
     }
 
-    public List<byte[]> getPicturesOnly() {
+    public List<byte[]> getPicturesOnly(String owner) {
         ArrayList<byte[]> memoryPicsList = new ArrayList<>();
-        familyMemoryPictureService.getAllElements()
+        familyMemoryPictureService.getAllElements(owner)
                 .forEach(familyMemoryPicture ->
                         memoryPicsList.add(familyMemoryPicture.getPicture()));
         return memoryPicsList;
