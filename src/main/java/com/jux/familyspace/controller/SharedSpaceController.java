@@ -20,7 +20,7 @@ public class SharedSpaceController {
     private final FamilyElementServiceInterface<Haiku> haikuService;
 
 
-    @GetMapping("/dailys/{owner}")
+    @GetMapping("/thoughts/{owner}")
     public ResponseEntity<Iterable<DailyThought>> getSharedDailys(@PathVariable String owner){
 
         return ResponseEntity.ok(dailyThoughtService.getSharedElements(owner));

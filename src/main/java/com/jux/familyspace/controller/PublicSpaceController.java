@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PublicSpaceController {
 
-    private final DailyThoughtDtoMapper dailyThoughtDtoMapper;
     private final FamilyElementServiceInterface<DailyThought> dailyThoughtService;
     private final FamilyElementServiceInterface<FamilyMemoryPicture> familyMemoryPictureService;
     private final FamilyElementServiceInterface<Haiku> haikuService;
 
 
-    @GetMapping("/dailys")
+    @GetMapping("/thoughts")
     public ResponseEntity<Iterable<DailyThought>> getPublicDailys(){
 
         return ResponseEntity.ok(dailyThoughtService.getPublicElements());

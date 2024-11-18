@@ -1,7 +1,6 @@
 package com.jux.familyspace.repository;
 
 import com.jux.familyspace.model.DailyThought;
-import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.model.ElementVisibility;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;

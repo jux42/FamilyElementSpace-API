@@ -46,7 +46,7 @@ public class FamilyMemberController {
         return ResponseEntity.ok(familyMemberService.getMemberHaikuDto(principal));
     }
 
-    @GetMapping("dailys")
+    @GetMapping("thoughts")
     public ResponseEntity<FamilyMemberOneTypeDto> getMemberDailyThoughtDto(Principal principal) {
         return ResponseEntity.ok(familyMemberService.getMemberDailyThoughtsDto(principal));
     }

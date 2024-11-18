@@ -4,7 +4,6 @@ import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.DailyThoughtSizeTracker;
 import com.jux.familyspace.model.DailyThought;
 import com.jux.familyspace.model.ElementVisibility;
-import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
