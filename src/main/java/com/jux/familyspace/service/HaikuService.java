@@ -41,6 +41,33 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     }
 
     @Override
+    public String makePublic(Long id, String owner) {
+
+        try {
+            Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
+            haiku.setVisibility(ElementVisibility.PUBLIC);
+            haikuRepository.save(haiku);
+            return "haiku successfully made public";
+        }catch (Exception e){
+            return "error making public : " + e.getMessage();
+        }
+
+    }
+
+    @Override
+    public String makeShared(Long id, String owner) {
+
+        try {
+            Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
+            haiku.setVisibility(ElementVisibility.SHARED);
+            haikuRepository.save(haiku);
+            return "haiku successfully shared";
+        }catch (Exception e){
+            return "error making shared : " + e.getMessage();
+        }
+   }
+
+    @Override
     public Iterable<Haiku> getAllElementsByDate(Date date) {
     synchronizeSizeTracker();
         List<Haiku> haikuList = new ArrayList<>();

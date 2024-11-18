@@ -1,4 +1,4 @@
-package com.jux.familyspace.dtomappers;
+package com.jux.familyspace.dtomapper;
 
 import com.jux.familyspace.api.FamilyMemberDtoMapperInterface;
 import com.jux.familyspace.model.Haiku;
