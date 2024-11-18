@@ -7,7 +7,7 @@ import com.jux.familyspace.model.FamilyMemberOneTypeDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface FamilyMemberElementDtoMapperInterface<T extends FamilyMemberElement> {
+public interface FamilyMemberDtoMapperInterface<T extends FamilyMemberElement> {
 
     Class<T> getElementType();
 
