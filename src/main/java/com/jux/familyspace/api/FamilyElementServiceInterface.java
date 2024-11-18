@@ -12,6 +12,10 @@ public interface FamilyElementServiceInterface<T extends FamilyMemberElement> {
 
     Iterable<T> getSharedElements(String owner);
 
+    String makePublic(Long id, String owner);
+
+    String makeShared(Long id, String owner);
+
     Iterable<T> getAllElementsByDate(Date date);
 
     T getElement(Long id);

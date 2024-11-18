@@ -42,6 +42,32 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
     }
 
     @Override
+    public String makePublic(Long id, String owner) {
+        try{
+            FamilyMemoryPicture memoryPic = familyMemoryPictureRepository.getByIdAndOwner(id, owner);
+            memoryPic.setVisibility(ElementVisibility.PUBLIC);
+            familyMemoryPictureRepository.save(memoryPic);
+            return "memoryPic successfully made public";
+        }catch (Exception e){
+            return "error making public picture : " + e.getMessage();
+        }
+
+    }
+
+    @Override
+    public String makeShared(Long id, String owner) {
+
+        try {
+            FamilyMemoryPicture memoryPic = familyMemoryPictureRepository.getByIdAndOwner(id, owner);
+            memoryPic.setVisibility(ElementVisibility.SHARED);
+            familyMemoryPictureRepository.save(memoryPic);
+            return "memoryPic successfully shared";
+        }catch (Exception e){
+            return "error making shared picture : " + e.getMessage();
+        }
+    }
+
+    @Override
     public Iterable<FamilyMemoryPicture> getAllElementsByDate(Date date) {
         synchronizeSizeTracker();
         List<FamilyMemoryPicture> pictureList = new ArrayList<>();

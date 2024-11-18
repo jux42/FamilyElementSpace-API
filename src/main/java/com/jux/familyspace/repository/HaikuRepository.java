@@ -18,4 +18,6 @@ public interface HaikuRepository extends JpaRepository<Haiku, Long> {
     Iterable<Haiku> getByVisibility(ElementVisibility elementVisibility);
 
     Iterable<Haiku> getByOwnerAndVisibility(String owner, ElementVisibility elementVisibility);
+
+    Haiku getByIdAndOwner(Long id, String owner);
 }

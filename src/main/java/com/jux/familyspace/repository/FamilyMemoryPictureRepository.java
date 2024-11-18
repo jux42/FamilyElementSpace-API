@@ -18,4 +18,6 @@ public interface FamilyMemoryPictureRepository extends JpaRepository<FamilyMemor
     Iterable<FamilyMemoryPicture> getByVisibility(ElementVisibility visibility);
 
     Iterable<FamilyMemoryPicture> getByOwnerAndVisibility(String owner, ElementVisibility visibility);
+
+    FamilyMemoryPicture getByIdAndOwner(Long id, String owner);
 }

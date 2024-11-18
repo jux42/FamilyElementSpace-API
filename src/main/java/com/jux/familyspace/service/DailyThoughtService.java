@@ -49,14 +49,6 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
     public Iterable<DailyThought> getPublicElements() {
         synchronizeSizeTracker();
         return dailyThoughtRepository.getByVisibility(ElementVisibility.PUBLIC);
-
-//        List<DailyThought> publicDailyList = new ArrayList<>();
-//        this.dailyThoughts.iterator().forEachRemaining(dailyThought -> {
-//            if (dailyThought.getVisibility() == ElementVisibility.PUBLIC) {
-//                publicDailyList.add(dailyThought);
-//            }
-//        });
-//        return publicDailyList;
     }
 
     @Override
@@ -64,15 +56,34 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
         synchronizeSizeTracker();
 
         return dailyThoughtRepository.getByOwnerAndVisibility(owner, ElementVisibility.SHARED);
-//        synchronizeSizeTracker();
-//        List<DailyThought> sharedDailyList = new ArrayList<>();
-//        this.dailyThoughts.iterator().forEachRemaining(dailyThought -> {
-//            if (dailyThought.getVisibility() == ElementVisibility.SHARED &&
-//                    dailyThought.getOwner().equals(owner)) {
-//                sharedDailyList.add(dailyThought);
-//            }
-//        });
-//        return sharedDailyList;
+
+    }
+
+    @Override
+    public String makePublic(Long id, String owner) {
+
+        try {
+            DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
+            dailyThought.setVisibility(ElementVisibility.PUBLIC);
+            dailyThoughtRepository.save(dailyThought);
+            return "thought successfully made public";
+        }catch (Exception e){
+            return "error making public : " + e.getMessage();
+        }
+
+    }
+
+    @Override
+    public String makeShared(Long id, String owner) {
+
+        try {
+            DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
+            dailyThought.setVisibility(ElementVisibility.SHARED);
+            dailyThoughtRepository.save(dailyThought);
+            return "haiku successfully shared";
+        }catch (Exception e){
+            return "error making shared : " + e.getMessage();
+        }
     }
 
     @Override

@@ -19,4 +19,6 @@ public interface DailyThoughtRepository extends JpaRepository<DailyThought, Long
     Iterable<DailyThought> getByOwnerAndVisibility(String owner, ElementVisibility visibility);
 
     Iterable<DailyThought> getByVisibility(ElementVisibility elementVisibility);
+
+    DailyThought getByIdAndOwner(Long id, String owner);
 }
