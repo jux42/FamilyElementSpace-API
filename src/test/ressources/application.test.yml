@@ -1,0 +1,18 @@
+logging:
+    level:
+        org:
+            springframework:
+                security: DEBUG
+server:
+    address: 0.0.0.0
+spring:
+    application:
+        name: FamilySpace
+
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            naming:
+                physical:
+                   strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
