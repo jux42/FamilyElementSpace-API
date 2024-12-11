@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.reactivestreams.Publisher;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class HaikuServiceTest {
         haiku2.setOwner("jux");
 
         List<Haiku> haikuList = Arrays.asList(haiku1, haiku2);
-        when( haikuRepository.getByOwner("jux")).thenReturn(haikuList);
+        when(haikuRepository.getByOwner("jux")).thenReturn(haikuList);
 
         //When
         Iterable<Haiku> actualList = haikuService.getAllElements("jux");
@@ -83,7 +84,7 @@ public class HaikuServiceTest {
 
         //Given
         haiku1.setOwner("jux");
-        haiku2.setOwner("jux");
+        haiku2.setOwner("xour");
         haiku1.setVisibility(ElementVisibility.PUBLIC);
 
         when(haikuRepository.getByVisibility(ElementVisibility.PUBLIC)).thenReturn(Arrays.asList(haiku1));
@@ -97,4 +98,66 @@ public class HaikuServiceTest {
         assertThat(publicHaikus).isEqualTo(Arrays.asList(haiku1));
         assertThat(publicHaikus.iterator().next().getVisibility()).isEqualTo(ElementVisibility.PUBLIC);
     }
+
+    @Test
+    @DisplayName("should return empty arraylist if no public haiku is found")
+    public void ReturnEmptyList_NoPublicHaikuFound() {
+
+        //Given
+        Iterable<Haiku> publicHaikusEmpty = new ArrayList<>();
+
+        when(haikuRepository.getByVisibility(ElementVisibility.PUBLIC)).thenReturn(publicHaikusEmpty);
+
+        //When
+        Iterable<Haiku> actualPublicHaikus = haikuService.getPublicElements();
+
+        verify(haikuRepository).getByVisibility(ElementVisibility.PUBLIC);
+        assertThat(actualPublicHaikus).isEqualTo(publicHaikusEmpty);
+        assertThat(actualPublicHaikus.iterator().hasNext()).isFalse();
+    }
+
+
+    @Test
+    @DisplayName("should only return haikus marked as shared for one owner")
+    void shouldOnlyReturnHaikusMarkedAsShared() {
+
+        //Given
+        haiku1.setOwner("jux");
+        haiku2.setOwner("jux");
+        haiku1.setVisibility(ElementVisibility.SHARED);
+
+        when(haikuRepository.getByOwnerAndVisibility("jux", ElementVisibility.SHARED)).thenReturn(Arrays.asList(haiku1));
+
+        //When
+        Iterable<Haiku> publicHaikus = haikuService.getSharedElements("jux");
+
+        //Then
+
+        verify(haikuRepository).getByOwnerAndVisibility("jux", ElementVisibility.SHARED);
+        assertThat(publicHaikus).isEqualTo(Arrays.asList(haiku1));
+        assertThat(publicHaikus.iterator().next().getVisibility()).isEqualTo(ElementVisibility.SHARED);
+    }
+
+    @Test
+    @DisplayName("should turn private haiku into public")
+    void shouldReturnHaikuIntoPublic() throws CloneNotSupportedException {
+
+        //Given
+        haiku1.setOwner("jux");
+
+        when(haikuRepository.getByIdAndOwner(haiku1.getId(), "jux")).thenReturn(haiku1);
+
+       //When
+        haikuService.makePublic(haiku1.getId(), haiku1.getOwner());
+
+
+        //Then
+        verify(haikuRepository).getByIdAndOwner(haiku1.getId(), "jux");
+        assertThat(haiku1.getVisibility()).isEqualTo(ElementVisibility.PUBLIC);
+        assertThat(haiku2.getVisibility()).isEqualTo(ElementVisibility.PRIVATE);
+
+    }
+
+
+
 }
