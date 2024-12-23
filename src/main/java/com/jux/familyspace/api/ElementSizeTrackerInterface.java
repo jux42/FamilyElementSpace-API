@@ -3,9 +3,9 @@ package com.jux.familyspace.api;
 public interface ElementSizeTrackerInterface<T> {
 
 
-    int getTotalSize();
+    long getTotalSize();
 
-    void setTotalSize(int size);
+    void setTotalSize(long size);
 
     void incrementSize(int delta);
 
