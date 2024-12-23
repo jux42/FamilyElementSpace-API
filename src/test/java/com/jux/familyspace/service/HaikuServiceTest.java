@@ -4,9 +4,6 @@ import com.jux.familyspace.component.HaikuSizeTracker;
 import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +11,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.reactivestreams.Publisher;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 
@@ -165,7 +159,7 @@ public class HaikuServiceTest {
 
     @Test
     @DisplayName("should turn private haiku into public")
-    void testHaikuIntoPublic() throws CloneNotSupportedException {
+    void testHaikuIntoPublic() {
 
         //Given
         haiku1.setOwner("jux");
@@ -186,7 +180,7 @@ public class HaikuServiceTest {
 
     @Test
     @DisplayName("should turn private haiku into shared")
-    void testHaikuIntoShared() throws CloneNotSupportedException {
+    void testHaikuIntoShared() {
 
         //Given
         haiku1.setOwner("jux");
@@ -239,7 +233,7 @@ public class HaikuServiceTest {
 
     @Test
     @DisplayName("should create an haiku and call implementation of abstract adder")
-    void testCreateHaikuAndPersist() throws CloneNotSupportedException {
+    void testCreateHaikuAndPersist() {
 
         //Given
         Haiku haiku3 = Haiku.builder()

@@ -4,7 +4,6 @@ import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.model.FamilyMemoryPicture;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
