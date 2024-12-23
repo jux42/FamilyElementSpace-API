@@ -5,19 +5,20 @@ import com.jux.familyspace.model.FamilyMemoryPicture;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class FamilyMemoryPictureSizeTracker implements ElementSizeTrackerInterface<FamilyMemoryPicture> {
 
-    private final AtomicInteger totalMemoryPicsSize = new AtomicInteger();
+    private final AtomicLong totalMemoryPicsSize = new AtomicLong();
 
     @Override
-    public int getTotalSize() {
+    public long getTotalSize() {
         return totalMemoryPicsSize.get();
     }
 
     @Override
-    public void setTotalSize(int size) {
+    public void setTotalSize(long size) {
         totalMemoryPicsSize.set(size);
     }
 

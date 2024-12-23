@@ -30,6 +30,12 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     }
 
     @Override
+    public Haiku getElement(Long id) {
+        return haikuRepository.findById(id).orElse(null);
+    }
+
+
+    @Override
     public Iterable<Haiku> getPublicElements() {
        return haikuRepository.getByVisibility(ElementVisibility.PUBLIC);
     }
@@ -71,18 +77,16 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     public Iterable<Haiku> getAllElementsByDate(Date date) {
     synchronizeSizeTracker();
         List<Haiku> haikuList = new ArrayList<>();
-        this.haikus.iterator().forEachRemaining(haiku -> {
-            if (haiku.getDate().equals(date)) {
-                haikuList.add(haiku);
-            }
-        });
-        return haikuList;
+        if (this.haikus != null) {
+            this.haikus.iterator().forEachRemaining(haiku -> {
+                if (haiku.getDate().equals(date)) {
+                    haikuList.add(haiku);
+                }
+            });
+        }
+        return haikus == null ? haikuRepository.getHaikusByDate(date) : haikuList;
     }
 
-    @Override
-    public Haiku getElement(Long id) {
-        return haikuRepository.findById(id).orElse(null);
-    }
 
     @Override
     public String addElement(Haiku element) {
@@ -111,7 +115,7 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
     @Override
     public void synchronizeSizeTracker() {
-        int actualSize = (int) haikuRepository.count();
+        long actualSize = haikuRepository.count();
         if (actualSize != sizeTracker.getTotalSize()) {
             sizeTracker.setTotalSize(actualSize);
             haikus = haikuRepository.findAll();

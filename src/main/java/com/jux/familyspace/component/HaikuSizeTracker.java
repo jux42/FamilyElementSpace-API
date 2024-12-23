@@ -5,19 +5,20 @@ import com.jux.familyspace.model.Haiku;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class HaikuSizeTracker implements ElementSizeTrackerInterface<Haiku> {
 
-    private final AtomicInteger totalHaikusSize = new AtomicInteger();
+    private final AtomicLong totalHaikusSize = new AtomicLong();
 
     @Override
-    public int getTotalSize() {
+    public long getTotalSize() {
         return totalHaikusSize.get();
     }
 
     @Override
-    public void setTotalSize(int size) {
+    public void setTotalSize(long size) {
         totalHaikusSize.set(size);
     }
 
