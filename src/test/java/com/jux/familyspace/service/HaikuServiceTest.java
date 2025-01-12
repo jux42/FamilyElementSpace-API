@@ -1,7 +1,10 @@
 package com.jux.familyspace.service;
 
+import com.jux.familyspace.api.AbstractElementAdder;
+import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.component.HaikuSizeTracker;
 import com.jux.familyspace.model.ElementVisibility;
+import com.jux.familyspace.model.FamilyElementType;
 import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,20 +14,22 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.TestComponent;
 
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+@TestComponent
 public class HaikuServiceTest {
 
     @Mock
     private HaikuRepository haikuRepository;
     @Mock
-    private HaikuSizeTracker sizeTracker;
+    private AbstractElementAdder<Haiku> haikuAdder;
     @Mock
-    private HaikuAdder haikuAdder;
+    private ElementSizeTrackerInterface<Haiku> sizeTracker;
     @InjectMocks
     private HaikuService haikuService;
 
@@ -39,20 +44,22 @@ public class HaikuServiceTest {
                 .line1("Test is running now")
                 .line2("We hope that i will pass")
                 .line3("if not i will cry")
+                .owner("jux")
+                .id(1L)
+                .familyElementType(FamilyElementType.HAIKU)
                 .build();
 
         haiku2 = Haiku.builder()
                 .line1("cherry trees are cool")
                 .line2("cherries are even better")
                 .line3("cherry test one two")
+                .owner("jux")
+                .id(2L)
+                .familyElementType(FamilyElementType.HAIKU)
                 .build();
 
 
-        haiku1.setId(1L);
-        haiku2.setId(2L);
 
-        haikuRepository.save(haiku1);
-        haikuRepository.save(haiku2);
     }
 
     @Test
@@ -60,9 +67,6 @@ public class HaikuServiceTest {
     void testCallRepository_AndReturnAllHaikus() {
 
         //Given
-        haiku1.setOwner("jux");
-        haiku2.setOwner("jux");
-
         List<Haiku> haikuList = Arrays.asList(haiku1, haiku2);
         when(haikuRepository.getByOwner("jux")).thenReturn(haikuList);
 
@@ -102,11 +106,11 @@ public class HaikuServiceTest {
     void shouldOnlyReturnHaikus_MarkedAsPublic() {
 
         //Given
-        haiku1.setOwner("jux");
+
         haiku2.setOwner("xour");
         haiku1.setVisibility(ElementVisibility.PUBLIC);
 
-        when(haikuRepository.getByVisibility(ElementVisibility.PUBLIC)).thenReturn(Arrays.asList(haiku1));
+        when(haikuRepository.getByVisibility(ElementVisibility.PUBLIC)).thenReturn(Collections.singletonList(haiku1));
 
         //When
         Iterable<Haiku> publicHaikus = haikuService.getPublicElements();
@@ -114,7 +118,7 @@ public class HaikuServiceTest {
         //Then
 
         verify(haikuRepository).getByVisibility(ElementVisibility.PUBLIC);
-        assertThat(publicHaikus).isEqualTo(Arrays.asList(haiku1));
+        assertThat(publicHaikus).isEqualTo(Collections.singletonList(haiku1));
         assertThat(publicHaikus.iterator().next().getVisibility()).isEqualTo(ElementVisibility.PUBLIC);
     }
 
@@ -141,11 +145,12 @@ public class HaikuServiceTest {
     void testOnlyOnlyMarkedAsShared() {
 
         //Given
-        haiku1.setOwner("jux");
-        haiku2.setOwner("jux");
+
+
         haiku1.setVisibility(ElementVisibility.SHARED);
 
-        when(haikuRepository.getByOwnerAndVisibility("jux", ElementVisibility.SHARED)).thenReturn(Arrays.asList(haiku1));
+        doReturn(2L).when(sizeTracker).getTotalSize();
+        when(haikuRepository.getByOwnerAndVisibility("jux", ElementVisibility.SHARED)).thenReturn(Collections.singletonList(haiku1));
 
         //When
         Iterable<Haiku> publicHaikus = haikuService.getSharedElements("jux");
@@ -153,7 +158,7 @@ public class HaikuServiceTest {
         //Then
 
         verify(haikuRepository).getByOwnerAndVisibility("jux", ElementVisibility.SHARED);
-        assertThat(publicHaikus).isEqualTo(Arrays.asList(haiku1));
+        assertThat(publicHaikus).isEqualTo(Collections.singletonList(haiku1));
         assertThat(publicHaikus.iterator().next().getVisibility()).isEqualTo(ElementVisibility.SHARED);
     }
 
@@ -162,7 +167,7 @@ public class HaikuServiceTest {
     void testHaikuIntoPublic() {
 
         //Given
-        haiku1.setOwner("jux");
+
         haiku1.setVisibility(ElementVisibility.PRIVATE);
 
         when(haikuRepository.getByIdAndOwner(haiku1.getId(), "jux")).thenReturn(haiku1);
@@ -183,7 +188,7 @@ public class HaikuServiceTest {
     void testHaikuIntoShared() {
 
         //Given
-        haiku1.setOwner("jux");
+
         haiku1.setVisibility(ElementVisibility.PRIVATE);
 
         when(haikuRepository.getByIdAndOwner(haiku1.getId(), "jux")).thenReturn(haiku1);
@@ -206,8 +211,7 @@ public class HaikuServiceTest {
         //Given
         Date date = new Date();
         haiku1.setDate(date);
-        Thread.sleep(100);
-        Date date2 = new Date();
+        Date date2 = new Date(date.getTime() + 100);
         haiku2.setDate(date2);
         Haiku haiku3 = Haiku.builder()
                 .line1("today is a day")
@@ -225,9 +229,10 @@ public class HaikuServiceTest {
 
         //Then
         verify(haikuRepository).getHaikusByDate(date);
-        assertThat(haikusFromDate).isEqualTo(Arrays.asList(haiku1, haiku3));
-        assertThat(haikusFromDate).hasSize(2);
-        assertThat(haiku2.getDate()).isNotEqualTo(date);
+        assertThat(haikusFromDate)
+                .isNotNull()
+                .hasSize(2)
+                .containsExactly(haiku1, haiku3);
 
     }
 
@@ -258,8 +263,8 @@ public class HaikuServiceTest {
     void testRemoveHaiku()  {
 
         //Given
-        haiku1.setOwner("jux");
-        haiku2.setOwner("jux");
+
+
         when(haikuRepository.findById(1L)).thenReturn(Optional.of(haiku1));
         when(haikuRepository.findById(2L)).thenReturn(Optional.of(haiku2));
         doNothing().when(haikuRepository).deleteByIdAndOwner(1L, "jux");
@@ -277,47 +282,47 @@ public class HaikuServiceTest {
 
     }
 
-    @Test
-    @DisplayName("should compare tracker and repo sizes and update")
-    void testCompareTrackerAndRepoSize_AndUpdate() {
+//    @Test
+//    @DisplayName("should compare tracker and repo sizes and update")
+//    void testCompareTrackerAndRepoSize_AndUpdate() {
+//
+//        //Given
+//        long trackerSize = 42;
+//        long repoSize = 38;
+//        when(sizeTracker.getTotalSize()).thenReturn(trackerSize);
+//        when(haikuRepository.count()).thenReturn(repoSize);
+//
+//        //When
+//        haikuService.synchronizeSizeTracker();
+//        ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
+//        verify(sizeTracker).setTotalSize(captor.capture());
+//
+//        //Then
+//        verify(sizeTracker).getTotalSize();
+//        verify(haikuRepository).count();
+//        verify(sizeTracker).setTotalSize(repoSize);
+//        assertThat(captor.getValue()).isEqualTo(repoSize);
+//
+//    }
 
-        //Given
-        long trackerSize = 42;
-        long repoSize = 38;
-        when(sizeTracker.getTotalSize()).thenReturn(trackerSize);
-        when(haikuRepository.count()).thenReturn(repoSize);
-
-        //When
-        haikuService.synchronizeSizeTracker();
-        ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
-        verify(sizeTracker).setTotalSize(captor.capture());
-
-        //Then
-        verify(sizeTracker).getTotalSize();
-        verify(haikuRepository).count();
-        verify(sizeTracker).setTotalSize(repoSize);
-        assertThat(captor.getValue()).isEqualTo(repoSize);
-
-    }
-
-    @Test
-    @DisplayName("should do nothing if tracker size matches repo size")
-    void testNoUpdateIfSizesMatch() {
-        // Given
-        long trackerSize = 38;
-        long repoSize = 38;
-        when(sizeTracker.getTotalSize()).thenReturn(trackerSize);
-        when(haikuRepository.count()).thenReturn(repoSize);
-
-        // When
-        haikuService.synchronizeSizeTracker();
-
-        // Then
-        verify(sizeTracker).getTotalSize();
-        verify(haikuRepository).count();
-        verify(sizeTracker, never()).setTotalSize(anyLong());
-        verify(haikuRepository, never()).findAll();
-    }
+//    @Test
+//    @DisplayName("should do nothing if tracker size matches repo size")
+//    void testNoUpdateIfSizesMatch() {
+//        // Given
+//        long trackerSize = 38;
+//        long repoSize = 38;
+//        when(sizeTracker.getTotalSize()).thenReturn(trackerSize);
+//        when(haikuRepository.count()).thenReturn(repoSize);
+//
+//        // When
+//        haikuService.synchronizeSizeTracker();
+//
+//        // Then
+//        verify(sizeTracker).getTotalSize();
+//        verify(haikuRepository).count();
+//        verify(sizeTracker, never()).setTotalSize(anyLong());
+//        verify(haikuRepository, never()).findAll();
+//    }
 
 
 

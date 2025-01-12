@@ -1,5 +1,7 @@
 package com.jux.familyspace.service;
 
+import com.jux.familyspace.api.AbstractElementAdder;
+import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.FamilyMemoryPictureSizeTracker;
 import com.jux.familyspace.model.ElementVisibility;
@@ -19,10 +21,10 @@ import java.util.List;
 public class FamilyMemoryPictureService implements FamilyElementServiceInterface<FamilyMemoryPicture> {
 
     private final FamilyMemoryPictureRepository familyMemoryPictureRepository;
-    private final FamilyMemoryPictureSizeTracker sizeTracker;
-    private final FamilyMemoryPictureAdder familyMemoryPictureAdder;
+    private final ElementSizeTrackerInterface<FamilyMemoryPicture> sizeTracker;
+    private final AbstractElementAdder<FamilyMemoryPicture> familyMemoryPictureAdder;
 
-    private List<FamilyMemoryPicture> pictures;
+    private Iterable<FamilyMemoryPicture> pictures;
 
     @Override
     public Iterable<FamilyMemoryPicture> getAllElements(String owner) {
@@ -69,14 +71,7 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
 
     @Override
     public Iterable<FamilyMemoryPicture> getAllElementsByDate(Date date) {
-        synchronizeSizeTracker();
-        List<FamilyMemoryPicture> pictureList = new ArrayList<>();
-        pictures.iterator().forEachRemaining(memoryPicture -> {
-            if (memoryPicture.getDate().equals(date)) {
-                pictureList.add(memoryPicture);
-            }
-        });
-        return pictureList;
+        return familyMemoryPictureRepository.getFamilyMemoryPicturesByDate(date);
     }
 
     @Override
@@ -108,8 +103,9 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
         }
     }
 
-    public void synchronizeSizeTracker() {
-        int actualSize = (int) familyMemoryPictureRepository.count();
+    private void synchronizeSizeTracker() {
+        System.out.println("tracker called");
+        long actualSize = familyMemoryPictureRepository.count();
         if (actualSize != sizeTracker.getTotalSize()) {
             sizeTracker.setTotalSize(actualSize);
             pictures = familyMemoryPictureRepository.findAll();
