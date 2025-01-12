@@ -1,5 +1,7 @@
 package com.jux.familyspace.service;
 
+import com.jux.familyspace.api.AbstractElementAdder;
+import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.HaikuSizeTracker;
 import com.jux.familyspace.model.ElementVisibility;
@@ -19,8 +21,8 @@ import java.util.List;
 public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
     private final HaikuRepository haikuRepository;
-    private final HaikuSizeTracker sizeTracker;
-    private final HaikuAdder haikuAdder;
+    private final ElementSizeTrackerInterface<Haiku> sizeTracker;
+    private final AbstractElementAdder<Haiku> haikuAdder;
     private Iterable<Haiku> haikus;
 
 
@@ -113,8 +115,8 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
         }
     }
 
-    @Override
-    public void synchronizeSizeTracker() {
+    private void synchronizeSizeTracker() {
+        System.out.println("tracker called");
         long actualSize = haikuRepository.count();
         if (actualSize != sizeTracker.getTotalSize()) {
             sizeTracker.setTotalSize(actualSize);

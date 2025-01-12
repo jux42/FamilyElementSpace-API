@@ -1,5 +1,6 @@
 package com.jux.familyspace.service;
 
+import com.jux.familyspace.api.AbstractElementAdder;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.DailyThoughtSizeTracker;
 import com.jux.familyspace.model.DailyThought;
@@ -19,7 +20,7 @@ import java.util.List;
 public class DailyThoughtService implements FamilyElementServiceInterface<DailyThought> {
     private final DailyThoughtRepository dailyThoughtRepository;
     private final DailyThoughtSizeTracker sizeTracker;
-    private final DailyThoughtAdder dailyThoughtAdder;
+    private final AbstractElementAdder<DailyThought> dailyThoughtAdder;
     private Iterable<DailyThought> dailyThoughts;
 
 
@@ -30,14 +31,8 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
 
     @Override
     public Iterable<DailyThought> getAllElementsByDate(Date date) {
-        synchronizeSizeTracker();
-        List<DailyThought> dailyThoughtList = new ArrayList<>();
-        dailyThoughts.iterator().forEachRemaining(dailyThought -> {
-            if (dailyThought.getDate().equals(date)) {
-                dailyThoughtList.add(dailyThought);
-            }
-        });
-        return dailyThoughtList;
+
+         return dailyThoughtRepository.getDailyThoughtByDate(date);
     }
 
     @Override
@@ -67,7 +62,7 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
             dailyThought.setVisibility(ElementVisibility.PUBLIC);
             dailyThoughtRepository.save(dailyThought);
             return "thought successfully made public";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "error making public : " + e.getMessage();
         }
 
@@ -81,7 +76,7 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
             dailyThought.setVisibility(ElementVisibility.SHARED);
             dailyThoughtRepository.save(dailyThought);
             return "haiku successfully shared";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "error making shared : " + e.getMessage();
         }
     }
@@ -111,7 +106,7 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
         }
     }
 
-    public void synchronizeSizeTracker() {
+    private void synchronizeSizeTracker() {
         int actualSize = (int) dailyThoughtRepository.count();
         if (actualSize != sizeTracker.getTotalSize()) {
             sizeTracker.setTotalSize(actualSize);
