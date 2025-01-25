@@ -6,7 +6,6 @@ import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyUserRepository;
 import jakarta.persistence.PrePersist;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -42,16 +40,8 @@ public class AuthService {
     public void register(String username, String password, Boolean isFamily) throws IOException {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = bCryptPasswordEncoder.encode(password);
-        byte[] image = new byte[0];
-        try {
-            Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
-            image = Files.readAllBytes(imagePath);
-        }catch (Exception e){
-            log.error(e.getMessage());
-            image = "no image".getBytes();
-
-        }
-
+        Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
+        byte[] image = Files.readAllBytes(imagePath);
         FamilyMember familyMember = FamilyMember.builder()
                 .tagline("i am new here")
                 .avatar(image)
