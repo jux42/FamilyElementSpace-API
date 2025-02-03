@@ -31,9 +31,9 @@ public class FamilyMemberController {
     }
 
     @GetMapping("details")
-    public ResponseEntity<FamilyMember> getCurrentUser(Principal principal) {
+    public ResponseEntity<FamilyMemberDto> getCurrentUserDto(Principal principal) {
         try {
-            return ResponseEntity.ok(familyMemberService.getCurrentUserByName(principal.getName()));
+            return ResponseEntity.ok(familyMemberService.getMemberDto(principal));
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -65,6 +65,8 @@ public class FamilyMemberController {
     public ResponseEntity<String> shareHaiku(@PathVariable Long id, Principal principal){
         return ResponseEntity.ok(haikuService.makeShared(id, principal.getName()));
     }
+
+
     @PostMapping("/thought/public/{id}")
     public ResponseEntity<String> makeThoughtPublic(@PathVariable Long id, Principal principal){
         return ResponseEntity.ok(dailyThoughtService.makePublic(id, principal.getName()));
@@ -84,5 +86,34 @@ public class FamilyMemberController {
         return ResponseEntity.ok(familyMemoryPictureService.makeShared(id, principal.getName()));
     }
 
+    @PostMapping("/haiku/pin/{id}")
+    public ResponseEntity<String> pinHaiku(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(haikuService.markAsPinned(id, principal.getName()));
+    }
+
+    @PostMapping("/haiku/unpin/{id}")
+    public ResponseEntity<String> unpinHaiku(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(haikuService.unpin(id, principal.getName()));
+    }
+
+    @PostMapping("/thought/pin/{id}")
+    public ResponseEntity<String> pinThought(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(dailyThoughtService.markAsPinned(id, principal.getName()));
+    }
+
+    @PostMapping("/thought/unpin/{id}")
+    public ResponseEntity<String> unpinThought(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(dailyThoughtService.unpin(id, principal.getName()));
+    }
+
+    @PostMapping("/memorypic/pin/{id}")
+    public ResponseEntity<String> pinPicture(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(familyMemoryPictureService.markAsPinned(id, principal.getName()));
+    }
+
+    @PostMapping("/memorypic/unpin/{id}")
+    public ResponseEntity<String> unpinPicture(@PathVariable Long id, Principal principal){
+        return ResponseEntity.ok(familyMemoryPictureService.unpin(id, principal.getName()));
+    }
 
 }

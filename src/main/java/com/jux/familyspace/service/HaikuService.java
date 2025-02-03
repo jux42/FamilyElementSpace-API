@@ -3,7 +3,6 @@ package com.jux.familyspace.service;
 import com.jux.familyspace.api.AbstractElementAdder;
 import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
-import com.jux.familyspace.component.HaikuSizeTracker;
 import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
@@ -74,6 +73,31 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
             return "error making shared : " + e.getMessage();
         }
    }
+
+   public String markAsPinned(Long id, String owner) {
+
+        try {
+            Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
+            haiku.setPinned(true);
+            haikuRepository.save(haiku);
+            return "haiku successfully pinned";
+        }catch (Exception e){
+            return "error making pinned : " + e.getMessage();
+        }
+   }
+
+   public String unpin(Long id, String owner) {
+
+       try {
+           Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
+           haiku.setPinned(false);
+           haikuRepository.save(haiku);
+           return "haiku successfully unpinned";
+       }catch (Exception e){
+           return "error while unpinning : " + e.getMessage();
+       }
+   }
+
 
     @Override
     public Iterable<Haiku> getAllElementsByDate(Date date) {

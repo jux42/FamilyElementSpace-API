@@ -28,6 +28,9 @@ public abstract class FamilyMemberElement {
     @Builder.Default
     private ElementVisibility visibility = ElementVisibility.PRIVATE;
 
+    @Builder.Default
+    private Boolean pinned = Boolean.FALSE;
+
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;

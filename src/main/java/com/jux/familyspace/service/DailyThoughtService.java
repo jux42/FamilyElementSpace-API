@@ -10,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -78,6 +76,30 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
             return "haiku successfully shared";
         } catch (Exception e) {
             return "error making shared : " + e.getMessage();
+        }
+    }
+
+    public String markAsPinned(Long id, String owner) {
+
+        try {
+            DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
+            dailyThought.setPinned(true);
+            dailyThoughtRepository.save(dailyThought);
+            return "Thought successfully pinned";
+        }catch (Exception e){
+            return "error making pinned : " + e.getMessage();
+        }
+    }
+
+    public String unpin(Long id, String owner) {
+
+        try {
+            DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
+            dailyThought.setPinned(false);
+            dailyThoughtRepository.save(dailyThought);
+            return "Thought successfully unpinned";
+        }catch (Exception e){
+            return "error while unpinning : " + e.getMessage();
         }
     }
 

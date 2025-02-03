@@ -7,11 +7,11 @@ import com.jux.familyspace.model.FamilyMemberOneTypeDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface FamilyMemberDtoMapperInterface<T extends FamilyMemberElement> {
+public interface FamilyMemberOneTypeDtoMapperInterface<T extends FamilyMemberElement> {
 
     Class<T> getElementType();
 
-    default FamilyMemberOneTypeDto getMemberDto(FamilyMember member) {
+    default FamilyMemberOneTypeDto getOneTypeMemberDto(FamilyMember member) {
         List<FamilyMemberElement> filteredElements = member.getElements().stream()
                 .filter(element -> getElementType().isInstance(element))
                 .map(element -> getElementType().cast(element))
