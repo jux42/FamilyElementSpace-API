@@ -199,7 +199,7 @@ public class FamilyMemoryPictureTest {
 
     @Test
     @DisplayName("Should return all elements from a specified date")
-    void testElements_FromDate() throws InterruptedException {
+    void testElements_FromDate() {
 
         //Given
         Date date = new Date();
