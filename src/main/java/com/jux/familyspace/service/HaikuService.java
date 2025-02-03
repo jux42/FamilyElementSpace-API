@@ -3,7 +3,6 @@ package com.jux.familyspace.service;
 import com.jux.familyspace.api.AbstractElementAdder;
 import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
-import com.jux.familyspace.component.HaikuSizeTracker;
 import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;

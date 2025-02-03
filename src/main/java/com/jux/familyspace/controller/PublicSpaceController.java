@@ -1,10 +1,14 @@
 package com.jux.familyspace.controller;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
-import com.jux.familyspace.model.*;
+import com.jux.familyspace.model.DailyThought;
+import com.jux.familyspace.model.FamilyMemoryPicture;
+import com.jux.familyspace.model.Haiku;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/public")
 @RestController

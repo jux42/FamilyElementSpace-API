@@ -5,15 +5,12 @@ import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.DailyThoughtSizeTracker;
 import com.jux.familyspace.model.DailyThought;
 import com.jux.familyspace.model.ElementVisibility;
-import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Service
