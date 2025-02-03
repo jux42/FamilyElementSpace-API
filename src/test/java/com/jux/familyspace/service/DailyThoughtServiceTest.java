@@ -3,17 +3,20 @@ package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.AbstractElementAdder;
 import com.jux.familyspace.component.DailyThoughtSizeTracker;
-import com.jux.familyspace.model.DailyThought;
-import com.jux.familyspace.model.ElementVisibility;
-import com.jux.familyspace.model.FamilyElementType;
+import com.jux.familyspace.model.*;
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.TestComponent;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 import java.util.*;
 
