@@ -5,6 +5,7 @@ import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.DailyThoughtSizeTracker;
 import com.jux.familyspace.model.DailyThought;
 import com.jux.familyspace.model.ElementVisibility;
+import com.jux.familyspace.model.Haiku;
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,6 +79,30 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
             return "haiku successfully shared";
         } catch (Exception e) {
             return "error making shared : " + e.getMessage();
+        }
+    }
+
+    public String markAsPinned(Long id, String owner) {
+
+        try {
+            DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
+            dailyThought.setPinned(true);
+            dailyThoughtRepository.save(dailyThought);
+            return "Thought successfully pinned";
+        }catch (Exception e){
+            return "error making pinned : " + e.getMessage();
+        }
+    }
+
+    public String unpin(Long id, String owner) {
+
+        try {
+            DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
+            dailyThought.setPinned(false);
+            dailyThoughtRepository.save(dailyThought);
+            return "Thought successfully unpinned";
+        }catch (Exception e){
+            return "error while unpinning : " + e.getMessage();
         }
     }
 

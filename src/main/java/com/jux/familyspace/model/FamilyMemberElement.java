@@ -1,6 +1,7 @@
 package com.jux.familyspace.model;
 
 import jakarta.persistence.*;
+import jdk.jfr.BooleanFlag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,9 @@ public abstract class FamilyMemberElement {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private ElementVisibility visibility = ElementVisibility.PRIVATE;
+
+    @Builder.Default
+    private Boolean pinned = Boolean.FALSE;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

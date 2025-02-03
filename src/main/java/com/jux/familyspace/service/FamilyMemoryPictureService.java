@@ -4,6 +4,7 @@ import com.jux.familyspace.api.AbstractElementAdder;
 import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.component.FamilyMemoryPictureSizeTracker;
+import com.jux.familyspace.model.DailyThought;
 import com.jux.familyspace.model.ElementVisibility;
 import com.jux.familyspace.model.FamilyMemoryPicture;
 import com.jux.familyspace.repository.FamilyMemoryPictureRepository;
@@ -66,6 +67,30 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
             return "memoryPic successfully shared";
         }catch (Exception e){
             return "error making shared picture : " + e.getMessage();
+        }
+    }
+
+    public String markAsPinned(Long id, String owner) {
+
+        try {
+            FamilyMemoryPicture memoryPicture = familyMemoryPictureRepository.getByIdAndOwner(id, owner);
+            memoryPicture.setPinned(true);
+            familyMemoryPictureRepository.save(memoryPicture);
+            return "Picture successfully pinned";
+        }catch (Exception e){
+            return "error making pinned : " + e.getMessage();
+        }
+    }
+
+    public String unpin(Long id, String owner) {
+
+        try {
+            FamilyMemoryPicture memoryPicture = familyMemoryPictureRepository.getByIdAndOwner(id, owner);
+            memoryPicture.setPinned(false);
+            familyMemoryPictureRepository.save(memoryPicture);
+            return "Picture successfully unpinned";
+        }catch (Exception e){
+            return "error while unpinning : " + e.getMessage();
         }
     }
 

@@ -75,6 +75,31 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
         }
    }
 
+   public String markAsPinned(Long id, String owner) {
+
+        try {
+            Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
+            haiku.setPinned(true);
+            haikuRepository.save(haiku);
+            return "haiku successfully pinned";
+        }catch (Exception e){
+            return "error making pinned : " + e.getMessage();
+        }
+   }
+
+   public String unpin(Long id, String owner) {
+
+       try {
+           Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
+           haiku.setPinned(false);
+           haikuRepository.save(haiku);
+           return "haiku successfully unpinned";
+       }catch (Exception e){
+           return "error while unpinning : " + e.getMessage();
+       }
+   }
+
+
     @Override
     public Iterable<Haiku> getAllElementsByDate(Date date) {
     synchronizeSizeTracker();
