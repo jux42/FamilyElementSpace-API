@@ -204,7 +204,7 @@ public class HaikuServiceTest {
 
     @Test
     @DisplayName("Should return all elements from a specified date")
-    void testElements_FromDate() throws InterruptedException {
+    void testElements_FromDate(){
 
         //Given
         Date date = new Date();
@@ -279,49 +279,6 @@ public class HaikuServiceTest {
 
 
     }
-
-//    @Test
-//    @DisplayName("should compare tracker and repo sizes and update")
-//    void testCompareTrackerAndRepoSize_AndUpdate() {
-//
-//        //Given
-//        long trackerSize = 42;
-//        long repoSize = 38;
-//        when(sizeTracker.getTotalSize()).thenReturn(trackerSize);
-//        when(haikuRepository.count()).thenReturn(repoSize);
-//
-//        //When
-//        haikuService.synchronizeSizeTracker();
-//        ArgumentCaptor<Long> captor = ArgumentCaptor.forClass(Long.class);
-//        verify(sizeTracker).setTotalSize(captor.capture());
-//
-//        //Then
-//        verify(sizeTracker).getTotalSize();
-//        verify(haikuRepository).count();
-//        verify(sizeTracker).setTotalSize(repoSize);
-//        assertThat(captor.getValue()).isEqualTo(repoSize);
-//
-//    }
-
-//    @Test
-//    @DisplayName("should do nothing if tracker size matches repo size")
-//    void testNoUpdateIfSizesMatch() {
-//        // Given
-//        long trackerSize = 38;
-//        long repoSize = 38;
-//        when(sizeTracker.getTotalSize()).thenReturn(trackerSize);
-//        when(haikuRepository.count()).thenReturn(repoSize);
-//
-//        // When
-//        haikuService.synchronizeSizeTracker();
-//
-//        // Then
-//        verify(sizeTracker).getTotalSize();
-//        verify(haikuRepository).count();
-//        verify(sizeTracker, never()).setTotalSize(anyLong());
-//        verify(haikuRepository, never()).findAll();
-//    }
-
 
 
 

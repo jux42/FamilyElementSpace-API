@@ -39,7 +39,7 @@ public class AuthService {
 
 
     @PrePersist
-    public void register(String username, String password, Boolean isFamily) throws IOException {
+    public void register(String username, String password, Boolean isFamily) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         byte[] image = new byte[0];
