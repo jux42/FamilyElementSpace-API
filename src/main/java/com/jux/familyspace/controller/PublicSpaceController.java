@@ -1,7 +1,6 @@
 package com.jux.familyspace.controller;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
-import com.jux.familyspace.dtomapper.DailyThoughtDtoMapper;
 import com.jux.familyspace.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

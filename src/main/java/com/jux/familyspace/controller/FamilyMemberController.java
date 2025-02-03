@@ -31,9 +31,9 @@ public class FamilyMemberController {
     }
 
     @GetMapping("details")
-    public ResponseEntity<FamilyMember> getCurrentUser(Principal principal) {
+    public ResponseEntity<FamilyMemberDto> getCurrentUserDto(Principal principal) {
         try {
-            return ResponseEntity.ok(familyMemberService.getCurrentUserByName(principal.getName()));
+            return ResponseEntity.ok(familyMemberService.getMemberDto(principal));
 
         } catch (Exception e) {
             log.error(e.getMessage());
