@@ -1,9 +1,8 @@
 package com.jux.familyspace.service;
 
 
-import com.jux.familyspace.dtomapper.DailyThoughtDtoMapper;
-import com.jux.familyspace.dtomapper.FamilyMemoryPictureDtoMapper;
-import com.jux.familyspace.dtomapper.HaikuElementDtoMapper;
+import com.jux.familyspace.api.FamilyMemberOneTypeDtoMapperInterface;
+
 import com.jux.familyspace.model.*;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import org.junit.jupiter.api.*;
@@ -30,11 +29,7 @@ public class FamilyMemberServiceTest {
     @Mock
     private FamilyMemberRepository familyMemberRepository;
     @Mock
-    private HaikuElementDtoMapper haikuUserDtoMapper;
-    @Mock
-    private DailyThoughtDtoMapper dailyThoughtUserDtoMapper;
-    @Mock
-    private FamilyMemoryPictureDtoMapper familyMemoryPictureUserDtoMapper;
+    private FamilyMemberOneTypeDtoMapperInterface<?> dtoMapperInterface;
 
 
     private String username;
@@ -185,7 +180,7 @@ public class FamilyMemberServiceTest {
                 .elements(List.of(haiku))
                 .build();
         when(familyMemberRepository.getByUsername(familyMember.getUsername())).thenReturn(Optional.of(familyMember));
-        when(haikuUserDtoMapper.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(familyMemberHaikuDto);
+        when(dtoMapperInterface.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(familyMemberHaikuDto);
         //When
         FamilyMemberOneTypeDto actualFamilyMemberHaikuDto = familyMemberService.getMemberHaikuDto(familyMember.getUsername());
         System.out.println("testing : " + actualFamilyMemberHaikuDto);
@@ -211,7 +206,7 @@ public class FamilyMemberServiceTest {
                 .elements(List.of(dailyThought1, dailyThought2))
                 .build();
         when(familyMemberRepository.getByUsername(familyMember.getUsername())).thenReturn(Optional.of(familyMember));
-        when(dailyThoughtUserDtoMapper.getOneTypeMemberDto(familyMember)).thenReturn(familyMemberDailyDto);
+        when(dtoMapperInterface.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(familyMemberDailyDto);
 
         //When
         FamilyMemberOneTypeDto actualFamilyMemberDailyDto = familyMemberService.getMemberDailyThoughtsDto(familyMember.getUsername());
@@ -235,7 +230,7 @@ public class FamilyMemberServiceTest {
                 .elements(List.of(familyMemoryPicture))
                 .build();
         when(familyMemberRepository.getByUsername(familyMember.getUsername())).thenReturn(Optional.of(familyMember));
-        when(familyMemoryPictureUserDtoMapper.getOneTypeMemberDto(familyMember)).thenReturn(familyMemberPicDto);
+        when(dtoMapperInterface.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(familyMemberPicDto);
 
         //When
         FamilyMemberOneTypeDto actualFamilyPicDto = familyMemberService.getMemberMemoryPicsDto(familyMember.getUsername());
@@ -257,9 +252,9 @@ public class FamilyMemberServiceTest {
                 .elements(List.of(familyMember.getElements().get(0))) // Premier élément (Haiku)
                 .build();
 
-        when(haikuUserDtoMapper.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(expectedDto);
+        when(dtoMapperInterface.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(expectedDto);
 
-        FamilyMemberOneTypeDto actualDto = haikuUserDtoMapper.getOneTypeMemberDto(familyMember);
+        FamilyMemberOneTypeDto actualDto = dtoMapperInterface.getOneTypeMemberDto(familyMember);
 
         System.out.println("Test Mock Mapper - Résultat : " + actualDto);
         assertThat(actualDto).isNotNull();
