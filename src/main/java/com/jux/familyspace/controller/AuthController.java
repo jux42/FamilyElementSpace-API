@@ -18,13 +18,13 @@ public class AuthController {
     private final GuestService guestService;
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        return authService.authenticate(username, password);
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        return ResponseEntity.ok(authService.authenticate(username, password));
     }
 
     @PostMapping("/memberregister")
-    public void memberRegister(@RequestParam String username, @RequestParam String password) throws IOException {
-        authService.register(username, password, true);
+    public ResponseEntity<String> memberRegister(@RequestParam String username, @RequestParam String password){
+        return ResponseEntity.ok(authService.register(username, password, true));
     }
 
     @PostMapping("/guestlogin")

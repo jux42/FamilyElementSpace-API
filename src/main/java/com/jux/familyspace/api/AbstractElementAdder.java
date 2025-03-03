@@ -18,7 +18,7 @@ public abstract class AbstractElementAdder<T extends FamilyMemberElement> {
     private String addElementToFamilyMember(T element) {
         try {
             var familyMember = familyMemberService.getCurrentUserByName(element.getOwner());
-            familyMember.getElements().add(element);
+            familyMember.addElements(element);
             familyMemberRepository.save(familyMember);
             return "Element added to user's list.";
         } catch (Exception e) {

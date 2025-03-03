@@ -262,8 +262,6 @@ public class DailyThoughtServiceTest {
     void testRemoveDailyThought()  {
 
         //Given
-
-
         when(dailyThoughtRepository.findById(1L)).thenReturn(Optional.of(dailyThought1));
         when(dailyThoughtRepository.findById(2L)).thenReturn(Optional.of(dailyThought2));
         doNothing().when(dailyThoughtRepository).deleteByIdAndOwner(1L, "jux");

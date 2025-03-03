@@ -2,24 +2,34 @@ package com.jux.familyspace.service;
 
 
 import com.jux.familyspace.api.FamilyMemberDtoMapperFunction;
-import com.jux.familyspace.api.FamilyMemberOneTypeDtoMapperInterface;
+import com.jux.familyspace.dtomapper.DailyThoughtDtoMapper;
+import com.jux.familyspace.dtomapper.FamilyMemoryPictureDtoMapper;
+import com.jux.familyspace.dtomapper.HaikuElementDtoMapper;
 import com.jux.familyspace.model.*;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
 public class FamilyMemberService {
 
     private final FamilyMemberRepository familyMemberRepository;
-    private final FamilyMemberOneTypeDtoMapperInterface<Haiku> haikuDtoMapper;
-    private final FamilyMemberOneTypeDtoMapperInterface<DailyThought> dailyDtoMapper;
-    private final FamilyMemberOneTypeDtoMapperInterface<FamilyMemoryPicture> memoryPicsDtoMapper;
+
+    //TODO : à revoir -->  l'injection des interfaces dtoMapper fonctionne aléatoirement dans les TU (pb de mocks)
+
+//    private final FamilyMemberOneTypeDtoMapperInterface<Haiku> haikuDtoMapper;
+//    private final FamilyMemberOneTypeDtoMapperInterface<DailyThought> dailyDtoMapper;
+//    private final FamilyMemberOneTypeDtoMapperInterface<FamilyMemoryPicture> memoryPicsDtoMapper;
+    private final HaikuElementDtoMapper haikuDtoMapper;
+    private final DailyThoughtDtoMapper dailyDtoMapper;
+    private final FamilyMemoryPictureDtoMapper memoryPicsDtoMapper;
 
 
     public FamilyMember getCurrentUserByName(String username) {
@@ -32,25 +42,38 @@ public class FamilyMemberService {
         return familyMember != null ? memberDtoMapper.getMemberDto(familyMember) : null;
     }
 
-    public FamilyMemberOneTypeDto getMemberHaikuDto(Principal principal) {
+    public FamilyMemberOneTypeDto getMemberHaikuDto(String username) {
+        System.out.println("Appel à getMemberHaikuDto avec username: " + username);
 
-        FamilyMember familyMember = getCurrentUserByName(principal.getName());
+        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
+        System.out.println("Résultat de getByUsername: " + familyMember);
 
-        return haikuDtoMapper.getOneTypeMemberDto(familyMember);
+        if (familyMember.isEmpty()) {
+            System.out.println("Aucun utilisateur trouvé, retour d'un DTO vide.");
+            return FamilyMemberOneTypeDto.builder().build();
+        }
+        System.out.println("Appel du mapper avec: " + familyMember);
+        FamilyMemberOneTypeDto dto = haikuDtoMapper.getOneTypeMemberDto(familyMember.get());
+
+        System.out.println("Résultat du mapping DTO: " + dto);
+
+        return dto;
     }
 
-    public FamilyMemberOneTypeDto getMemberDailyThoughtsDto(Principal principal) {
+    public FamilyMemberOneTypeDto getMemberDailyThoughtsDto(String username) {
 
-        FamilyMember familyMember = getCurrentUserByName(principal.getName());
+        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
 
-        return dailyDtoMapper.getOneTypeMemberDto(familyMember);
+        return familyMember.isPresent() ? dailyDtoMapper.getOneTypeMemberDto(familyMember.get())
+                : FamilyMemberOneTypeDto.builder().build();
     }
 
-    public FamilyMemberOneTypeDto getMemberMemoryPicsDto(Principal principal) {
+    public FamilyMemberOneTypeDto getMemberMemoryPicsDto(String username) {
 
-        FamilyMember familyMember = getCurrentUserByName(principal.getName());
+        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
 
-        return memoryPicsDtoMapper.getOneTypeMemberDto(familyMember);
+        return familyMember.isPresent() ? memoryPicsDtoMapper.getOneTypeMemberDto(familyMember.get())
+                : FamilyMemberOneTypeDto.builder().build();
     }
 
     private final FamilyMemberDtoMapperFunction memberDtoMapper = (FamilyMember member) -> FamilyMemberDto.builder()
@@ -58,15 +81,15 @@ public class FamilyMemberService {
             .name(member.getUsername())
             .avatar(member.getAvatar())
             .tagline(member.getTagline())
-            .haikus(member.getElements().stream()
+            .haikus(Optional.ofNullable(member.getElements()).orElse(Collections.emptyList()).stream()
                     .filter(e -> e instanceof Haiku)
                     .map(e -> (Haiku) e)
                     .collect(Collectors.toList()))
-            .dailyThoughts(member.getElements().stream()
+            .dailyThoughts(Optional.ofNullable(member.getElements()).orElse(Collections.emptyList()).stream()
                     .filter(e -> e instanceof DailyThought)
                     .map(e -> (DailyThought) e)
                     .collect(Collectors.toList()))
-            .familyMemoryPictures(member.getElements().stream()
+            .familyMemoryPictures(Optional.ofNullable(member.getElements()).orElse(Collections.emptyList()).stream()
                     .filter(e -> e instanceof FamilyMemoryPicture)
                     .map(e -> (FamilyMemoryPicture) e)
                     .collect(Collectors.toList()))

@@ -43,17 +43,17 @@ public class FamilyMemberController {
 
     @GetMapping("haikus")
     public ResponseEntity<FamilyMemberOneTypeDto> getMemberHaikuDto(Principal principal) {
-        return ResponseEntity.ok(familyMemberService.getMemberHaikuDto(principal));
+        return ResponseEntity.ok(familyMemberService.getMemberHaikuDto(principal.getName()));
     }
 
     @GetMapping("thoughts")
     public ResponseEntity<FamilyMemberOneTypeDto> getMemberDailyThoughtDto(Principal principal) {
-        return ResponseEntity.ok(familyMemberService.getMemberDailyThoughtsDto(principal));
+        return ResponseEntity.ok(familyMemberService.getMemberDailyThoughtsDto(principal.getName()));
     }
 
     @GetMapping("memorypics")
     public ResponseEntity<FamilyMemberOneTypeDto> getMemberMemoryPicsDto(Principal principal) {
-        return ResponseEntity.ok(familyMemberService.getMemberMemoryPicsDto(principal));
+        return ResponseEntity.ok(familyMemberService.getMemberMemoryPicsDto(principal.getName()));
     }
 
     @PostMapping("/haiku/public/{id}")

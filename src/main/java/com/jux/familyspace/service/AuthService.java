@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 public class AuthService {
 
     private final JwtUtil jwtUtil;
-    private final FamilyUserRepository familyUserRepository;
     private final FamilyMemberRepository familyMemberRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
 
@@ -39,17 +38,17 @@ public class AuthService {
 
 
     @PrePersist
-    public void register(String username, String password, Boolean isFamily) {
+    public String register(String username, String password, Boolean isFamily) {
+        if (familyMemberRepository.getByUsername(username).isPresent()) return "user with this name already exists !";
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         byte[] image = new byte[0];
         try {
-            Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
+            Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.jpeg");
             image = Files.readAllBytes(imagePath);
-        }catch (Exception e){
+        }catch (IOException e){
             log.error(e.getMessage());
             image = "no image".getBytes();
-
         }
 
         FamilyMember familyMember = FamilyMember.builder()
@@ -60,5 +59,9 @@ public class AuthService {
         familyMember.setUsername(username);
         familyMember.setPassword(hashedPassword);
         familyMemberRepository.save(familyMember);
+
+        return "user " + familyMember.getUsername() + " registered successfully";
     }
+
+
 }
