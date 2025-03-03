@@ -2,9 +2,7 @@ package com.jux.familyspace.service;
 
 
 import com.jux.familyspace.api.FamilyMemberDtoMapperFunction;
-import com.jux.familyspace.dtomapper.DailyThoughtDtoMapper;
-import com.jux.familyspace.dtomapper.FamilyMemoryPictureDtoMapper;
-import com.jux.familyspace.dtomapper.HaikuElementDtoMapper;
+import com.jux.familyspace.api.FamilyMemberOneTypeDtoMapperInterface;
 import com.jux.familyspace.model.*;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +20,9 @@ public class FamilyMemberService {
 
     private final FamilyMemberRepository familyMemberRepository;
 
-    //TODO : à revoir -->  l'injection des interfaces dtoMapper fonctionne aléatoirement dans les TU (pb de mocks)
-
-//    private final FamilyMemberOneTypeDtoMapperInterface<Haiku> haikuDtoMapper;
-//    private final FamilyMemberOneTypeDtoMapperInterface<DailyThought> dailyDtoMapper;
-//    private final FamilyMemberOneTypeDtoMapperInterface<FamilyMemoryPicture> memoryPicsDtoMapper;
-    private final HaikuElementDtoMapper haikuDtoMapper;
-    private final DailyThoughtDtoMapper dailyDtoMapper;
-    private final FamilyMemoryPictureDtoMapper memoryPicsDtoMapper;
+    private final FamilyMemberOneTypeDtoMapperInterface<Haiku> haikuElementDtoMapper;
+    private final FamilyMemberOneTypeDtoMapperInterface<DailyThought> dailyThoughtDtoMapper;
+    private final FamilyMemberOneTypeDtoMapperInterface<FamilyMemoryPicture> familyMemoryPictureDtoMapper;
 
 
     public FamilyMember getCurrentUserByName(String username) {
@@ -53,7 +46,7 @@ public class FamilyMemberService {
             return FamilyMemberOneTypeDto.builder().build();
         }
         System.out.println("Appel du mapper avec: " + familyMember);
-        FamilyMemberOneTypeDto dto = haikuDtoMapper.getOneTypeMemberDto(familyMember.get());
+        FamilyMemberOneTypeDto dto = haikuElementDtoMapper.getOneTypeMemberDto(familyMember.get());
 
         System.out.println("Résultat du mapping DTO: " + dto);
 
@@ -64,7 +57,7 @@ public class FamilyMemberService {
 
         Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
 
-        return familyMember.isPresent() ? dailyDtoMapper.getOneTypeMemberDto(familyMember.get())
+        return familyMember.isPresent() ? dailyThoughtDtoMapper.getOneTypeMemberDto(familyMember.get())
                 : FamilyMemberOneTypeDto.builder().build();
     }
 
@@ -72,7 +65,7 @@ public class FamilyMemberService {
 
         Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
 
-        return familyMember.isPresent() ? memoryPicsDtoMapper.getOneTypeMemberDto(familyMember.get())
+        return familyMember.isPresent() ? familyMemoryPictureDtoMapper.getOneTypeMemberDto(familyMember.get())
                 : FamilyMemberOneTypeDto.builder().build();
     }
 
