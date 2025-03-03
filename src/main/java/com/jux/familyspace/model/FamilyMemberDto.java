@@ -3,6 +3,7 @@ package com.jux.familyspace.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Collections;
 import java.util.List;
 
 @Builder
@@ -13,8 +14,12 @@ public class FamilyMemberDto {
     private String name;
     private byte[] avatar;
     private String tagline;
-    private List<Haiku> haikus;
-    private List<DailyThought> dailyThoughts;
-    private List <FamilyMemoryPicture> familyMemoryPictures;
+
+    @Builder.Default
+    private List<Haiku> haikus = Collections.emptyList();
+    @Builder.Default
+    private List<DailyThought> dailyThoughts = Collections.emptyList();
+    @Builder.Default
+    private List<FamilyMemoryPicture> familyMemoryPictures = Collections.emptyList();
 
 }

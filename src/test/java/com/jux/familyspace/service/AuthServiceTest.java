@@ -21,7 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 
@@ -111,6 +111,7 @@ public class AuthServiceTest {
 
             //Given
             ArgumentCaptor<FamilyMember> userCaptor = ArgumentCaptor.forClass(FamilyMember.class);
+            when(familyMemberRepository.getByUsername(anyString())).thenReturn(Optional.empty());
             when(familyMemberRepository.save(userCaptor.capture())).thenReturn(new FamilyMember());
 
             //When
@@ -124,6 +125,25 @@ public class AuthServiceTest {
             assertThat(savedUser.getTagline()).isEqualTo("i am new here");
             assertThat(savedUser.getAvatar()).isEqualTo(loadDefaultAvatar());
         }
+
+    @Test
+    @DisplayName("should not register user ig user with same name already exists")
+    void register_fails_whenAlreadyExists() {
+
+
+        //Given
+        FamilyMember existingFamilyMember = new FamilyMember();
+        existingFamilyMember.setUsername(username);
+        when(familyMemberRepository.getByUsername(username)).thenReturn(Optional.of(existingFamilyMember));
+
+        //When
+        authService.register(username, password, true);
+        String output = authService.register(username, password, true);
+
+        //Then
+        assertThat(existingFamilyMember.getUsername()).isEqualTo(username);
+        assertThat(output).isEqualTo("user with this name already exists !");
+    }
 
         private byte[] loadDefaultAvatar() {
             try {

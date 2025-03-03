@@ -3,6 +3,8 @@ package com.jux.familyspace.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -18,9 +20,15 @@ public class FamilyMember extends FamilyUser {
 
     private String tagline;
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<FamilyMemberElement> elements;
+    private List<FamilyMemberElement> elements = new ArrayList<>();
 
     @Transient
     private OnlineState onlineState;
+
+    public void addElements(FamilyMemberElement...familyMemberElement) {
+        Collections.addAll(elements, familyMemberElement);
+    }
+
 }
