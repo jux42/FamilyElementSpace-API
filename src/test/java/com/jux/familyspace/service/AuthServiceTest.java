@@ -1,9 +1,10 @@
 package com.jux.familyspace.service;
 
 import com.jux.familyspace.component.JwtUtil;
-import com.jux.familyspace.model.FamilyMember;
+import com.jux.familyspace.model.users.FamilyMember;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyUserRepository;
+import com.jux.familyspace.service.users_service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

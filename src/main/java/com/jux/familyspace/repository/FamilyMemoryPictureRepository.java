@@ -1,7 +1,7 @@
 package com.jux.familyspace.repository;
 
-import com.jux.familyspace.model.ElementVisibility;
-import com.jux.familyspace.model.FamilyMemoryPicture;
+import com.jux.familyspace.model.elements.ElementVisibility;
+import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;

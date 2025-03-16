@@ -1,8 +1,8 @@
 package com.jux.familyspace.api;
 
-import com.jux.familyspace.model.FamilyMemberElement;
+import com.jux.familyspace.model.elements.FamilyMemberElement;
 import com.jux.familyspace.repository.FamilyMemberRepository;
-import com.jux.familyspace.service.FamilyMemberService;
+import com.jux.familyspace.service.users_service.FamilyMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

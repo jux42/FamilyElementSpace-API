@@ -1,6 +1,6 @@
 package com.jux.familyspace.api;
 
-import com.jux.familyspace.model.FamilyMemberElement;
+import com.jux.familyspace.model.elements.FamilyMemberElement;
 
 import java.util.Date;
 
