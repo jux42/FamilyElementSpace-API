@@ -30,7 +30,7 @@ public class PostItController {
             return ResponseEntity.ok(PostIt.builder()
                     .author("system")
                     .topic("error")
-                    .content("no post-it found")
+                    .content(e.getMessage())
                     .done(true)
                     .build());
         }
