@@ -2,10 +2,11 @@ package com.jux.familyspace.service;
 
 import com.jux.familyspace.api.AbstractElementAdder;
 import com.jux.familyspace.api.ElementSizeTrackerInterface;
-import com.jux.familyspace.model.ElementVisibility;
-import com.jux.familyspace.model.FamilyElementType;
-import com.jux.familyspace.model.Haiku;
+import com.jux.familyspace.model.elements.ElementVisibility;
+import com.jux.familyspace.model.elements.FamilyElementType;
+import com.jux.familyspace.model.elements.Haiku;
 import com.jux.familyspace.repository.HaikuRepository;
+import com.jux.familyspace.service.elements_service.HaikuService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

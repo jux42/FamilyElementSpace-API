@@ -1,6 +1,6 @@
 package com.jux.familyspace.repository;
 
-import com.jux.familyspace.model.FamilyUser;
+import com.jux.familyspace.model.users.FamilyUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
