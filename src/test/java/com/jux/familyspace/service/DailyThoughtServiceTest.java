@@ -6,7 +6,6 @@ import com.jux.familyspace.component.DailyThoughtSizeTracker;
 import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.ElementVisibility;
 import com.jux.familyspace.model.elements.FamilyElementType;
-
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import com.jux.familyspace.service.elements_service.DailyThoughtService;
 import org.junit.jupiter.api.BeforeEach;

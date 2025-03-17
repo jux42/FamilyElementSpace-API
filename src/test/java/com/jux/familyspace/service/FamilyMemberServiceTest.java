@@ -2,7 +2,6 @@ package com.jux.familyspace.service;
 
 
 import com.jux.familyspace.api.FamilyMemberOneTypeDtoMapperInterface;
-
 import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.FamilyMemberOneTypeDto;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
@@ -11,7 +10,9 @@ import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.model.family.FamilyMemberDto;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.service.users_service.FamilyMemberService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

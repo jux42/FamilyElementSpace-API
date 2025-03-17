@@ -1,8 +1,8 @@
 package com.jux.familyspace.controller.elements_controller;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
-import com.jux.familyspace.proxy.FamilyMemoryPictureProxy;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
+import com.jux.familyspace.proxy.FamilyMemoryPictureProxy;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
