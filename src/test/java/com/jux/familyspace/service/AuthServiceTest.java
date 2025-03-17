@@ -37,8 +37,6 @@ public class AuthServiceTest {
     @Mock
     private FamilyMemberRepository familyMemberRepository;
     @Mock
-    private FamilyUserRepository familyUserRepository;
-    @Mock
     private PasswordEncoder passwordEncoder;
 
 

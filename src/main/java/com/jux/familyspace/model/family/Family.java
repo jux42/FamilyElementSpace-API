@@ -36,9 +36,7 @@ public class Family {
     public List<String> getMemberNames() {
 
         List<String> membersNames = new ArrayList<>();
-        this.members.stream().forEach((member) -> {
-            membersNames.add(member.getUsername());
-        });
+        this.members.forEach((member) -> membersNames.add(member.getUsername()));
         return membersNames;
     }
 }

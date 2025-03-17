@@ -26,7 +26,6 @@ public class FamilyMemberController {
     private final FamilyElementServiceInterface<Haiku> haikuService;
     private final FamilyElementServiceInterface<DailyThought> dailyThoughtService;
     private final FamilyElementServiceInterface<FamilyMemoryPicture> familyMemoryPictureService;
-    private final FamilyService familyService;
 
     @GetMapping("details")
     public ResponseEntity<FamilyMemberDto> getCurrentUserDto(Principal principal) {

@@ -29,13 +29,10 @@ public class FamilyService {
     public String createFamily(String username, String familyName, String secret) {
         if (familyRepository.findByFamilyName(familyName).isPresent()) {
             int n = 1;
-            while (true) {
-                if (familyRepository.findByFamilyName(familyName + n).isEmpty()) {
-                    break;
-                }
+            while (familyRepository.findByFamilyName(familyName + n).isPresent()) {
                 n++;
             }
-            return "this family name has already been created\n" +
+            return "this family name already exists !\n" +
                     "suggested alternative : " + familyName + n;
         }
 
