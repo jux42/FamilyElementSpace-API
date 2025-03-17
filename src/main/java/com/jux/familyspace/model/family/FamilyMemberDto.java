@@ -1,4 +1,4 @@
-package com.jux.familyspace.model.users;
+package com.jux.familyspace.model.family;
 
 import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;

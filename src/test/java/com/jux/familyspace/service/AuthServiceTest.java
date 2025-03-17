@@ -1,7 +1,7 @@
 package com.jux.familyspace.service;
 
 import com.jux.familyspace.component.JwtUtil;
-import com.jux.familyspace.model.users.FamilyMember;
+import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyUserRepository;
 import com.jux.familyspace.service.users_service.AuthService;
@@ -36,8 +36,6 @@ public class AuthServiceTest {
     private JwtUtil jwtUtil;
     @Mock
     private FamilyMemberRepository familyMemberRepository;
-    @Mock
-    private FamilyUserRepository familyUserRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
 

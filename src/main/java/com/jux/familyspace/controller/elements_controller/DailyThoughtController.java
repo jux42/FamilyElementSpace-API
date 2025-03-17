@@ -2,8 +2,8 @@ package com.jux.familyspace.controller.elements_controller;
 
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
-import com.jux.familyspace.proxy.DailyThoughtProxy;
 import com.jux.familyspace.model.elements.DailyThought;
+import com.jux.familyspace.proxy.DailyThoughtProxy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

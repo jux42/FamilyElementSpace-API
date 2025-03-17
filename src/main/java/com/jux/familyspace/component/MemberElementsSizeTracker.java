@@ -1,7 +1,7 @@
 package com.jux.familyspace.component;
 
 import com.jux.familyspace.api.ElementSizeTrackerInterface;
-import com.jux.familyspace.model.users.FamilyMember;
+import com.jux.familyspace.model.family.FamilyMember;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicLong;

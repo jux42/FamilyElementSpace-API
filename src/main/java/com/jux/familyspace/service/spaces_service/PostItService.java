@@ -45,7 +45,19 @@ public class PostItService {
 
     public List<PostIt> getUserPostIts(String username) {
 
-
         return postitRepository.findByAuthor(username);
+    }
+
+    public String markPostItDone(Long id) {
+
+        try {
+            PostIt postIt = getPostIt(id);
+            postIt.markAsDone();
+            postitRepository.save(postIt);
+            return "Post-it marked as done";
+        } catch (Exception e){
+            return e.getMessage();
+        }
+
     }
 }

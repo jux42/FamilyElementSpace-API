@@ -7,8 +7,8 @@ import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.FamilyMemberOneTypeDto;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import com.jux.familyspace.model.elements.Haiku;
-import com.jux.familyspace.model.users.FamilyMember;
-import com.jux.familyspace.model.users.FamilyMemberDto;
+import com.jux.familyspace.model.family.FamilyMember;
+import com.jux.familyspace.model.family.FamilyMemberDto;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,8 @@ public class FamilyMemberService {
     private final FamilyMemberOneTypeDtoMapperInterface<Haiku> haikuElementDtoMapper;
     private final FamilyMemberOneTypeDtoMapperInterface<DailyThought> dailyThoughtDtoMapper;
     private final FamilyMemberOneTypeDtoMapperInterface<FamilyMemoryPicture> familyMemoryPictureDtoMapper;
+
+
 
 
     public FamilyMember getCurrentUserByName(String username) {

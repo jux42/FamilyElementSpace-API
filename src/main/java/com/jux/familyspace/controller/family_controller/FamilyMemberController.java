@@ -1,15 +1,14 @@
-package com.jux.familyspace.controller.users_controller;
+package com.jux.familyspace.controller.family_controller;
 
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.FamilyMemberOneTypeDto;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import com.jux.familyspace.model.elements.Haiku;
-import com.jux.familyspace.model.users.FamilyMemberDto;
-import com.jux.familyspace.service.elements_service.DailyThoughtService;
+import com.jux.familyspace.model.family.FamilyMemberDto;
 import com.jux.familyspace.service.users_service.FamilyMemberService;
-import com.jux.familyspace.service.elements_service.FamilyMemoryPictureService;
-import com.jux.familyspace.service.elements_service.HaikuService;
+import com.jux.familyspace.service.users_service.FamilyService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,7 @@ import java.security.Principal;
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class FamilyMemberController {
 
 
@@ -26,13 +26,6 @@ public class FamilyMemberController {
     private final FamilyElementServiceInterface<Haiku> haikuService;
     private final FamilyElementServiceInterface<DailyThought> dailyThoughtService;
     private final FamilyElementServiceInterface<FamilyMemoryPicture> familyMemoryPictureService;
-
-    public FamilyMemberController(FamilyMemberService familyMemberService, HaikuService haikuService, DailyThoughtService dailyThoughtService, FamilyMemoryPictureService familyMemoryPictureService) {
-        this.familyMemberService = familyMemberService;
-        this.haikuService = haikuService;
-        this.dailyThoughtService = dailyThoughtService;
-        this.familyMemoryPictureService = familyMemoryPictureService;
-    }
 
     @GetMapping("details")
     public ResponseEntity<FamilyMemberDto> getCurrentUserDto(Principal principal) {
@@ -44,6 +37,7 @@ public class FamilyMemberController {
             return ResponseEntity.noContent().build();
         }
     }
+
 
     @GetMapping("haikus")
     public ResponseEntity<FamilyMemberOneTypeDto> getMemberHaikuDto(Principal principal) {
