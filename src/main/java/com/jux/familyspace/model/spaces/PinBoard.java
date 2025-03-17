@@ -1,5 +1,6 @@
 package com.jux.familyspace.model.spaces;
 
+import com.jux.familyspace.model.family.Family;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.ArrayList;
@@ -14,7 +15,8 @@ public class PinBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String familyID;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Family family;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private BuyList buyList;

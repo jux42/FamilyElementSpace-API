@@ -1,4 +1,4 @@
-package com.jux.familyspace.controller.users_controller;
+package com.jux.familyspace.controller.family_controller;
 
 import com.jux.familyspace.service.users_service.AuthService;
 import com.jux.familyspace.service.users_service.GuestService;
@@ -25,6 +25,8 @@ public class AuthController {
     public ResponseEntity<String> memberRegister(@RequestParam String username, @RequestParam String password){
         return ResponseEntity.ok(authService.register(username, password, true));
     }
+
+
 
     @PostMapping("/guestlogin")
     public ResponseEntity<String> loginAsGuest(@RequestParam String username) {

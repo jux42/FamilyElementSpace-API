@@ -17,7 +17,7 @@ public class PostItController {
     private final PostItService postItService;
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<List<PostIt>> getpostits(@PathVariable String username) {
+    public ResponseEntity<List<PostIt>> getPostits(@PathVariable String username) {
         return ResponseEntity.ok(postItService.getUserPostIts(username));
     }
 
@@ -44,5 +44,11 @@ public class PostItController {
 
         if (priorityLevel == null) priorityLevel = 0;
         return ResponseEntity.ok(postItService.createPostIt(username, topic, content, priorityLevel));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<String> markPostitDone(@PathVariable Long id){
+
+        return ResponseEntity.ok(postItService.markPostItDone(id));
     }
 }

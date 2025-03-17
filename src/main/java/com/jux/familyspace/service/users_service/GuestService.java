@@ -1,7 +1,7 @@
 package com.jux.familyspace.service.users_service;
 
-import com.jux.familyspace.model.users.FamilyGuest;
-import com.jux.familyspace.model.users.FamilyUser;
+import com.jux.familyspace.model.family.FamilyGuest;
+import com.jux.familyspace.model.family.FamilyUser;
 import com.jux.familyspace.repository.FamilyUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

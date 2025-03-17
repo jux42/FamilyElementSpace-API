@@ -1,6 +1,6 @@
 package com.jux.familyspace.api;
 
-import com.jux.familyspace.model.users.FamilyMember;
+import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.model.elements.FamilyMemberElement;
 import com.jux.familyspace.model.elements.FamilyMemberOneTypeDto;
 

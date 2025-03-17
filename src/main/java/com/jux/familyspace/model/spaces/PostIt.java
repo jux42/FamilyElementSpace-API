@@ -32,4 +32,7 @@ public class PostIt{
     private Boolean done = false;
 
 
+    public void markAsDone(){
+        this.done = true;
+    }
 }

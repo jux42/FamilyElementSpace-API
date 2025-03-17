@@ -7,14 +7,19 @@ import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.FamilyMemberOneTypeDto;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import com.jux.familyspace.model.elements.Haiku;
-import com.jux.familyspace.model.users.FamilyMember;
-import com.jux.familyspace.model.users.FamilyMemberDto;
+import com.jux.familyspace.model.family.Family;
+import com.jux.familyspace.model.family.FamilyMember;
+import com.jux.familyspace.model.family.FamilyMemberDto;
 import com.jux.familyspace.repository.FamilyMemberRepository;
+import com.jux.familyspace.repository.FamilyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.security.Principal;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +33,8 @@ public class FamilyMemberService {
     private final FamilyMemberOneTypeDtoMapperInterface<Haiku> haikuElementDtoMapper;
     private final FamilyMemberOneTypeDtoMapperInterface<DailyThought> dailyThoughtDtoMapper;
     private final FamilyMemberOneTypeDtoMapperInterface<FamilyMemoryPicture> familyMemoryPictureDtoMapper;
+
+
 
 
     public FamilyMember getCurrentUserByName(String username) {

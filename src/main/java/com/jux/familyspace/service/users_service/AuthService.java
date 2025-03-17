@@ -1,8 +1,10 @@
 package com.jux.familyspace.service.users_service;
 
 import com.jux.familyspace.component.JwtUtil;
-import com.jux.familyspace.model.users.FamilyMember;
+import com.jux.familyspace.model.family.Family;
+import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.repository.FamilyMemberRepository;
+import com.jux.familyspace.repository.FamilyRepository;
 import jakarta.persistence.PrePersist;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -45,7 +48,7 @@ public class AuthService {
         try {
             Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.jpeg");
             image = Files.readAllBytes(imagePath);
-        }catch (IOException e){
+        } catch (IOException e) {
             log.error(e.getMessage());
             image = "no image".getBytes();
         }
