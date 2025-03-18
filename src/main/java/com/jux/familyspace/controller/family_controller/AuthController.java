@@ -1,7 +1,7 @@
 package com.jux.familyspace.controller.family_controller;
 
-import com.jux.familyspace.service.users_service.AuthService;
-import com.jux.familyspace.service.users_service.GuestService;
+import com.jux.familyspace.service.AuthService;
+import com.jux.familyspace.service.family_service.GuestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

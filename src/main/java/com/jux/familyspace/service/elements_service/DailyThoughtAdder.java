@@ -4,7 +4,7 @@ import com.jux.familyspace.api.AbstractElementAdder;
 import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.repository.DailyThoughtRepository;
 import com.jux.familyspace.repository.FamilyMemberRepository;
-import com.jux.familyspace.service.users_service.FamilyMemberService;
+import com.jux.familyspace.service.family_service.FamilyMemberService;
 import org.springframework.stereotype.Service;
 
 @Service

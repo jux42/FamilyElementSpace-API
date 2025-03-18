@@ -1,4 +1,4 @@
-package com.jux.familyspace.service;
+package com.jux.familyspace.service.elements_service;
 
 
 import com.jux.familyspace.api.AbstractElementAdder;
@@ -7,7 +7,6 @@ import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.ElementVisibility;
 import com.jux.familyspace.model.elements.FamilyElementType;
 import com.jux.familyspace.repository.DailyThoughtRepository;
-import com.jux.familyspace.service.elements_service.DailyThoughtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

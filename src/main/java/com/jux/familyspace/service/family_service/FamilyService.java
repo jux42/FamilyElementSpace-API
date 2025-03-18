@@ -1,4 +1,4 @@
-package com.jux.familyspace.service.users_service;
+package com.jux.familyspace.service.family_service;
 
 import com.jux.familyspace.model.dtomapper.FamilyDtoMapper;
 import com.jux.familyspace.model.family.Family;

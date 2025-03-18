@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PostitRepository extends JpaRepository<PostIt,Long> {
+public interface PostItRepository extends JpaRepository<PostIt,Long> {
     List<PostIt> findByAuthor( String author);
 }
