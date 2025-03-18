@@ -1,7 +1,7 @@
 package com.jux.familyspace.controller.family_controller;
 
 import com.jux.familyspace.model.family.FamilyDto;
-import com.jux.familyspace.service.users_service.FamilyService;
+import com.jux.familyspace.service.family_service.FamilyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
