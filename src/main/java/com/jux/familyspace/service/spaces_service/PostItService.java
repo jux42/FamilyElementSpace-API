@@ -3,7 +3,7 @@ package com.jux.familyspace.service.spaces_service;
 
 import com.jux.familyspace.model.spaces.PostIt;
 import com.jux.familyspace.model.spaces.Priority;
-import com.jux.familyspace.repository.PostitRepository;
+import com.jux.familyspace.repository.PostItRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostItService {
 
-    private final PostitRepository postitRepository;
+    private final PostItRepository postItRepository;
 
     public String createPostIt(String author,
                                String topic,
@@ -33,19 +33,19 @@ public class PostItService {
                                 : Priority.LOW)
                 .build();
 
-        postitRepository.save(postIt);
+        postItRepository.save(postIt);
         return ("Post-it created : " + postIt);
 
     }
 
     public PostIt getPostIt(Long id) {
 
-        return postitRepository.findById(id).orElseThrow(() -> new RuntimeException("Post-it not found"));
+        return postItRepository.findById(id).orElseThrow(() -> new RuntimeException("Post-it not found"));
     }
 
     public List<PostIt> getUserPostIts(String username) {
 
-        return postitRepository.findByAuthor(username);
+        return postItRepository.findByAuthor(username);
     }
 
     public String markPostItDone(Long id) {
@@ -53,7 +53,7 @@ public class PostItService {
         try {
             PostIt postIt = getPostIt(id);
             postIt.markAsDone();
-            postitRepository.save(postIt);
+            postItRepository.save(postIt);
             return "Post-it marked as done";
         } catch (Exception e){
             return e.getMessage();
