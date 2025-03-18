@@ -32,12 +32,10 @@ public class PostItServiceTest {
     private final String testTopic = "test Post-it Topic" ;
     private final String testContent = "This is a Content for a test Post-it" ;
 
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
 
     @Test
     @DisplayName("should create and save postit with right attributes")
@@ -164,7 +162,6 @@ public class PostItServiceTest {
         assertThat(postit.getDone()).isTrue();
 
     }
-
 
     @Test
     @DisplayName("should catch exception and return failure String")
