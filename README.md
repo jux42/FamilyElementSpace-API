@@ -39,7 +39,7 @@ spring:
     url: jdbc:mariadb://localhost:3306/familyspace
     username: votre-utilisateur
     password: votre-mot-de-passe
-jwt: votre-clé-secrète-jwt
+jwtKey: votre-clé-secrète-jwt
 ```
 
 > 💡 **Note** : Ce fichier **ne doit pas être versionné dans Git** pour éviter d'exposer des informations sensibles.
