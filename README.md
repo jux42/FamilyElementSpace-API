@@ -32,7 +32,7 @@ src/main/resources/application.yml
 src/main/resources/application-familyspace-configuration.yml
 ```
 
-### 📋 Contenu attendu dans `application-familyspace-configuration.yml` :
+### Contenu attendu dans `application-familyspace-configuration.yml` :
 ```yaml
 spring:
   datasource:
