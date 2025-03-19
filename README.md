@@ -6,7 +6,7 @@ FamilyElementSpace-API est une API backend développée en **Java avec Spring Bo
 ## Installation et Lancement
 
 ### Prérequis
-- **Java 17 ou supérieur**
+- **Java 21 ou supérieur**
 - **Maven**
 - **Base de données MariaDB ou autre compatible avec Spring Data JPA**
 
@@ -21,6 +21,33 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
+
+## 📌 Configuration des Credentials et du Token JWT
+
+L'application attend des **données sensibles** (credentials de la base de données et secret du token JWT) dans un fichier **`application-familyspace-configuration.yml`**, placé **au même niveau que `application.yml`**.
+
+### 📂 Emplacement attendu :
+```plaintext
+src/main/resources/application.yml
+src/main/resources/application-familyspace-configuration.yml
+```
+
+### 📋 Contenu attendu dans `application-familyspace-configuration.yml` :
+```yaml
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/familyspace
+    username: votre-utilisateur
+    password: votre-mot-de-passe
+jwt:
+  secret: votre-clé-secrète-jwt
+```
+
+> 💡 **Note** : Ce fichier **ne doit pas être versionné dans Git** pour éviter d'exposer des informations sensibles.
+
+
+
+
 L'API sera accessible sur `http://localhost:8080` par défaut.
 
 ## Gestion des Visibilités des Contenus
