@@ -22,11 +22,11 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-## 📌 Configuration des Credentials et du Token JWT
+## Configuration des Credentials et du Token JWT
 
 L'application attend des **données sensibles** (credentials de la base de données et secret du token JWT) dans un fichier **`application-familyspace-configuration.yml`**, placé **au même niveau que `application.yml`**.
 
-### 📂 Emplacement attendu :
+### Emplacement attendu :
 ```plaintext
 src/main/resources/application.yml
 src/main/resources/application-familyspace-configuration.yml
