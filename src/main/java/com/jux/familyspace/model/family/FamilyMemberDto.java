@@ -15,6 +15,7 @@ public class FamilyMemberDto {
 
     private Long id;
     private String name;
+    private Long familyID;
     private byte[] avatar;
     private String tagline;
 

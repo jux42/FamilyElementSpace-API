@@ -79,6 +79,7 @@ public class FamilyMemberService {
     private final FamilyMemberDtoMapperFunction memberDtoMapper = (FamilyMember member) -> FamilyMemberDto.builder()
             .id(member.getId())
             .name(member.getUsername())
+            .familyID(1L)
             .avatar(member.getAvatar())
             .tagline(member.getTagline())
             .haikus(Optional.ofNullable(member.getElements()).orElse(Collections.emptyList()).stream()

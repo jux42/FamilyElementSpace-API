@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PostItRepository extends JpaRepository<PostIt,Long> {
     List<PostIt> findByAuthor( String author);
+
+    List<PostIt> findByFamilyID(Long Id);
 }

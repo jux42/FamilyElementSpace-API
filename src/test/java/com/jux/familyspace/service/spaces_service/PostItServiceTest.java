@@ -1,9 +1,13 @@
 package com.jux.familyspace.service.spaces_service;
 
+import com.jux.familyspace.model.family.Family;
+import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.model.spaces.PostIt;
 import com.jux.familyspace.model.spaces.Priority;
+import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.PostItRepository;
 import com.jux.familyspace.service.AuthService;
+import org.hibernate.mapping.Any;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,9 +26,12 @@ import static org.mockito.Mockito.*;
 @TestComponent
 public class PostItServiceTest {
 
+
     @InjectMocks
     private PostItService postItService;
 
+    @Mock
+    private FamilyMemberRepository familyMemberRepository;
     @Mock
     private PostItRepository postItRepository;
 
@@ -42,14 +49,21 @@ public class PostItServiceTest {
     public void testCreateAndSavePostit() {
 
         //Given
+        FamilyMember familyMember = new FamilyMember();
+        familyMember.setUsername(testAuthor);
+        familyMember.setFamily(new Family());
+
         PostIt postIt = PostIt.builder()
                 .author(testAuthor)
+                .family(new Family())
                 .topic(testTopic)
                 .content(testContent)
                 .priority(Priority.HIGH)
                 .createdAt(new Date())
                 .build();
+
         ArgumentCaptor<PostIt> postItCaptor = ArgumentCaptor.forClass(PostIt.class);
+        when(familyMemberRepository.getByUsername(testAuthor)).thenReturn(Optional.of(familyMember));
         String expectedOutput = "Post-it created : " + postIt;
 
         //When
