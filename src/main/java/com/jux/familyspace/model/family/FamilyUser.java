@@ -13,8 +13,6 @@ public abstract class FamilyUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String familyID;
-
     private String username;
     private String password;
 

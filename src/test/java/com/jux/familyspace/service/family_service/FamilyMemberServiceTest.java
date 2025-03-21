@@ -6,6 +6,7 @@ import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.FamilyMemberOneTypeDto;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import com.jux.familyspace.model.elements.Haiku;
+import com.jux.familyspace.model.family.Family;
 import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.model.family.FamilyMemberDto;
 import com.jux.familyspace.repository.FamilyMemberRepository;
@@ -123,13 +124,18 @@ public class FamilyMemberServiceTest {
     void testGetMemberDto_ByUsername() {
 
         //Given
+
+        Family family = Family.builder().id(1L).build();
+
         FamilyMember familyMember = new FamilyMember();
         familyMember.setId(1L);
+        familyMember.setFamily(family);
         familyMember.setUsername(username);
         familyMember.setPassword("password");
 
         FamilyMemberDto familyMemberDto = FamilyMemberDto.builder()
                 .id(1L)
+                .familyID(1L)
                 .name("jux")
                 .build();
 
@@ -255,7 +261,7 @@ public class FamilyMemberServiceTest {
         FamilyMemberOneTypeDto expectedDto = FamilyMemberOneTypeDto.builder()
                 .id(familyMember.getId())
                 .name(familyMember.getUsername())
-                .elements(List.of(familyMember.getElements().get(0))) // Premier élément (Haiku)
+                .elements(List.of(familyMember.getElements().getFirst()))
                 .build();
 
         when(dtoMapperInterface.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(expectedDto);

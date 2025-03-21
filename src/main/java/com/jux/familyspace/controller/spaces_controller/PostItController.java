@@ -17,16 +17,21 @@ public class PostItController {
     private final PostItService postItService;
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<List<PostIt>> getPostits(@PathVariable String username) {
+    public ResponseEntity<List<PostIt>> getPostItsFromUSer(@PathVariable String username) {
         return ResponseEntity.ok(postItService.getUserPostIts(username));
+    }
+
+    @GetMapping("/family/{familyId}")
+    public ResponseEntity<List<PostIt>> getFamilyPostIts(@PathVariable Long familyId) {
+        return ResponseEntity.ok(postItService.getFamilyPostIts(familyId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostIt> getPostit(@PathVariable Long id) {
-        try{
+        try {
             return ResponseEntity.ok(postItService.getPostIt(id));
 
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             return ResponseEntity.ok(PostIt.builder()
                     .author("system")
                     .topic("error")
@@ -40,14 +45,18 @@ public class PostItController {
     public ResponseEntity<String> createPostit(@PathVariable String username,
                                                @RequestParam String topic,
                                                @RequestParam String content,
-                                               @RequestParam(required = false) Integer priorityLevel){
+                                               @RequestParam(required = false) Integer priorityLevel) {
 
         if (priorityLevel == null) priorityLevel = 0;
-        return ResponseEntity.ok(postItService.createPostIt(username, topic, content, priorityLevel));
+        try {
+            return ResponseEntity.ok(postItService.createPostIt(username, topic, content, priorityLevel));
+        } catch (RuntimeException e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> markPostitDone(@PathVariable Long id){
+    public ResponseEntity<String> markPostitDone(@PathVariable Long id) {
 
         return ResponseEntity.ok(postItService.markPostItDone(id));
     }

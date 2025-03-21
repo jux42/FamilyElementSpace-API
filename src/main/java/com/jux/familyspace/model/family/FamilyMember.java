@@ -19,6 +19,9 @@ public class FamilyMember extends FamilyUser {
     @Lob
     private byte[] avatar;
 
+    @ManyToOne
+    @JoinColumn(name = "family_id", nullable = false)
+    private Family family;
     private String tagline;
 
     @Builder.Default
