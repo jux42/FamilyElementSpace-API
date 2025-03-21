@@ -2,13 +2,19 @@ package com.jux.familyspace.model.spaces;
 
 import com.jux.familyspace.model.family.Family;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PinBoard {
 
 
