@@ -53,7 +53,7 @@ public class PostItService {
     }
 
     public List<PostIt> getFamilyPostIts(Long familyID) {
-        return postItRepository.findByFamilyID(familyID);
+        return postItRepository.findByFamilyId(familyID);
     }
 
     public List<PostIt> getUserPostIts(String username) {

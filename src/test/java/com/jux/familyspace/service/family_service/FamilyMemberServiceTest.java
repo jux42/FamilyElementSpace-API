@@ -261,7 +261,7 @@ public class FamilyMemberServiceTest {
         FamilyMemberOneTypeDto expectedDto = FamilyMemberOneTypeDto.builder()
                 .id(familyMember.getId())
                 .name(familyMember.getUsername())
-                .elements(List.of(familyMember.getElements().get(0))) // Premier élément (Haiku)
+                .elements(List.of(familyMember.getElements().getFirst()))
                 .build();
 
         when(dtoMapperInterface.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(expectedDto);

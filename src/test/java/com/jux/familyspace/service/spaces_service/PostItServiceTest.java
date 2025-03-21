@@ -6,8 +6,6 @@ import com.jux.familyspace.model.spaces.PostIt;
 import com.jux.familyspace.model.spaces.Priority;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.PostItRepository;
-import com.jux.familyspace.service.AuthService;
-import org.hibernate.mapping.Any;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
