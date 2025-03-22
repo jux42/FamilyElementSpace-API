@@ -1,0 +1,34 @@
+services:
+  familyspace-api:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mariadb
+    volumes:
+      - ./src/main/resources/application-familyspace-configuration.yml:/src/main/resources/application-familyspace-configuration.yml:ro
+    environment:
+      SPRING_CONFIG_ADDITIONAL_LOCATION: file:/src/main/resources/
+      DB_HOST: mariadb
+    restart: on-failure
+
+  mariadb:
+    image: mariadb:10.9
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment: #définir des variables dans .env qui correspondant au contenu de application-familyspace-configuration.yml
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DB_HOST: ${DB_HOST}
+
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./db-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  mariadb_data:

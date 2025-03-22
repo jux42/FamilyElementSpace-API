@@ -20,8 +20,9 @@ public class FamilyMember extends FamilyUser {
     private byte[] avatar;
 
     @ManyToOne
-    @JoinColumn(name = "family_id", nullable = false)
+    @JoinColumn(name = "family_id")
     private Family family;
+
     private String tagline;
 
     @Builder.Default
