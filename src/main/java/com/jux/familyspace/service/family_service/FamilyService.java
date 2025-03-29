@@ -47,6 +47,8 @@ public class FamilyService {
 
         family.addFamilyMember(familyMember.get());
         familyRepository.save(family);
+        familyMember.get().setFamilyId(family.getId());
+        familyMemberRepository.save(familyMember.get());
         return "Family sucessfully created";
 
     }

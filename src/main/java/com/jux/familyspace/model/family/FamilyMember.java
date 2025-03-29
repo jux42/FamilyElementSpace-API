@@ -1,6 +1,7 @@
 package com.jux.familyspace.model.family;
 
 import com.jux.familyspace.model.elements.FamilyMemberElement;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,9 +20,8 @@ public class FamilyMember extends FamilyUser {
     @Lob
     private byte[] avatar;
 
-    @ManyToOne
-    @JoinColumn(name = "family_id")
-    private Family family;
+    @Nullable
+    private Long familyId;
 
     private String tagline;
 

@@ -24,9 +24,7 @@ public class PostIt{
 
     private String author;
 
-    @ManyToOne
-    @JoinColumn(name = "family_id", nullable = false)
-    private Family family;
+    private Long familyId;
 
     @Builder.Default
     private Priority priority = Priority.LOW;

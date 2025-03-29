@@ -129,7 +129,7 @@ public class FamilyMemberServiceTest {
 
         FamilyMember familyMember = new FamilyMember();
         familyMember.setId(1L);
-        familyMember.setFamily(family);
+        familyMember.setFamilyId(family.getId());
         familyMember.setUsername(username);
         familyMember.setPassword("password");
 
