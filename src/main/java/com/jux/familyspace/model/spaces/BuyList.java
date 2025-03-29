@@ -14,7 +14,16 @@ public class BuyList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ElementCollection
-    private HashMap<String, String> items;
+    private Long familyId;
 
+    @OneToOne(mappedBy = "buyList", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private PinBoard pinBoard;
+
+
+    @ElementCollection
+    private HashMap<Long, String> items;
+
+    public void addItem(Long userID, String itemDescription){
+        items.put(userID, itemDescription);
+    }
 }

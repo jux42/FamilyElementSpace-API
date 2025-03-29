@@ -5,6 +5,7 @@ import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.model.spaces.PostIt;
 import com.jux.familyspace.model.spaces.Priority;
 import com.jux.familyspace.repository.FamilyMemberRepository;
+import com.jux.familyspace.repository.FamilyRepository;
 import com.jux.familyspace.repository.PostItRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,9 +26,12 @@ import static org.mockito.Mockito.*;
 public class PostItServiceTest {
 
 
+
     @InjectMocks
     private PostItService postItService;
 
+    @Mock
+    private FamilyRepository familyRepository;
     @Mock
     private FamilyMemberRepository familyMemberRepository;
     @Mock
@@ -47,13 +51,17 @@ public class PostItServiceTest {
     public void testCreateAndSavePostit() {
 
         //Given
+        Family family = Family.builder()
+                .familyName("Xour")
+                .id(1L)
+                .build();
         FamilyMember familyMember = new FamilyMember();
         familyMember.setUsername(testAuthor);
-        familyMember.setFamily(new Family());
+        familyMember.setFamilyId(family.getId());
 
         PostIt postIt = PostIt.builder()
                 .author(testAuthor)
-                .family(new Family())
+                .familyId(family.getId())
                 .topic(testTopic)
                 .content(testContent)
                 .priority(Priority.HIGH)
@@ -62,6 +70,7 @@ public class PostItServiceTest {
 
         ArgumentCaptor<PostIt> postItCaptor = ArgumentCaptor.forClass(PostIt.class);
         when(familyMemberRepository.getByUsername(testAuthor)).thenReturn(Optional.of(familyMember));
+        when(familyRepository.findById(1L)).thenReturn(Optional.of(family));
         String expectedOutput = "Post-it created : " + postIt;
 
         //When
@@ -120,14 +129,6 @@ public class PostItServiceTest {
                 .author(testAuthor)
                 .topic(testTopic)
                 .content(testContent)
-                .priority(Priority.HIGH)
-                .build();
-
-        PostIt notExpectedPostIt = PostIt.builder()
-                .id(2L)
-                .author("toto")
-                .topic("toto topic")
-                .content("toto content")
                 .priority(Priority.HIGH)
                 .build();
 

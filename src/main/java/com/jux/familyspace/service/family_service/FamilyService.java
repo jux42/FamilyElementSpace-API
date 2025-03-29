@@ -4,6 +4,7 @@ import com.jux.familyspace.model.dtomapper.FamilyDtoMapper;
 import com.jux.familyspace.model.family.Family;
 import com.jux.familyspace.model.family.FamilyDto;
 import com.jux.familyspace.model.family.FamilyMember;
+import com.jux.familyspace.model.spaces.PinBoard;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,7 @@ public class FamilyService {
                 .familyName(familyName)
                 .secret(secret)
                 .build();
+        family.setPinBoard(PinBoard.builder().family(family).build());
         Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
         if (familyMember.isEmpty()) {
             return "you are not a registered user. Please register first";
@@ -47,6 +49,8 @@ public class FamilyService {
 
         family.addFamilyMember(familyMember.get());
         familyRepository.save(family);
+        familyMember.get().setFamilyId(family.getId());
+        familyMemberRepository.save(familyMember.get());
         return "Family sucessfully created";
 
     }

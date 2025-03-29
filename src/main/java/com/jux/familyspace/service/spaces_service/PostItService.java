@@ -6,11 +6,13 @@ import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.model.spaces.PostIt;
 import com.jux.familyspace.model.spaces.Priority;
 import com.jux.familyspace.repository.FamilyMemberRepository;
+import com.jux.familyspace.repository.FamilyRepository;
 import com.jux.familyspace.repository.PostItRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +20,7 @@ public class PostItService {
 
     private final PostItRepository postItRepository;
     private final FamilyMemberRepository familyMemberRepository;
+    private final FamilyRepository familyRepository;
 
 
     public String createPostIt(String author,
@@ -25,14 +28,18 @@ public class PostItService {
                                String content,
                                Integer priorityLevel) {
 
-        Family family = familyMemberRepository.getByUsername(author)
-                .map(FamilyMember::getFamily)
-                .orElseThrow(() -> new RuntimeException("unknown author : " + author));
-
+        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(author);
+                if (familyMember.isEmpty() || familyMember.get().getFamilyId() == null) {
+                    throw  new RuntimeException("unknown author : " + author);
+                }
+                Optional<Family> family = familyRepository.findById(familyMember.get().getFamilyId());
+                if (family.isEmpty()) {
+                    throw  new RuntimeException("unknown family : " + familyMember.get().getFamilyId());
+                }
 
         PostIt postIt = PostIt.builder()
                 .author(author)
-                .family(family)
+                .familyId(family.get().getId())
                 .topic(topic)
                 .content(content)
                 .priority(
