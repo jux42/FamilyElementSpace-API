@@ -1,6 +1,7 @@
 package com.jux.familyspace.model.family;
 
 
+import com.jux.familyspace.model.spaces.PinBoard;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,9 @@ public class Family {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default
     List<FamilyMember> members = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    PinBoard pinBoard;
 
 
     public void addFamilyMember(FamilyMember familyMember) {

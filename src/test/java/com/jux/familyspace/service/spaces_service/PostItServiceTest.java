@@ -132,14 +132,6 @@ public class PostItServiceTest {
                 .priority(Priority.HIGH)
                 .build();
 
-        PostIt notExpectedPostIt = PostIt.builder()
-                .id(2L)
-                .author("toto")
-                .topic("toto topic")
-                .content("toto content")
-                .priority(Priority.HIGH)
-                .build();
-
         PostIt expectedPostIt2 = PostIt.builder()
                 .id(3L)
                 .author(testAuthor)

@@ -22,7 +22,7 @@ public class PinBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "pinBoard", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Family family;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -30,6 +30,10 @@ public class PinBoard {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PostIt> postIts = new ArrayList<>();
+
+    public void addPostIt(PostIt postIt) {
+        this.postIts.add(postIt);
+    }
 
 
 }
