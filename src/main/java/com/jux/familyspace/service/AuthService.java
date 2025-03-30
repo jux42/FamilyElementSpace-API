@@ -43,7 +43,7 @@ public class AuthService {
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         byte[] image = new byte[0];
         try {
-            Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.jpeg");
+            Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
             image = Files.readAllBytes(imagePath);
         } catch (IOException e) {
             log.error(e.getMessage());

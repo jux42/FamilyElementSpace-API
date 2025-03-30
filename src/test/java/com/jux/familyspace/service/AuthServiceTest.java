@@ -144,7 +144,7 @@ public class AuthServiceTest {
 
         private byte[] loadDefaultAvatar() {
             try {
-                Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.jpeg");
+                Path imagePath = Paths.get("src/main/resources/defaultpic/default_avatar.webp");
                 return Files.readAllBytes(imagePath);
             } catch (Exception e) {
                 return "no image".getBytes();
