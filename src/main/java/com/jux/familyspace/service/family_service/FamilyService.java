@@ -4,6 +4,7 @@ import com.jux.familyspace.model.dtomapper.FamilyDtoMapper;
 import com.jux.familyspace.model.family.Family;
 import com.jux.familyspace.model.family.FamilyDto;
 import com.jux.familyspace.model.family.FamilyMember;
+import com.jux.familyspace.model.spaces.BuyList;
 import com.jux.familyspace.model.spaces.PinBoard;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyRepository;
@@ -28,6 +29,12 @@ public class FamilyService {
     }
 
     public String createFamily(String username, String familyName, String secret) {
+
+        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
+        if (familyMember.isEmpty()) {
+            return "you are not a registered user. Please register first";
+        }
+
         if (familyRepository.findByFamilyName(familyName).isPresent()) {
             int n = 1;
             while (familyRepository.findByFamilyName(familyName + n).isPresent()) {
@@ -41,11 +48,8 @@ public class FamilyService {
                 .familyName(familyName)
                 .secret(secret)
                 .build();
-        family.setPinBoard(PinBoard.builder().family(family).build());
-        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
-        if (familyMember.isEmpty()) {
-            return "you are not a registered user. Please register first";
-        }
+        family.setPinBoard(PinBoard.builder()
+                .build());
 
         family.addFamilyMember(familyMember.get());
         familyRepository.save(family);
@@ -59,7 +63,7 @@ public class FamilyService {
 
         FamilyMember familyMember = familyMemberRepository
                 .getByUsername(username)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(RuntimeException::new);
 
         Family family = familyRepository
                 .findByFamilyName(familyName)
@@ -69,11 +73,20 @@ public class FamilyService {
 
         {
             family.addFamilyMember(familyMember);
+            familyMember.setFamilyId(family.getId());
             familyRepository.save(family);
+            familyMemberRepository.save(familyMember);
             return "welcome to the " +familyName+ " family !";
         } else {
             return "Sorry, your secret does not match the family secret";
         }
 
     }
+
+    public PinBoard getPinBoard(Long familyId) {
+        return familyRepository.findById(familyId).isEmpty()
+                ? null
+                : familyRepository.findById(familyId).get().getPinBoard();
+    }
+
 }

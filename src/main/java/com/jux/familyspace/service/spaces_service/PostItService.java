@@ -30,7 +30,7 @@ public class PostItService {
 
         Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(author);
                 if (familyMember.isEmpty() || familyMember.get().getFamilyId() == null) {
-                    throw  new RuntimeException("unknown author : " + author);
+                    throw  new RuntimeException("Post-It creation failed : User " + author + " is not a member of any family !");
                 }
                 Optional<Family> family = familyRepository.findById(familyMember.get().getFamilyId());
                 if (family.isEmpty()) {
@@ -50,6 +50,10 @@ public class PostItService {
                 .build();
 
         postItRepository.save(postIt);
+        family.ifPresent(f-> {
+            f.getPinBoard().addPostIt(postIt);
+            familyRepository.save(f);
+        });
         return ("Post-it created : " + postIt);
 
     }

@@ -2,6 +2,7 @@ package com.jux.familyspace.service.spaces_service;
 
 import com.jux.familyspace.model.family.Family;
 import com.jux.familyspace.model.family.FamilyMember;
+import com.jux.familyspace.model.spaces.PinBoard;
 import com.jux.familyspace.model.spaces.PostIt;
 import com.jux.familyspace.model.spaces.Priority;
 import com.jux.familyspace.repository.FamilyMemberRepository;
@@ -53,6 +54,7 @@ public class PostItServiceTest {
         //Given
         Family family = Family.builder()
                 .familyName("Xour")
+                .pinBoard(new PinBoard())
                 .id(1L)
                 .build();
         FamilyMember familyMember = new FamilyMember();
@@ -199,4 +201,48 @@ public class PostItServiceTest {
         assertThat(postit.getDone()).isFalse();
 
     }
+
+    @Test
+    @DisplayName("Should fail to create a Post-it if user is not part of a family")
+    void testCreatePostItWithUserWithoutFamily() {
+        FamilyMember familyMember = FamilyMember.builder().familyId(null).build();
+        familyMember.setUsername(testAuthor);
+        when(familyMemberRepository.getByUsername(testAuthor)).thenReturn(Optional.of(familyMember));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                postItService.createPostIt(testAuthor, testTopic, testContent, 2)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Post-It creation failed : User jux is not a member of any family !");
+    }
+
+    @Test
+    @DisplayName("Should fail to create a Post-it if family does not exist")
+    void testCreatePostItWithNonExistentFamily() {
+        FamilyMember familyMember = FamilyMember.builder().familyId(1L).build();
+        familyMember.setUsername(testAuthor);
+        when(familyMemberRepository.getByUsername(testAuthor)).thenReturn(Optional.of(familyMember));
+        when(familyRepository.findById(1L)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                postItService.createPostIt(testAuthor, testTopic, testContent, 2)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("unknown family : 1");
+    }
+
+    @Test
+    @DisplayName("Should retrieve all Post-its for a family")
+    void testGetFamilyPostIts() {
+        PostIt postIt1 = PostIt.builder().familyId(1L).build();
+        PostIt postIt2 = PostIt.builder().familyId(1L).build();
+
+        when(postItRepository.findByFamilyId(1L)).thenReturn(Arrays.asList(postIt1, postIt2));
+
+        List<PostIt> postIts = postItService.getFamilyPostIts(1L);
+
+        assertThat(postIts).hasSize(2).contains(postIt1, postIt2);
+        verify(postItRepository, times(1)).findByFamilyId(1L);
+    }
+
 }

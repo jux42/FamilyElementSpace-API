@@ -27,7 +27,7 @@ public class Family {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default
-    List<FamilyMember> members = new ArrayList<>();
+    private List<FamilyMember> members = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     PinBoard pinBoard;
