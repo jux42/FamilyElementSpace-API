@@ -9,6 +9,7 @@ public class FamilyDtoMapper {
 
     public FamilyDto mapDto(Family family) {
         return FamilyDto.builder()
+                .id(family.getId())
                 .familyName(family.getFamilyName())
                 .membersNames(family.getMemberNames())
                 .build();
