@@ -22,6 +22,8 @@ public class PinBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long familyId;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default
     private BuyList buyList = new BuyList();
