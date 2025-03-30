@@ -50,6 +50,10 @@ public class PostItService {
                 .build();
 
         postItRepository.save(postIt);
+        family.ifPresent(f-> {
+            f.getPinBoard().addPostIt(postIt);
+            familyRepository.save(f);
+        });
         return ("Post-it created : " + postIt);
 
     }
