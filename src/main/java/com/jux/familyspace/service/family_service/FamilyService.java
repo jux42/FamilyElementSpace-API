@@ -49,6 +49,7 @@ public class FamilyService {
                 .secret(secret)
                 .build();
         family.setPinBoard(PinBoard.builder()
+                .familyId(family.getId())
                 .build());
 
         family.addFamilyMember(familyMember.get());

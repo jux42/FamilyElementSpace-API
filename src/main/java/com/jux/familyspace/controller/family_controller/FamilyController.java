@@ -46,7 +46,7 @@ public class FamilyController {
     }
 
     @GetMapping("/pinboard/{id}")
-    public ResponseEntity<PinBoard> getPinboard(@PathVariable Long id) {
+    public ResponseEntity<PinBoard> getPinBoard(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(familyService.getPinBoard(id));
         }catch (Exception e){
