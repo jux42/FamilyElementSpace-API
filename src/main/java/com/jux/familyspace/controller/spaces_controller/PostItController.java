@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -41,15 +42,15 @@ public class PostItController {
         }
     }
 
-    @PostMapping("/{username}")
-    public ResponseEntity<String> createPostit(@PathVariable String username,
+    @PostMapping
+    public ResponseEntity<String> createPostit(Principal principal,
                                                @RequestParam String topic,
                                                @RequestParam String content,
                                                @RequestParam(required = false) Integer priorityLevel) {
 
         if (priorityLevel == null) priorityLevel = 0;
         try {
-            return ResponseEntity.ok(postItService.createPostIt(username, topic, content, priorityLevel));
+            return ResponseEntity.ok(postItService.createPostIt(principal.getName(), topic, content, priorityLevel));
         } catch (RuntimeException e) {
             return ResponseEntity.ok(e.getMessage());
         }

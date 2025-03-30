@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -15,14 +17,14 @@ public class FamilyController {
     private final FamilyService familyService;
 
     @PostMapping("family")
-    public ResponseEntity<String> familyRegister(@RequestParam String username, @RequestParam String familyName, @RequestParam String secret) {
-        return ResponseEntity.ok(familyService.createFamily(username, familyName, secret));
+    public ResponseEntity<String> familyRegister(Principal principal, @RequestParam String familyName, @RequestParam String secret) {
+        return ResponseEntity.ok(familyService.createFamily(principal.getName(), familyName, secret));
     }
 
     @PutMapping("family")
-    public ResponseEntity<String> joinFamily(@RequestParam String username, @RequestParam String familyName, @RequestParam String secret) {
+    public ResponseEntity<String> joinFamily(Principal principal, @RequestParam String familyName, @RequestParam String secret) {
         try{
-            return ResponseEntity.ok(familyService.joinFamily(username, familyName, secret));
+            return ResponseEntity.ok(familyService.joinFamily(principal.getName(), familyName, secret));
         }catch (Exception e){
             log.error(e.getMessage());
             return ResponseEntity.ok(e.getMessage());

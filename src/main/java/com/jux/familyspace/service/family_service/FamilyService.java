@@ -28,6 +28,12 @@ public class FamilyService {
     }
 
     public String createFamily(String username, String familyName, String secret) {
+
+        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
+        if (familyMember.isEmpty()) {
+            return "you are not a registered user. Please register first";
+        }
+
         if (familyRepository.findByFamilyName(familyName).isPresent()) {
             int n = 1;
             while (familyRepository.findByFamilyName(familyName + n).isPresent()) {
@@ -42,10 +48,6 @@ public class FamilyService {
                 .secret(secret)
                 .build();
         family.setPinBoard(PinBoard.builder().family(family).build());
-        Optional<FamilyMember> familyMember = familyMemberRepository.getByUsername(username);
-        if (familyMember.isEmpty()) {
-            return "you are not a registered user. Please register first";
-        }
 
         family.addFamilyMember(familyMember.get());
         familyRepository.save(family);
@@ -59,7 +61,7 @@ public class FamilyService {
 
         FamilyMember familyMember = familyMemberRepository
                 .getByUsername(username)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(RuntimeException::new);
 
         Family family = familyRepository
                 .findByFamilyName(familyName)
@@ -69,7 +71,9 @@ public class FamilyService {
 
         {
             family.addFamilyMember(familyMember);
+            familyMember.setFamilyId(family.getId());
             familyRepository.save(family);
+            familyMemberRepository.save(familyMember);
             return "welcome to the " +familyName+ " family !";
         } else {
             return "Sorry, your secret does not match the family secret";
