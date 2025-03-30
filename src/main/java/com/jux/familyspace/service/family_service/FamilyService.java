@@ -4,7 +4,6 @@ import com.jux.familyspace.model.dtomapper.FamilyDtoMapper;
 import com.jux.familyspace.model.family.Family;
 import com.jux.familyspace.model.family.FamilyDto;
 import com.jux.familyspace.model.family.FamilyMember;
-import com.jux.familyspace.model.spaces.BuyList;
 import com.jux.familyspace.model.spaces.PinBoard;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyRepository;
@@ -51,6 +50,9 @@ public class FamilyService {
         family.setPinBoard(PinBoard.builder()
                 .familyId(family.getId())
                 .build());
+        family.getPinBoard()
+                .getBuyList()
+                .setFamilyId(family.getId());
 
         family.addFamilyMember(familyMember.get());
         familyRepository.save(family);
