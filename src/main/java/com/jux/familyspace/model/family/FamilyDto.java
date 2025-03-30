@@ -8,6 +8,7 @@ import java.util.List;
 @Builder
 @Data
 public class FamilyDto {
+    Long id;
     String familyName;
     List<String> membersNames;
 }
