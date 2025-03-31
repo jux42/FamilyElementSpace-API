@@ -1,4 +1,4 @@
-package com.jux.familyspace.controller.spaces_controller;
+package com.jux.familyspace.model.spaces;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
