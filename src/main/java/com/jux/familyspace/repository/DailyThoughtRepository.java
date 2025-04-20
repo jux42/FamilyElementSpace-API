@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface DailyThoughtRepository extends JpaRepository<DailyThought, Long> {
@@ -23,5 +23,5 @@ public interface DailyThoughtRepository extends JpaRepository<DailyThought, Long
 
     DailyThought getByIdAndOwner(Long id, String owner);
 
-    Collection<? extends DailyThought> getDailyThoughtsByOwnerAndPinned(String name, boolean b);
+    List<DailyThought> getDailyThoughtsByOwnerAndPinned(String name, boolean b);
 }
