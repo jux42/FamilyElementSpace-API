@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface HaikuRepository extends JpaRepository<Haiku, Long> {
@@ -22,5 +23,5 @@ public interface HaikuRepository extends JpaRepository<Haiku, Long> {
 
     Haiku getByIdAndOwner(Long id, String owner);
 
-    Iterable<Haiku> getByOwnerAndPinned(String owner, Boolean pinned);
+    List<Haiku> getByOwnerAndPinned(String owner, Boolean pinned);
 }

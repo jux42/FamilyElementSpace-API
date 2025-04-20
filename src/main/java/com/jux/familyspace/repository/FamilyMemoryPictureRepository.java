@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Repository;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface FamilyMemoryPictureRepository extends JpaRepository<FamilyMemoryPicture, Long> {
@@ -20,5 +21,5 @@ public interface FamilyMemoryPictureRepository extends JpaRepository<FamilyMemor
 
     FamilyMemoryPicture getByIdAndOwner(Long id, String owner);
 
-    Iterable<FamilyMemoryPicture> getByOwnerAndPinned(String owner, Boolean pinned);
+    List<FamilyMemoryPicture> getByOwnerAndPinned(String owner, Boolean pinned);
 }
