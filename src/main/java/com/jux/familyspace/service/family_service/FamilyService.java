@@ -7,6 +7,7 @@ import com.jux.familyspace.model.family.FamilyMember;
 import com.jux.familyspace.model.spaces.PinBoard;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyRepository;
+import com.jux.familyspace.service.spaces_service.PinBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class FamilyService {
     private final FamilyRepository familyRepository;
     private final FamilyMemberRepository familyMemberRepository;
     private final FamilyDtoMapper familyDtoMapper;
+    private final PinBoardService pinBoardService;
 
     public Long getFamilyIdFromName(String familyName) {
         return familyRepository.findByFamilyName(familyName).get().getId();
@@ -57,17 +59,20 @@ public class FamilyService {
                 .familyName(familyName)
                 .secret(secret)
                 .build();
-        family.setPinBoard(PinBoard.builder()
-                .familyId(family.getId())
-                .build());
-        family.getPinBoard()
-                .getBuyList()
-                .setFamilyId(family.getId());
-
         family.addFamilyMember(familyMember.get());
+
         familyRepository.save(family);
         familyMember.get().setFamilyId(family.getId());
         familyMemberRepository.save(familyMember.get());
+
+        family.setPinBoard(pinBoardService.initiatePinBoard(family));
+        familyRepository.save(family);
+        family.getPinBoard()
+                .getBuyList()
+                .setFamilyId(family.getId());
+        familyRepository.save(family);
+
+
         return "Family sucessfully created";
 
     }
