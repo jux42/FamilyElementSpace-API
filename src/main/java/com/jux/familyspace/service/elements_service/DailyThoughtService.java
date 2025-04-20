@@ -6,6 +6,9 @@ import com.jux.familyspace.component.DailyThoughtSizeTracker;
 import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.ElementVisibility;
 import com.jux.familyspace.repository.DailyThoughtRepository;
+import com.jux.familyspace.repository.FamilyMemberRepository;
+import com.jux.familyspace.service.family_service.FamilyService;
+import com.jux.familyspace.service.spaces_service.PinBoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
     private final DailyThoughtRepository dailyThoughtRepository;
     private final DailyThoughtSizeTracker sizeTracker;
     private final AbstractElementAdder<DailyThought> dailyThoughtAdder;
+    private final FamilyService familyService;
+    private final PinBoardService pinBoardService;
+    private final FamilyMemberRepository familyMemberRepository;
     private Iterable<DailyThought> dailyThoughts;
 
 
@@ -85,7 +91,10 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
             DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
             dailyThought.setPinned(true);
             dailyThoughtRepository.save(dailyThought);
-            return "Thought successfully pinned";
+            Long familyId = familyMemberRepository.getByUsername(owner).get().getFamilyId();
+            pinBoardService.updatePinBoard(familyId, dailyThought);
+            return "Daily thought successfully pinned -- "
+                    + pinBoardService.updatePinBoard(familyId, dailyThought);
         }catch (Exception e){
             return "error making pinned : " + e.getMessage();
         }
@@ -96,8 +105,11 @@ public class DailyThoughtService implements FamilyElementServiceInterface<DailyT
         try {
             DailyThought dailyThought = dailyThoughtRepository.getByIdAndOwner(id, owner);
             dailyThought.setPinned(false);
+            dailyThought.setVisibility(ElementVisibility.SHARED);
             dailyThoughtRepository.save(dailyThought);
-            return "Thought successfully unpinned";
+            Long familyId = familyMemberRepository.getByUsername(owner).get().getFamilyId();
+            return "Picture successfully unpinned -- "
+                    + pinBoardService.updatePinBoard(familyId, dailyThought);
         }catch (Exception e){
             return "error while unpinning : " + e.getMessage();
         }

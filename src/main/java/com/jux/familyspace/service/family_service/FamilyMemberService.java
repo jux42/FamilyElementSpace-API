@@ -13,7 +13,6 @@ import com.jux.familyspace.repository.FamilyMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,8 +36,8 @@ public class FamilyMemberService {
         return familyMember.orElse(null);
     }
 
-    public FamilyMemberDto getMemberDto(Principal principal) {
-        FamilyMember familyMember = getCurrentUserByName(principal.getName());
+    public FamilyMemberDto getMemberDto(String username) {
+        FamilyMember familyMember = getCurrentUserByName(username);
         return familyMember != null ? memberDtoMapper.getMemberDto(familyMember) : null;
     }
 

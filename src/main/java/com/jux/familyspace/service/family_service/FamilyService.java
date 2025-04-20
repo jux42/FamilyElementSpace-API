@@ -21,9 +21,19 @@ public class FamilyService {
     private final FamilyMemberRepository familyMemberRepository;
     private final FamilyDtoMapper familyDtoMapper;
 
+    public Long getFamilyIdFromName(String familyName) {
+        return familyRepository.findByFamilyName(familyName).get().getId();
+    }
+
     public FamilyDto getFamilyDetailsDto(String familyName) {
 
         Family family =  familyRepository.findByFamilyName(familyName).orElseThrow(NoSuchElementException::new);
+        return familyDtoMapper.mapDto(family);
+    }
+
+    public FamilyDto getFamilyDetailsDto(Long familyId) {
+
+        Family family =  familyRepository.findById(familyId).orElseThrow(NoSuchElementException::new);
         return familyDtoMapper.mapDto(family);
     }
 
