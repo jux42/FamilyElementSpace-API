@@ -27,9 +27,9 @@ public class FamilyMemberController {
     private final FamilyElementServiceInterface<FamilyMemoryPicture> familyMemoryPictureService;
 
     @GetMapping("details")
-    public ResponseEntity<FamilyMemberDto> getCurrentUserDto(Principal principal) {
+    public ResponseEntity<FamilyMemberDto> getCurrentUserDto(String name) {
         try {
-            return ResponseEntity.ok(familyMemberService.getMemberDto(principal));
+            return ResponseEntity.ok(familyMemberService.getMemberDto(name));
 
         } catch (Exception e) {
             log.error(e.getMessage());

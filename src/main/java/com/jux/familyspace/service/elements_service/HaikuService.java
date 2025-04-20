@@ -5,7 +5,10 @@ import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.model.elements.ElementVisibility;
 import com.jux.familyspace.model.elements.Haiku;
+import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.HaikuRepository;
+import com.jux.familyspace.service.family_service.FamilyService;
+import com.jux.familyspace.service.spaces_service.PinBoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,9 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
     private final HaikuRepository haikuRepository;
     private final ElementSizeTrackerInterface<Haiku> sizeTracker;
     private final AbstractElementAdder<Haiku> haikuAdder;
+    private final FamilyService familyService;
+    private final PinBoardService pinBoardService;
+    private final FamilyMemberRepository familyMemberRepository;
     private Iterable<Haiku> haikus;
 
 
@@ -78,9 +84,15 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
 
         try {
             Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
+            System.out.println(haiku);
             haiku.setPinned(true);
+            haiku.setVisibility(ElementVisibility.SHARED);
             haikuRepository.save(haiku);
-            return "haiku successfully pinned";
+            Long familyId = familyMemberRepository.getByUsername(owner).get().getFamilyId();
+            System.out.println("family ID found : " + familyId);
+            String output = pinBoardService.updatePinBoard(familyId, haiku);
+            return "haiku successfully pinned -- "
+                    + output;
         }catch (Exception e){
             return "error making pinned : " + e.getMessage();
         }
@@ -92,7 +104,9 @@ public class HaikuService implements FamilyElementServiceInterface<Haiku> {
            Haiku haiku = haikuRepository.getByIdAndOwner(id, owner);
            haiku.setPinned(false);
            haikuRepository.save(haiku);
-           return "haiku successfully unpinned";
+           Long familyId = familyMemberRepository.getByUsername(owner).get().getFamilyId();
+           return "Picture successfully unpinned -- "
+                   + pinBoardService.updatePinBoard(familyId, haiku);
        }catch (Exception e){
            return "error while unpinning : " + e.getMessage();
        }

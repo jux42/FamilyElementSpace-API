@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class FamilyMemberElement {
+public class FamilyMemberElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

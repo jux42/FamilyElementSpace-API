@@ -5,12 +5,16 @@ import com.jux.familyspace.api.ElementSizeTrackerInterface;
 import com.jux.familyspace.api.FamilyElementServiceInterface;
 import com.jux.familyspace.model.elements.ElementVisibility;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
+import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyMemoryPictureRepository;
+import com.jux.familyspace.service.family_service.FamilyService;
+import com.jux.familyspace.service.spaces_service.PinBoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +24,11 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
     private final FamilyMemoryPictureRepository familyMemoryPictureRepository;
     private final ElementSizeTrackerInterface<FamilyMemoryPicture> sizeTracker;
     private final AbstractElementAdder<FamilyMemoryPicture> familyMemoryPictureAdder;
+    private final PinBoardService pinBoardService;
+    private final FamilyService familyService;
+    private final FamilyMemberRepository familyMemberRepository;
+    private List<FamilyMemoryPicture> pictures;
 
-    private Iterable<FamilyMemoryPicture> pictures;
 
     @Override
     public Iterable<FamilyMemoryPicture> getAllElements(String owner) {
@@ -72,7 +79,9 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
             FamilyMemoryPicture memoryPicture = familyMemoryPictureRepository.getByIdAndOwner(id, owner);
             memoryPicture.setPinned(true);
             familyMemoryPictureRepository.save(memoryPicture);
-            return "Picture successfully pinned";
+            Long familyId = familyMemberRepository.getByUsername(owner).get().getFamilyId();
+            return ("Picture successfully pinned -- "
+                    + pinBoardService.updatePinBoard(familyId, memoryPicture));
         }catch (Exception e){
             return "error making pinned : " + e.getMessage();
         }
@@ -83,8 +92,12 @@ public class FamilyMemoryPictureService implements FamilyElementServiceInterface
         try {
             FamilyMemoryPicture memoryPicture = familyMemoryPictureRepository.getByIdAndOwner(id, owner);
             memoryPicture.setPinned(false);
+            memoryPicture.setVisibility(ElementVisibility.SHARED);
             familyMemoryPictureRepository.save(memoryPicture);
-            return "Picture successfully unpinned";
+            Long familyId = familyMemberRepository.getByUsername(owner).get().getFamilyId();
+            return ("Picture successfully unpinned -- "
+                    + pinBoardService.updatePinBoard(familyId, memoryPicture));
+
         }catch (Exception e){
             return "error while unpinning : " + e.getMessage();
         }

@@ -139,13 +139,11 @@ public class FamilyMemberServiceTest {
                 .name("jux")
                 .build();
 
-        Principal principal = mock(Principal.class);
 
         when(familyMemberRepository.getByUsername(username)).thenReturn(Optional.of(familyMember));
-        when(principal.getName()).thenReturn(username);
 
         //When
-        FamilyMemberDto actualDto = familyMemberService.getMemberDto(principal);
+        FamilyMemberDto actualDto = familyMemberService.getMemberDto(username);
 
         //Then
         verify(familyMemberRepository, times(1)).getByUsername(username);
@@ -159,13 +157,10 @@ public class FamilyMemberServiceTest {
     void testGetMemberDto_ByUsername_NotFound() {
 
         //Given
-        Principal principal = mock(Principal.class);
-
         when(familyMemberRepository.getByUsername(username)).thenReturn(Optional.empty());
-        when(principal.getName()).thenReturn(username);
 
         //When
-        FamilyMemberDto actualDto = familyMemberService.getMemberDto(principal);
+        FamilyMemberDto actualDto = familyMemberService.getMemberDto(username);
 
         //Then
         verify(familyMemberRepository, times(1)).getByUsername(username);

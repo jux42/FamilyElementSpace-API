@@ -37,8 +37,8 @@ public class FamilyMemberService {
         return familyMember.orElse(null);
     }
 
-    public FamilyMemberDto getMemberDto(Principal principal) {
-        FamilyMember familyMember = getCurrentUserByName(principal.getName());
+    public FamilyMemberDto getMemberDto(String username) {
+        FamilyMember familyMember = getCurrentUserByName(username);
         return familyMember != null ? memberDtoMapper.getMemberDto(familyMember) : null;
     }
 
