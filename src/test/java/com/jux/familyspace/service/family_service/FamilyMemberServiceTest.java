@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.TestComponent;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

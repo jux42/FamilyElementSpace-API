@@ -1,10 +1,8 @@
 package com.jux.familyspace.model.spaces;
 
 import com.jux.familyspace.model.elements.DailyThought;
-import com.jux.familyspace.model.elements.FamilyMemberElement;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import com.jux.familyspace.model.elements.Haiku;
-import com.jux.familyspace.model.family.Family;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

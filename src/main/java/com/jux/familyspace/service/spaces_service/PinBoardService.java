@@ -1,7 +1,6 @@
 package com.jux.familyspace.service.spaces_service;
 
 import com.jux.familyspace.model.elements.DailyThought;
-import com.jux.familyspace.model.elements.FamilyMemberElement;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import com.jux.familyspace.model.elements.Haiku;
 import com.jux.familyspace.model.spaces.BuyList;

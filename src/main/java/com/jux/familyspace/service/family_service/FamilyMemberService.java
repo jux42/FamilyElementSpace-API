@@ -13,7 +13,6 @@ import com.jux.familyspace.repository.FamilyMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
