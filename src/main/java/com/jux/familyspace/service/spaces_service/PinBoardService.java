@@ -3,10 +3,14 @@ package com.jux.familyspace.service.spaces_service;
 import com.jux.familyspace.model.elements.DailyThought;
 import com.jux.familyspace.model.elements.FamilyMemoryPicture;
 import com.jux.familyspace.model.elements.Haiku;
+import com.jux.familyspace.model.family.Family;
 import com.jux.familyspace.model.spaces.BuyList;
 import com.jux.familyspace.model.spaces.ItemToBuy;
 import com.jux.familyspace.model.spaces.PinBoard;
 import com.jux.familyspace.model.spaces.PostIt;
+import com.jux.familyspace.repository.DailyThoughtRepository;
+import com.jux.familyspace.repository.FamilyMemoryPictureRepository;
+import com.jux.familyspace.repository.HaikuRepository;
 import com.jux.familyspace.repository.PinBoardRepository;
 import com.jux.familyspace.service.family_service.FamilyMemberService;
 import com.jux.familyspace.service.family_service.FamilyService;
@@ -22,32 +26,34 @@ public class PinBoardService {
 
     private final BuyListService buyListService;
     private final PostItService postItService;
-    private final FamilyMemberService familyMemberService;
-    private final FamilyService familyService;
     private final PinBoardRepository pinBoardRepository;
+    private final HaikuRepository haikuRepository;
+    private final DailyThoughtRepository dailyThoughtRepository;
+    private final FamilyMemoryPictureRepository familyMemoryPictureRepository;
 
     private String updateOutputMessage;
 
-    public PinBoard initiatePinBoard(Long familyId) {
+    public PinBoard initiatePinBoard(Family family) {
 
-        List<PostIt> postItList = postItService.getFamilyPostIts(familyId);
-        BuyList buyList = buyListService.getBuyList(familyId);
+        List<PostIt> postItList = postItService.getFamilyPostIts(family.getId());
+        BuyList buyList = new BuyList();
+        buyList.setFamilyId(family.getId());
         List<Haiku> pinnedHaikus = new ArrayList<>();
         List<DailyThought> pinnedDailyThoughts = new ArrayList<>();
         List<FamilyMemoryPicture> pinnedPictures = new ArrayList<>();
 
-        List<String> names = familyService.getFamilyDetailsDto(familyId).getMembersNames();
+        List<String> names = family.getMemberNames();
 
         names.forEach(name -> {
-            pinnedHaikus.add((Haiku) familyMemberService.getMemberHaikuDto(name).getElements().stream().filter(haiku -> haiku.getPinned() == true));
-            pinnedDailyThoughts.add((DailyThought) familyMemberService.getMemberDailyThoughtsDto(name)
-                    .getElements().stream().filter(dailyThought -> dailyThought.getPinned() == true));
-            pinnedPictures.add((FamilyMemoryPicture) familyMemberService.getMemberMemoryPicsDto(name)
-                    .getElements().stream().filter(picture -> picture.getPinned() == true));
+
+            pinnedHaikus.addAll(haikuRepository.getByOwnerAndPinned(name, true));
+            pinnedDailyThoughts.addAll(dailyThoughtRepository.getDailyThoughtsByOwnerAndPinned(name, true));
+            pinnedPictures.addAll(familyMemoryPictureRepository.getByOwnerAndPinned(name, true));
+
         });
 
         PinBoard pinBoard = PinBoard.builder()
-                .familyId(familyId)
+                .familyId(family.getId())
                 .postIts(postItList)
                 .buyList(buyList)
                 .pinnedHaikus(pinnedHaikus)
