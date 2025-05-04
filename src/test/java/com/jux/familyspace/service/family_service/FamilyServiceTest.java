@@ -4,9 +4,11 @@ import com.jux.familyspace.model.dtomapper.FamilyDtoMapper;
 import com.jux.familyspace.model.family.Family;
 import com.jux.familyspace.model.family.FamilyDto;
 import com.jux.familyspace.model.family.FamilyMember;
+import com.jux.familyspace.model.spaces.BuyList;
 import com.jux.familyspace.model.spaces.PinBoard;
 import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyRepository;
+import com.jux.familyspace.service.spaces_service.PinBoardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,9 @@ class FamilyServiceTest {
 
     @Mock
     private FamilyDtoMapper familyDtoMapper;
+
+    @Mock
+    private PinBoardService pinBoardService;
 
     @InjectMocks
     private FamilyService familyService;
@@ -92,13 +97,16 @@ class FamilyServiceTest {
     @Test
     @DisplayName("Should create a family successfully")
     void testCreateFamily_Success() {
-        when(familyMemberRepository.getByUsername("jux")).thenReturn(Optional.of(familyMember));
-        when(familyRepository.findByFamilyName("TestFamily")).thenReturn(Optional.empty());
 
+        PinBoard pinBoard = new PinBoard();
+        BuyList buyList = new BuyList();
+        pinBoard.setBuyList(buyList);        when(familyMemberRepository.getByUsername("jux")).thenReturn(Optional.of(familyMember));
+        when(familyRepository.findByFamilyName("TestFamily")).thenReturn(Optional.empty());
+        when(pinBoardService.initiatePinBoard(any(Family.class))).thenReturn(pinBoard);
         String result = familyService.createFamily("jux", "TestFamily", "secret123");
 
         assertThat(result).isEqualTo("Family sucessfully created");
-        verify(familyRepository, times(1)).save(any(Family.class));
+        verify(familyRepository, times(3)).save(any(Family.class));
         verify(familyMemberRepository, times(1)).save(any(FamilyMember.class));
     }
 
