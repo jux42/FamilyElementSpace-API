@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -89,8 +90,7 @@ public class FamilyService {
                 .findByFamilyName(familyName)
                 .orElseThrow(RuntimeException::new);
 
-        assert familyMember.getFamilyId() != null;
-        if (familyMember.getFamilyId().equals(family.getId())){
+        if (Objects.equals(familyMember.getFamilyId(), family.getId())){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "You are already in a Family");
         }
 
