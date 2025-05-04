@@ -43,49 +43,60 @@ class AuthControllerTest {
     @Test
     @DisplayName("Should authenticate user and return token on /auth/login")
     void testLogin_success() throws Exception {
+        // Given
         when(authService.authenticate("jux", "secret")).thenReturn("token123");
 
+        // When // Then
         mockMvc.perform(post("/auth/login")
                         .param("username", "jux")
                         .param("password", "secret"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("token123"));
 
+        // Then (mock verification)
         verify(authService).authenticate("jux", "secret");
     }
 
     @Test
     @DisplayName("Should register member user on /auth/memberregister")
     void testMemberRegister_success() throws Exception {
+        // Given
         when(authService.register("jux", "pass", true)).thenReturn("member registered");
 
+        // When // Then
         mockMvc.perform(post("/auth/memberregister")
                         .param("username", "jux")
                         .param("password", "pass"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("member registered"));
 
+        // Then (mock verification)
         verify(authService).register("jux", "pass", true);
     }
 
     @Test
     @DisplayName("Should login as guest on /auth/guestlogin")
     void testGuestLogin_success() throws Exception {
+        // Given
         when(guestService.loginAsGuest("guest123")).thenReturn("guest-token");
 
+        // When // Then
         mockMvc.perform(post("/auth/guestlogin")
                         .param("username", "guest123"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("guest-token"));
 
+        // Then (mock verification)
         verify(guestService).loginAsGuest("guest123");
     }
 
     @Test
     @DisplayName("Should return guest name from Principal on /auth/getname")
     void testGetGuestName_success() throws Exception {
+        // Given
         Principal principal = () -> "guestName";
 
+        // When // Then
         mockMvc.perform(get("/auth/getname")
                         .principal(principal))
                 .andExpect(status().isOk())
@@ -95,6 +106,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("Should return principal toString on /auth/whoami")
     void testWhoAmI_success() throws Exception {
+        // Given
         Principal principal = new Principal() {
             @Override
             public String getName() {
@@ -107,17 +119,17 @@ class AuthControllerTest {
             }
         };
 
+        // When // Then
         mockMvc.perform(get("/auth/whoami")
                         .principal(principal))
                 .andExpect(status().isOk())
                 .andExpect(content().string("guestName"));
     }
 
-
-
     @Test
     @DisplayName("Should return 400 if parameters are missing on /auth/login")
     void testLogin_missingParams() throws Exception {
+        // When // Then
         mockMvc.perform(post("/auth/login"))
                 .andExpect(status().isBadRequest());
     }

@@ -52,8 +52,10 @@ class FamilyMemberControllerTest {
     @Test
     @DisplayName("Should return FamilyMemberDto on /user/details")
     void testGetCurrentUserDto_success() throws Exception {
+        // Given
         when(familyMemberService.getMemberDto("jux")).thenReturn(FamilyMemberDto.builder().build());
 
+        // When // Then
         mockMvc.perform(get("/user/details").param("name", "jux"))
                 .andExpect(status().isOk());
     }
@@ -61,9 +63,11 @@ class FamilyMemberControllerTest {
     @Test
     @DisplayName("Should return 204 if getMemberDto throws exception")
     void testGetCurrentUserDto_failure() throws Exception {
+        // Given
         when(familyMemberService.getMemberDto("jux"))
                 .thenThrow(new RuntimeException("not found"));
 
+        // When // Then
         mockMvc.perform(get("/user/details").param("name", "jux"))
                 .andExpect(status().isNoContent());
     }
@@ -72,27 +76,33 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should return haiku dto for member")
     void testGetMemberHaikuDto() throws Exception {
+        // Given
         when(familyMemberService.getMemberHaikuDto("jux"))
                 .thenReturn(FamilyMemberOneTypeDto.builder().build());
 
+        // When // Then
         mockMvc.perform(get("/user/haikus").principal(() -> "jux"))
                 .andExpect(status().isOk());
     }
 
     @Test @DisplayName("Should return daily thoughts dto for member")
     void testGetMemberDailyThoughtsDto() throws Exception {
+        // Given
         when(familyMemberService.getMemberDailyThoughtsDto("jux"))
                 .thenReturn(FamilyMemberOneTypeDto.builder().build());
 
+        // When // Then
         mockMvc.perform(get("/user/thoughts").principal(() -> "jux"))
                 .andExpect(status().isOk());
     }
 
     @Test @DisplayName("Should return memory pictures dto for member")
     void testGetMemberMemoryPicsDto() throws Exception {
+        // Given
         when(familyMemberService.getMemberMemoryPicsDto("jux"))
                 .thenReturn(FamilyMemberOneTypeDto.builder().build());
 
+        // When // Then
         mockMvc.perform(get("/user/memorypics").principal(() -> "jux"))
                 .andExpect(status().isOk());
     }
@@ -101,8 +111,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should make haiku public")
     void testMakeHaikuPublic() throws Exception {
+        // Given
         when(haikuService.makePublic(1L, "jux")).thenReturn("done");
 
+        // When // Then
         mockMvc.perform(post("/user/haiku/public/1").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("done"));
@@ -110,8 +122,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should share haiku")
     void testShareHaiku() throws Exception {
+        // Given
         when(haikuService.makeShared(1L, "jux")).thenReturn("shared");
 
+        // When // Then
         mockMvc.perform(post("/user/haiku/share/1").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("shared"));
@@ -119,8 +133,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should make thought public")
     void testMakeThoughtPublic() throws Exception {
+        // Given
         when(dailyThoughtService.makePublic(2L, "jux")).thenReturn("public");
 
+        // When // Then
         mockMvc.perform(post("/user/thought/public/2").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("public"));
@@ -128,8 +144,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should share thought")
     void testShareThought() throws Exception {
+        // Given
         when(dailyThoughtService.makeShared(2L, "jux")).thenReturn("shared");
 
+        // When // Then
         mockMvc.perform(post("/user/thought/share/2").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("shared"));
@@ -137,8 +155,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should make memory pic public")
     void testMakeMemoryPicPublic() throws Exception {
+        // Given
         when(familyMemoryPictureService.makePublic(3L, "jux")).thenReturn("public");
 
+        // When // Then
         mockMvc.perform(post("/user/memorypic/public/3").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("public"));
@@ -146,8 +166,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should share memory pic")
     void testShareMemoryPic() throws Exception {
+        // Given
         when(familyMemoryPictureService.makeShared(3L, "jux")).thenReturn("shared");
 
+        // When // Then
         mockMvc.perform(post("/user/memorypic/share/3").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("shared"));
@@ -155,8 +177,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should pin haiku")
     void testPinHaiku() throws Exception {
+        // Given
         when(haikuService.markAsPinned(4L, "jux")).thenReturn("pinned");
 
+        // When // Then
         mockMvc.perform(post("/user/haiku/pin/4").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("pinned"));
@@ -164,8 +188,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should unpin haiku")
     void testUnpinHaiku() throws Exception {
+        // Given
         when(haikuService.unpin(4L, "jux")).thenReturn("unpinned");
 
+        // When // Then
         mockMvc.perform(post("/user/haiku/unpin/4").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("unpinned"));
@@ -173,8 +199,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should pin thought")
     void testPinThought() throws Exception {
+        // Given
         when(dailyThoughtService.markAsPinned(5L, "jux")).thenReturn("pinned");
 
+        // When // Then
         mockMvc.perform(post("/user/thought/pin/5").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("pinned"));
@@ -182,8 +210,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should unpin thought")
     void testUnpinThought() throws Exception {
+        // Given
         when(dailyThoughtService.unpin(5L, "jux")).thenReturn("unpinned");
 
+        // When // Then
         mockMvc.perform(post("/user/thought/unpin/5").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("unpinned"));
@@ -191,8 +221,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should pin memory pic")
     void testPinPicture() throws Exception {
+        // Given
         when(familyMemoryPictureService.markAsPinned(6L, "jux")).thenReturn("pinned");
 
+        // When // Then
         mockMvc.perform(post("/user/memorypic/pin/6").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("pinned"));
@@ -200,8 +232,10 @@ class FamilyMemberControllerTest {
 
     @Test @DisplayName("Should unpin memory pic")
     void testUnpinPicture() throws Exception {
+        // Given
         when(familyMemoryPictureService.unpin(6L, "jux")).thenReturn("unpinned");
 
+        // When // Then
         mockMvc.perform(post("/user/memorypic/unpin/6").principal(() -> "jux"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("unpinned"));

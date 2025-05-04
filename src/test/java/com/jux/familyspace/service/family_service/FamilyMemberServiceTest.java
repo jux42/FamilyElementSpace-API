@@ -251,6 +251,7 @@ public class FamilyMemberServiceTest {
 
     @Test
     void testMockHaikuDtoMapper() {
+        //Given
         FamilyMember familyMember = initFamilyMember();
         FamilyMemberOneTypeDto expectedDto = FamilyMemberOneTypeDto.builder()
                 .id(familyMember.getId())
@@ -260,9 +261,10 @@ public class FamilyMemberServiceTest {
 
         when(dtoMapperInterface.getOneTypeMemberDto(any(FamilyMember.class))).thenReturn(expectedDto);
 
+        //When
         FamilyMemberOneTypeDto actualDto = dtoMapperInterface.getOneTypeMemberDto(familyMember);
 
-        System.out.println("Test Mock Mapper - Résultat : " + actualDto);
+        //Then
         assertThat(actualDto).isNotNull();
         assertThat(actualDto).isEqualTo(expectedDto);
     }

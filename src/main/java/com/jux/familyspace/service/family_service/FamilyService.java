@@ -9,7 +9,9 @@ import com.jux.familyspace.repository.FamilyMemberRepository;
 import com.jux.familyspace.repository.FamilyRepository;
 import com.jux.familyspace.service.spaces_service.PinBoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -29,13 +31,13 @@ public class FamilyService {
 
     public FamilyDto getFamilyDetailsDto(String familyName) {
 
-        Family family =  familyRepository.findByFamilyName(familyName).orElseThrow(NoSuchElementException::new);
+        Family family = familyRepository.findByFamilyName(familyName).orElseThrow(NoSuchElementException::new);
         return familyDtoMapper.mapDto(family);
     }
 
     public FamilyDto getFamilyDetailsDto(Long familyId) {
 
-        Family family =  familyRepository.findById(familyId).orElseThrow(NoSuchElementException::new);
+        Family family = familyRepository.findById(familyId).orElseThrow(NoSuchElementException::new);
         return familyDtoMapper.mapDto(family);
     }
 
@@ -87,14 +89,12 @@ public class FamilyService {
                 .findByFamilyName(familyName)
                 .orElseThrow(RuntimeException::new);
 
-        if (secret.equals(family.getSecret()))
-
-        {
+        if (secret.equals(family.getSecret())) {
             family.addFamilyMember(familyMember);
             familyMember.setFamilyId(family.getId());
             familyRepository.save(family);
             familyMemberRepository.save(familyMember);
-            return "welcome to the " +familyName+ " family !";
+            return "welcome to the " + familyName + " family !";
         } else {
             return "Sorry, your secret does not match the family secret";
         }
@@ -102,9 +102,14 @@ public class FamilyService {
     }
 
     public PinBoard getPinBoard(Long familyId) {
-        return familyRepository.findById(familyId).isEmpty()
-                ? null
-                : familyRepository.findById(familyId).get().getPinBoard();
+        Optional<Family> family = familyRepository.findById(familyId);
+
+        if (family.isEmpty() || family.get().getPinBoard() == null) {
+            throw new NoSuchElementException("no pinboard found");
+        } else {
+            return family.get().getPinBoard();
+        }
+
     }
 
 }
