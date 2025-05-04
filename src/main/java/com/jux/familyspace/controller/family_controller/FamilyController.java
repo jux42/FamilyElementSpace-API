@@ -25,34 +25,19 @@ public class FamilyController {
 
     @PutMapping
     public ResponseEntity<String> joinFamily(Principal principal, @RequestParam String familyName, @RequestParam String secret) {
-        try{
-            return ResponseEntity.ok(familyService.joinFamily(principal.getName(), familyName, secret));
-        }catch (Exception e){
-            log.error(e.getMessage());
-            return ResponseEntity.ok(e.getMessage());
-        }
 
+            return ResponseEntity.ok(familyService.joinFamily(principal.getName(), familyName, secret));
     }
 
     @GetMapping
     public ResponseEntity<FamilyDto> getFamilyDto(@RequestParam String familyName) {
-        try {
             return ResponseEntity.ok(familyService.getFamilyDetailsDto(familyName));
-
-        }catch (Exception e){
-            log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
     }
 
     @GetMapping("/pinboard/{id}")
     public ResponseEntity<PinBoard> getPinBoard(@PathVariable Long id) {
-        try {
+
             return ResponseEntity.ok(familyService.getPinBoard(id));
-        }catch (Exception e){
-            log.error(e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
     }
 }
 
