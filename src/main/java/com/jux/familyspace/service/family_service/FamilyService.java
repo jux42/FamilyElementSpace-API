@@ -89,6 +89,11 @@ public class FamilyService {
                 .findByFamilyName(familyName)
                 .orElseThrow(RuntimeException::new);
 
+        assert familyMember.getFamilyId() != null;
+        if (familyMember.getFamilyId().equals(family.getId())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "You are already in a Family");
+        }
+
         if (secret.equals(family.getSecret())) {
             family.addFamilyMember(familyMember);
             familyMember.setFamilyId(family.getId());
